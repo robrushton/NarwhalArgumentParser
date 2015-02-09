@@ -16,4 +16,19 @@ public class ArgumentParserTest {
         ArgumentParser ap = new ArgumentParser();
         //ap.parse(new String[] {"4", "2", "1", "42"});
     }
+
+	@Test 
+	public void testEmptyExit(){
+		ArgumentParser ap = new ArgumentParser();
+		boolean b = ap.addArg();
+		assertFalse(b);
+	}
+	
+	//@Test 
+	public void testPositionalArguments(){
+		ArgumentParser ap = new ArgumentParser();
+	
+	}
+	
+
 }
