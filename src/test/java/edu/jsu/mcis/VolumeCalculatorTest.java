@@ -1,6 +1,7 @@
 package edu.jsu.mcis;
 
 import org.junit.*;
+<<<<<<< HEAD
 import org.junit.Assert.*;
 
 public class VolumeCalculatorTest{
@@ -23,5 +24,10 @@ public class VolumeCalculatorTest{
         assertTrue("hola", blue);
         assertTrue("hi", green);
     }
+=======
+import static org.junit.Assert.*;
+
+public class VolumeCalculatorTest {
+>>>>>>> 6ab9c0cadbb2ceffc9b62c32797fb34172a94178
     
 }
