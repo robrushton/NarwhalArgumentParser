@@ -11,4 +11,9 @@ public class ArgumentParser {
     public String getArg(int n) {
         return arguments.get(n);
     }
+public boolean addArg(){
+		return false;
+	}
+		
+
 }
