@@ -4,31 +4,15 @@ import org.junit.*;
 import static org.junit.Assert.*;
 
 public class ArgumentParserTest {
-    @Test
-    public void testAddArgumentLengthToAP() {
-        ArgumentParser ap = new ArgumentParser();
-        ap.addArg("Length");
-        assertEquals("Length", ap.getArg(0));
-    }
     
     @Test
-    public void testFourPositionalArgumentsIsError() {
+    public void AddArgLengthToAP(){
         ArgumentParser ap = new ArgumentParser();
-        //ap.parse(new String[] {"4", "2", "1", "42"});
+        ap.myArgs.put("Length", 1);
+        int t = ap.myArgs.get("Length");
+        assertEquals(1, t);
+        
     }
 
-	@Test 
-	public void testEmptyExit(){
-		ArgumentParser ap = new ArgumentParser();
-		boolean b = ap.addArg();
-		assertFalse(b);
-	}
-	
-	//@Test 
-	public void testPositionalArguments(){
-		ArgumentParser ap = new ArgumentParser();
-	
-	}
-	
-
+    
 }

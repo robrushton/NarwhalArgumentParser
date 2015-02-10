@@ -1,19 +1,12 @@
 package edu.jsu.mcis;
 
-import java.util.ArrayList;
+import java.util.*;
+
 
 public class ArgumentParser {
-    private ArrayList<String> arguments = new ArrayList<String>();
-    public void addArg(String arg) {
-        arguments.add(arg);
+    
+    public static Map<String, Integer> myArgs = new HashMap<>();
+    public static LinkedList myNames = new LinkedList();
+        
     }
     
-    public String getArg(int n) {
-        return arguments.get(n);
-    }
-public boolean addArg(){
-		return false;
-	}
-		
-
-}
