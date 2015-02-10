@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 
 public class ArgumentParserTest {
     
-	@Test
+    @Test
     testGetArgWithLengthOf10() {
         ArgumentParser ap = new ArgumentParser();
         myArgs.put("Length", 10);
