@@ -25,7 +25,7 @@ public class ArgumentParserTest {
 	public void testObject(){
 		ArgumentParser ap = new ArgumentParser();
 		myObject mo = new myObject();
-		assertEquals(null,mo.name);
+		assertEquals(null,mo.myDescription);
 	}
     
     
