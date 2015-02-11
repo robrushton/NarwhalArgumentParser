@@ -5,8 +5,16 @@ import java.util.*;
 
 public class ArgumentParser {
     
-    public static Map<String, Integer> myArgs = new HashMap<>();
-    public static LinkedList myNames = new LinkedList();
+    private static Map<String, Integer> myArgs = new HashMap<>();
+    private static LinkedList myNames = new LinkedList();
+    
+    public void addArg(String s, int i) {
+        myArgs.put(s, i);
+    }
+    
+    public int getValue(String s) {
+        return myArgs.get(s);
+    }
         
 }
 

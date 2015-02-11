@@ -8,16 +8,16 @@ public class ArgumentParserTest {
     @Test
     public void testGetArgWithLengthOf10() {
         ArgumentParser ap = new ArgumentParser();
-        ap.myArgs.put("Length", 10);
-        int t = ap.myArgs.get("Length");
+        ap.addArg("Length", 10);
+        int t = ap.getValue("Length");
         assertEquals(t, 10);
     }
     
     @Test
     public void AddArgLengthToAP(){
         ArgumentParser ap = new ArgumentParser();
-        ap.myArgs.put("Length", 1);
-        int t = ap.myArgs.get("Length");
+        ap.addArg("Length", 1);
+        int t = ap.getValue("Length");
         assertEquals(1, t);
     }
     
