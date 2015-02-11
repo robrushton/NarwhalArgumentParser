@@ -8,8 +8,9 @@ public class ArgumentParserTest {
     @Test
     public void testGetArgWithLengthOf10() {
         ArgumentParser ap = new ArgumentParser();
-        myArgs.put("Length", 10);
-        assertEquals(ap.getArg("Length"), 10);
+        ap.myArgs.put("Length", 10);
+        int t = ap.myArgs.get("Length");
+        assertEquals(t, 10);
     }
     
     @Test
