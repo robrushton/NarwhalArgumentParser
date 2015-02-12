@@ -5,15 +5,11 @@ import java.util.*;
 
 public class VolumeCalculator {
     
-    public ArrayList<String> argsList = new ArrayList<>();
-    
-    
-    public void addArg(String argName){
-        
-        argName = null;
-        argsList.add(argName);
-        
-        
+    public static void main(String[] args) {
+        ArgumentParser ap = new ArgumentParser();
+        ap.addArguments("Length", "Length of the object", "int");
+        ap.addArguments("Width", "Width of the object", "int");
+        ap.addArguments("Height", "Height of the object", "int");
+        ap.parse(args);
     }
-    
 }
