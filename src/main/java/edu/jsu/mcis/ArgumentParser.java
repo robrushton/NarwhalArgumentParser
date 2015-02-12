@@ -41,7 +41,13 @@ public class ArgumentParser
                         //Error.. Value s supposed to be an int
                     }
                 } else if ("float".equals(myArgs.get(myNames.get(count)).dataType)) {
+                    try
+                    {
                     myArgs.get(myNames.get(count)).setFloatValue(Float.parseFloat(args[i]));
+                    } catch (java.lang.NumberFormatException e)
+                    {
+                        //Error.. Value s supposed to be an int
+                    }
                 } else if ("boolean".equals(myArgs.get(myNames.get(count)).dataType)) {
                     myArgs.get(myNames.get(count)).setBooleanValue(Boolean.parseBoolean(args[i]));
                 }
@@ -62,7 +68,18 @@ public class ArgumentParser
     public String getStringValue(String s) {
         return myArgs.get(s).getStringValue();
     }
-	
+    private void setIntValue(String s, int n) {
+        myArgs.get(s).setIntValue(n);
+    }
+    private void setFloatValue(String s, float n) {
+        myArgs.get(s).setFloatValue(n);
+    }
+    private void setBoolenValue(String s, boolean n) {
+        myArgs.get(s).setBooleanValue(n);
+    }
+    private void setStringValue(String s, String n) {
+        myArgs.get(s).setStringValue(n);
+    }
 	
     public String printDashH()
     {
@@ -78,6 +95,11 @@ public class ArgumentParser
     public void addOptionalArgument(String type) {
         //Add an argument called type where he can store a string value into
         addArguments(type, "String");
+    }
+    
+    public void addOptionalArgument(String type, String defaultValue) {
+        addArguments(type, "String");
+        setStringValue(type, defaultValue);
     }
     
     static class ArgumentObject 
@@ -147,6 +169,8 @@ public class ArgumentParser
             myBool = b;
         }
     }
+    
+    
     public void addArguments(String name, String description, String dataType) {
         ArgumentObject ao = new ArgumentObject();
         myArgs.put(name, ao);

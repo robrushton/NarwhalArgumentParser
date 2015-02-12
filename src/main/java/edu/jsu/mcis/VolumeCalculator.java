@@ -7,10 +7,11 @@ public class VolumeCalculator {
     
     public static void main(String[] args) {
         ArgumentParser ap = new ArgumentParser();
-        ap.addArguments("Length", "Length of the object", "int");
-        ap.addArguments("Width", "Width of the object", "int");
+        ap.addArguments("Length", "Length of the object", "float");
+        ap.addArguments("Width", "Width of the object", "boolean");
         ap.addArguments("Height", "Height of the object", "int");
-        ap.addOptionalArgument("Typee");
+        ap.addOptionalArgument("Type", " ");
+        ap.addOptionalArgument("Color");
         ap.parse(args);
         
         int one = 0;
