@@ -37,6 +37,19 @@ public class ArgumentParser
             }
         }
     }
+    
+    public int getIntValue(String s) {
+        return myArgs.get(s).getIntValue();
+    }
+    public float getFloatValue(String s) {
+        return myArgs.get(s).getFloatValue();
+    }
+    public boolean getBooleanValue(String s) {
+        return myArgs.get(s).getBooleanValue();
+    }
+    public String getStringValue(String s) {
+        return myArgs.get(s).getStringValue();
+    }
 	
 	
     public String printDashH()

@@ -11,5 +11,14 @@ public class VolumeCalculator {
         ap.addArguments("Width", "Width of the object", "int");
         ap.addArguments("Height", "Height of the object", "int");
         ap.parse(args);
+        
+        int one = 0;
+        int two = 0;
+        int three = 0;
+        one = ap.getIntValue("Length");
+        two = ap.getIntValue("Width");
+        three = ap.getIntValue("Height");
+        
+        System.out.println(one * two * three);
     }
 }
