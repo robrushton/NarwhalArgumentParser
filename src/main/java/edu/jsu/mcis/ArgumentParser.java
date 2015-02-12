@@ -11,11 +11,18 @@ public class ArgumentParser
     
     public void parse(String[] args) {
         int count = 0;//Keep track of how many values I have placed
-        for (String s: args)
+        for (int i = 0; i < args.length; i++)
         {
-            if (s.startsWith("-"))//If it starts with a dash then do this
+            if (args[i].startsWith("-"))//If it starts with a dash then do this
             {
-                if (s.equals("-h"))
+                if (args[i].startsWith("--")) {
+                    if (myArgs.containsKey(args[i].substring(2))) {
+                        myArgs.get(args[i].substring(2)).setStringValue(args[i+1]);
+                    } else {
+                        //Error unique type not specified in volumecalc
+                    }
+                    i++;
+                }else if (args[i].equals("-h"))
                 {
                     System.out.println("You entered -h");
                 } else
@@ -25,13 +32,18 @@ public class ArgumentParser
             } else // if it doesn't start with dash then it is a value
             {   
                 if ("String".equals(myArgs.get(myNames.get(count)).dataType)) {//If dataType is supposed to be string then place a string in its string vaue
-                    myArgs.get(myNames.get(count)).setStringValue(s);
+                    myArgs.get(myNames.get(count)).setStringValue(args[i]);
                 } else if ("int".equals(myArgs.get(myNames.get(count)).dataType)) {
-                    myArgs.get(myNames.get(count)).setIntValue(Integer.parseInt(s));
+                    try
+                    {
+                        myArgs.get(myNames.get(count)).setIntValue(Integer.parseInt(args[i]));
+                    } catch (java.lang.NumberFormatException e) {
+                        //Error.. Value s supposed to be an int
+                    }
                 } else if ("float".equals(myArgs.get(myNames.get(count)).dataType)) {
-                    myArgs.get(myNames.get(count)).setFloatValue(Float.parseFloat(s));
+                    myArgs.get(myNames.get(count)).setFloatValue(Float.parseFloat(args[i]));
                 } else if ("boolean".equals(myArgs.get(myNames.get(count)).dataType)) {
-                    myArgs.get(myNames.get(count)).setBooleanValue(Boolean.parseBoolean(s));
+                    myArgs.get(myNames.get(count)).setBooleanValue(Boolean.parseBoolean(args[i]));
                 }
                 count++;//I placed a value so increment
             }
@@ -61,6 +73,11 @@ public class ArgumentParser
                                     +"\n"+"width: width of the box"+"\n"+"height: height of the box");
         String stri = ao.getDescriptionValue();
         return stri;
+    }
+
+    public void addOptionalArgument(String type) {
+        //Add an argument called type where he can store a string value into
+        addArguments(type, "String");
     }
     
     static class ArgumentObject 
@@ -135,6 +152,12 @@ public class ArgumentParser
         myArgs.put(name, ao);
         myNames.add(name);
         ao.setDescriptionValue(description);
+        ao.setDataType(dataType);
+    }
+    public void addArguments(String name, String dataType) {
+        ArgumentObject ao = new ArgumentObject();
+        myArgs.put(name, ao);
+        myNames.add(name);
         ao.setDataType(dataType);
     }
     
