@@ -87,15 +87,17 @@ public class ArgumentParserTest {
         ao.setBooleanValue(b);
         assertEquals(true, ao.getBooleanValue());
     }
-    /*
+	
     @Test
     public void testAddArg()
     {
         ArgumentParser ap = new ArgumentParser();
 		ArgumentParser.ArgumentObject ao = new ArgumentParser.ArgumentObject();
-        String s = new String("stuff");
-        ap.addArg(s, a);
-        assertEquals(("stuff", obj), ap.myArgs);
+		String s = new String("Stuff");
+        ap.addArg(s, ao);
+		ArgumentParser.ArgumentObject aoTwo = ArgumentParser.myArgs.get("Stuff");
+		aoTwo.setStringValue("String");
+		String str = aoTwo.getStringValue();
+        assertEquals(str, "String");		
     }
-   */
 }
