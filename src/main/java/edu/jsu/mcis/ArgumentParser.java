@@ -31,7 +31,7 @@ public class ArgumentParser
                 }
             } else // if it doesn't start with dash then it is a value
             {   
-                if ("String".equals(myArgs.get(myNames.get(count)).dataType)) {//If dataType is supposed to be string then place a string in its string vaue
+                if ("String".equals(myArgs.get(myNames.get(count)).dataType)) {//If dataType is supposed to be string then place a string in its string value
                     myArgs.get(myNames.get(count)).setStringValue(args[i]);
                 } else if ("int".equals(myArgs.get(myNames.get(count)).dataType)) {
                     try
@@ -183,9 +183,5 @@ public class ArgumentParser
         myArgs.put(name, ao);
         myNames.add(name);
         ao.setDataType(dataType);
-    }
-    
-    public void addArg(String s, ArgumentObject a){
-        myArgs.put(s, a);
     }
 }
