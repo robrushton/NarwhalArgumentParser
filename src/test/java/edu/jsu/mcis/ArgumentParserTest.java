@@ -31,4 +31,71 @@ public class ArgumentParserTest {
 		ArgumentParser.ArgumentObject ao = new ArgumentParser.ArgumentObject();
 		assertEquals(null, ao.getDescriptionValue());
     } 
+    
+    @Test
+    public void testSetDescriptionValue()
+    {
+        ArgumentParser ap = new ArgumentParser();
+		ArgumentParser.ArgumentObject ao = new ArgumentParser.ArgumentObject();
+        String desc = new String("stuff");
+        ao.setDescriptionValue(desc);
+        assertEquals("stuff", ao.getDescriptionValue());
+    }
+    
+    @Test
+    public void testGetFloatValue()
+    {
+        ArgumentParser ap = new ArgumentParser();
+		ArgumentParser.ArgumentObject ao = new ArgumentParser.ArgumentObject();
+        assertEquals(0, ao.getFloatValue(), 0.01);
+    }
+    
+    @Test
+    public void testSetFloatValue()
+    {
+        ArgumentParser ap = new ArgumentParser();
+		ArgumentParser.ArgumentObject ao = new ArgumentParser.ArgumentObject();
+        float flt = 1.2f;
+        ao.setFloatValue(flt);
+        assertEquals(1.2, ao.getFloatValue(), 0.01);
+    }
+    
+    @Test
+    public void testSetStringValue()
+    {
+        ArgumentParser ap = new ArgumentParser();
+		ArgumentParser.ArgumentObject ao = new ArgumentParser.ArgumentObject();
+        String s = new String("stuff");
+        ao.setStringValue(s);
+        assertEquals("stuff", ao.getStringValue());
+    }
+    
+    @Test
+    public void testGetBooleanValue()
+    {
+        ArgumentParser ap = new ArgumentParser();
+		ArgumentParser.ArgumentObject ao = new ArgumentParser.ArgumentObject();
+        assertEquals(false, ao.getBooleanValue());
+    }
+    
+    @Test
+    public void testSetBooleanValue()
+    {
+        ArgumentParser ap = new ArgumentParser();
+		ArgumentParser.ArgumentObject ao = new ArgumentParser.ArgumentObject();
+        Boolean b = true;
+        ao.setBooleanValue(b);
+        assertEquals(true, ao.getBooleanValue());
+    }
+    /*
+    @Test
+    public void testAddArg()
+    {
+        ArgumentParser ap = new ArgumentParser();
+		ArgumentParser.ArgumentObject ao = new ArgumentParser.ArgumentObject();
+        String s = new String("stuff");
+        ap.addArg(s, a);
+        assertEquals(("stuff", obj), ap.myArgs);
+    }
+   */
 }
