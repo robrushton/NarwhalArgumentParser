@@ -20,13 +20,13 @@ public class ArgumentParserTest {
         int t = ap.getValue("Length");
         assertEquals(1, t);
     }
-	
-	@Test
-	public void testObject(){
-		ArgumentParser ap = new ArgumentParser();
-		myObject mo = new myObject();
-		assertEquals(null,mo.myDescription);
-	}
+    
+    @Test
+    public void testMyObjectDescriptionIsNull(){
+        ArgumentParser ap = new ArgumentParser();
+	ArgumentObject ao = new ArgumentObject();
+	assertEquals(null, ao.getDescription());
+    }
     
     
 }
