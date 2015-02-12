@@ -6,12 +6,27 @@ import java.util.*;
 public class ArgumentParser
 {
         
-    private static final Map<String, ArgumentObject> myArgs = new HashMap<>();
+    public static final Map<String, ArgumentObject> myArgs = new HashMap<>();
     private static final LinkedList myNames = new LinkedList();
+	
+	public void setDashH()
+	{
+		ArgumentObject ao = new ArgumentObject();
+		addArg("-h", ao);
+		ao.setStringValue("usage: java VolumeCalculator length width height"+"\n"+"\n"
+							+"Calculate the volume of a box."+"\n"+"\n"+"positional arguments: length the length of the box"
+							+"\n"+"width: width of the box"+"\n"+"height: height of the box");
+	}
+	
+	public String getDashH()
+	{
+		ArgumentObject ao = myArgs.get("-h");
+		String stri = ao.getStringValue();
+		return stri;
+	}
     
     static class ArgumentObject 
     {
-
         String myDescription = null;
         int myInt;
         float myFloat;
