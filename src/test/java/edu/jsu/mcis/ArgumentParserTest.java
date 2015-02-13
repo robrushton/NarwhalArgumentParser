@@ -30,6 +30,13 @@ public class ArgumentParserTest {
         ArgumentParser ap = new ArgumentParser();
         ArgumentParser.ArgumentObject ao = new ArgumentParser.ArgumentObject();
         assertEquals("", ao.getDescriptionValue());
+    }
+    @Test
+    public void testGetDescriptionValue()
+    {
+        ArgumentParser ap = new ArgumentParser();
+		ap.addArguments("testString", "It's a string thing", "String");
+        assertEquals("It's a string thing", ap.getDescriptionValue("testString"));
     } 
     
     @Test
