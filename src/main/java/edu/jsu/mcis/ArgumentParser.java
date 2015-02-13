@@ -28,7 +28,6 @@ public class ArgumentParser
                     for (String s : myNames) {
                         System.out.println(s + " --- " + myArgs.get(s).getDescriptionValue());
                     }
-                    //System.out.println("You entered -h");
                 } else
                 {
                     
