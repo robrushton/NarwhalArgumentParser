@@ -16,20 +16,20 @@ public class ArgumentParserTest {
     }
     
     @Test
-    public void testObjectStringNull()
+    public void testObjectStringEmpty()
 	{
         ArgumentParser ap = new ArgumentParser();
         ArgumentParser.ArgumentObject ao = new ArgumentParser.ArgumentObject();
         String s = ao.getStringValue();
-        assertEquals(null, s);
+        assertEquals("", s);
     }
     
     @Test
-    public void testObjectDescriptionNull()
+    public void testObjectDescriptionEmpty()
     {
         ArgumentParser ap = new ArgumentParser();
         ArgumentParser.ArgumentObject ao = new ArgumentParser.ArgumentObject();
-        assertEquals(null, ao.getDescriptionValue());
+        assertEquals("", ao.getDescriptionValue());
     } 
     
     @Test
@@ -87,6 +87,14 @@ public class ArgumentParserTest {
         ao.setBooleanValue(b);
         assertEquals(true, ao.getBooleanValue());
     }
+    
+        @Test
+    public void testGetDataType()
+    {
+        ArgumentParser ap = new ArgumentParser();
+        ArgumentParser.ArgumentObject ao = new ArgumentParser.ArgumentObject();
+        assertEquals("", ao.getDataType());
+    }
 	
     @Test
     public void testAddArgumentsNoDescription()
@@ -142,5 +150,29 @@ public class ArgumentParserTest {
         assertEquals(false, ap.getBooleanValue(two));
         assertEquals(7, ap.getIntValue(three));
         assertEquals("Fred", ap.getStringValue(four));   
+    }
+   
+    @Test
+    public void testParse()
+    {
+        ArgumentParser ap = new ArgumentParser();
+        ap.addArguments("thing", "Length of the object", "float");
+        String[] inp = {"-h", "--stuff", "5"};
+        ap.addOptionalArgument("stuff", "5");
+        ap.parse(inp);
+        assertEquals("5", ap.getStringValue("stuff"));
+        
+    }    
+    
+    @Test
+    public void testSingleArgument()
+    {
+        ArgumentParser ap = new ArgumentParser();
+        ap.addArguments("thing", "Length of the object", "float");
+        ap.addOptionalArgument("stuff");
+        String[] inp = {"-h", "--stuff", "5"};
+        ap.parse(inp);
+        assertEquals("5", ap.getStringValue("stuff"));
+        
     }
 }
