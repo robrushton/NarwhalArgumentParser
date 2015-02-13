@@ -24,7 +24,11 @@ public class ArgumentParser
                     i++;
                 }else if (args[i].equals("-h"))
                 {
-                    System.out.println("You entered -h");
+                    System.out.println("Usage Information:");
+                    for (String s : myNames) {
+                        System.out.println(s + " --- " + myArgs.get(s).getDescriptionValue());
+                    }
+                    //System.out.println("You entered -h");
                 } else
                 {
                     
