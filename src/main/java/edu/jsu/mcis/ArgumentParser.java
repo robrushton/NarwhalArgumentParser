@@ -43,7 +43,7 @@ public class ArgumentParser
                     try
                     {
                     myArgs.get(myNames.get(count)).setFloatValue(Float.parseFloat(args[i]));
-                    } catch (java.lang.NumberFormatException e)
+                    } catch (java.lang.NumberFormatException e) 
                     {
                         //Error.. Value s supposed to be an int
                     }
