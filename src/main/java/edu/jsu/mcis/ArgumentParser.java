@@ -4,10 +4,9 @@ import java.util.*;
 
 
 public class ArgumentParser
-{
-        
-    public static final Map<String, ArgumentObject> myArgs = new HashMap<>();
-    private static final ArrayList<String> myNames = new ArrayList<String>();
+{   
+    public Map<String, ArgumentObject> myArgs = new HashMap<>();
+    private ArrayList<String> myNames = new ArrayList<String>();
     
     public void parse(String[] args) {
         int count = 0;//Keep track of how many values I have placed

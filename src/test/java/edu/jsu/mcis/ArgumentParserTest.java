@@ -124,4 +124,23 @@ public class ArgumentParserTest {
         assertEquals("It's an int!", ap.getDescriptionValue(two));
         assertEquals("It is a bool", ap.getDescriptionValue(three));
     }
+    
+    @Test
+    public void testParseValuesNotDashH() {
+        ArgumentParser ap = new ArgumentParser();
+        String one = new String("Length");
+        String two = new String("Width");
+        String three = new String("Height");
+        String four = new String("Name");
+        ap.addArguments(one, "Length of the object", "float");
+        ap.addArguments(two, "Width of the object", "boolean");
+        ap.addArguments(three, "Height of the object", "int");
+        ap.addArguments(four, "Name of object", "String");
+        String[] args = {"12.34", "false", "7", "Fred"};
+        ap.parse(args);
+        assertEquals(12.34, ap.getFloatValue(one), 0.01);
+        assertEquals(false, ap.getBooleanValue(two));
+        assertEquals(7, ap.getIntValue(three));
+        assertEquals("Fred", ap.getStringValue(four));
+    }
 }
