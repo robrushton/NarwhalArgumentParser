@@ -110,12 +110,12 @@ public class ArgumentParser
     
     static class ArgumentObject 
     {
-        String myDescription = null;
+        String myDescription = "";
         int myInt;
         float myFloat;
-        String myString = null;
+        String myString = "";
         boolean myBool;
-        String dataType = null;
+        String dataType = "";
         
         public String getDataType() {
             return dataType;
