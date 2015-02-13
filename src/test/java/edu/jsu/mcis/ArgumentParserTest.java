@@ -141,6 +141,6 @@ public class ArgumentParserTest {
         assertEquals(12.34, ap.getFloatValue(one), 0.01);
         assertEquals(false, ap.getBooleanValue(two));
         assertEquals(7, ap.getIntValue(three));
-        assertEquals("Fred", ap.getStringValue(four));
+        assertEquals("Fred", ap.getStringValue(four));   
     }
 }

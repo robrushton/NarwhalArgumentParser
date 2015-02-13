@@ -23,10 +23,7 @@ public class ArgumentParser
                     i++;
                 }else if (args[i].equals("-h"))
                 {
-                    System.out.println("Usage Information:");
-                    for (String s : myNames) {
-                        System.out.println(s + " --- " + myArgs.get(s).getDescriptionValue());
-                    }
+                    printHelpInfo();
                 } else
                 {
                     
@@ -90,13 +87,7 @@ public class ArgumentParser
 
     }
     
-	
-    public void printDashH()
-    {
-        System.out.println("usage: java VolumeCalculator length width height"+"\n"+"\n"
-                                    +"Calculate the volume of a box."+"\n"+"\n"+"positional arguments: length the length of the box"
-                                    +"\n"+"width: width of the box"+"\n"+"height: height of the box");
-    }
+
 
     public void addOptionalArgument(String type) {
         //Add an argument called type where he can store a string value into
@@ -106,6 +97,15 @@ public class ArgumentParser
     public void addOptionalArgument(String type, String defaultValue) {
         addArguments(type, "String");
         setStringValue(type, defaultValue);
+    }
+
+    private void printHelpInfo() {
+        System.out.println("Usage Information:");
+        for (String s : myNames) {
+            if (myArgs.get(s).getDescriptionValue() != null) {
+                System.out.println(s + " --- " + myArgs.get(s).getDescriptionValue());
+            }
+        }
     }
     
     static class ArgumentObject 
