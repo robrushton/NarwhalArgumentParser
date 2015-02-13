@@ -68,6 +68,9 @@ public class ArgumentParser
     public String getStringValue(String s) {
         return myArgs.get(s).getStringValue();
     }
+    public String getDescriptionValue(String s) {
+        return myArgs.get(s).getDescriptionValue();
+    }
     private void setIntValue(String s, int n) {
         myArgs.get(s).setIntValue(n);
     }
@@ -80,16 +83,17 @@ public class ArgumentParser
     private void setStringValue(String s, String n) {
         myArgs.get(s).setStringValue(n);
     }
+    private void setDescriptionValue(String s, String n) {
+        myArgs.get(s).setDescriptionValue(n);
+
+    }
+    
 	
-    public String printDashH()
+    public void printDashH()
     {
-        ArgumentObject ao = new ArgumentObject();
-        addArg("-h", ao);
-        ao.setDescriptionValue("usage: java VolumeCalculator length width height"+"\n"+"\n"
+        System.out.println("usage: java VolumeCalculator length width height"+"\n"+"\n"
                                     +"Calculate the volume of a box."+"\n"+"\n"+"positional arguments: length the length of the box"
                                     +"\n"+"width: width of the box"+"\n"+"height: height of the box");
-        String stri = ao.getDescriptionValue();
-        return stri;
     }
 
     public void addOptionalArgument(String type) {
@@ -169,6 +173,7 @@ public class ArgumentParser
             myBool = b;
         }
     }
+    
     
     
     public void addArguments(String name, String description, String dataType) {

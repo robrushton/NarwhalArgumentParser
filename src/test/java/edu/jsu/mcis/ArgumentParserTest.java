@@ -92,25 +92,36 @@ public class ArgumentParserTest {
     public void testAddArgumentsNoDescription()
     {
         ArgumentParser ap = new ArgumentParser();
-        ArgumentParser.ArgumentObject ao = new ArgumentParser.ArgumentObject();
-        String s = new String("nameTest");
-        ap.addArguments(s, String);
-        ao.setStringValue("testValue");
-        String str = ao.getStringValue();
-        assertEquals("testValue", str);		
+        String one = new String("Test Name 1");
+        String two = new String("Test Name 2");
+        String three = new String("Test Name 3");
+        ap.addArguments(one, "String");
+        ap.addArguments(two, "int");
+        ap.addArguments(three, "boolean");
+        String[] myStringArray = {"Hello","5","true"};
+        ap.parse(myStringArray);
+        assertEquals("Hello", ap.getStringValue(one));
+        assertEquals(5, ap.getIntValue(two));
+        assertEquals(true, ap.getBooleanValue(three));
     }
     
     @Test
     public void testAddArgumentsWithDescription()
     {
         ArgumentParser ap = new ArgumentParser();
-        ArgumentParser.ArgumentObject ao = new ArgumentParser.ArgumentObject();
-        String s = new String("nameTest2");
-        ap.addArguments(s, testDescription, String);
-        ao.setStringValue("testValue2");
-        String str = ao.getStringValue();
-        assertEquals("testValue2", str);
-        String str2 = ao.getDescriptionValue();
-        assertEquals("testDescription", str2);
+        String one = new String("Test Name 1");
+        String two = new String("Test Name 2");
+        String three = new String("Test Name 3");
+        ap.addArguments(one, "It's a string thing", "String");
+        ap.addArguments(two, "It's an int!", "int");
+        ap.addArguments(three, "It is a bool", "boolean");
+        String[] myStringArray = {"Hello","5","true"};
+        ap.parse(myStringArray);
+        assertEquals("Hello", ap.getStringValue(one));
+        assertEquals(5, ap.getIntValue(two));
+        assertEquals(true, ap.getBooleanValue(three));
+        assertEquals("It's a string thing", ap.getDescriptionValue(one));
+        assertEquals("It's an int!", ap.getDescriptionValue(two));
+        assertEquals("It is a bool", ap.getDescriptionValue(three));
     }
 }
