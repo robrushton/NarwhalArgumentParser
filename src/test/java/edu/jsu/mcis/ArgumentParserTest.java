@@ -124,4 +124,26 @@ public class ArgumentParserTest {
         assertEquals("It's an int!", ap.getDescriptionValue(two));
         assertEquals("It is a bool", ap.getDescriptionValue(three));
     }
+    
+    @Test
+    public void testGetDataType()
+    {
+        ArgumentParser ap = new ArgumentParser();
+        ArgumentParser.ArgumentObject ao = new ArgumentParser.ArgumentObject();
+        assertEquals(null, ao.getDataType());
+    }
+    
+    @Test
+    public void testParse()
+    {
+        ArgumentParser ap = new ArgumentParser();
+        ArgumentParser.ArgumentObject ao = new ArgumentParser.ArgumentObject();
+        String[] input = {"-h"};
+        ap.parse(input);
+        String[] inp = {"--stuff", "5"};
+        ap.parse(inp);
+        //no assert yet, for some reason the jacoco report isn't
+        //showing the test go through the "--" if statement in the parser
+        //it does go to the printhelpinfo though so that's a little more code coverage
+    }
 }
