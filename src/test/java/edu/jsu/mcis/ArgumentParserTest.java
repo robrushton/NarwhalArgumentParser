@@ -25,11 +25,11 @@ public class ArgumentParserTest {
     }
     
     @Test
-    public void testObjectDescriptionNull()
+    public void testGetDescriptionValue()
     {
         ArgumentParser ap = new ArgumentParser();
-        ArgumentParser.ArgumentObject ao = new ArgumentParser.ArgumentObject();
-        assertEquals(null, ao.getDescriptionValue());
+		ap.addArguments("testString", "It's a string thing", "String");
+        assertEquals("It's a string thing", ap.getDescriptionValue("testString"));
     } 
     
     @Test
@@ -143,4 +143,7 @@ public class ArgumentParserTest {
         assertEquals(7, ap.getIntValue(three));
         assertEquals("Fred", ap.getStringValue(four));   
     }
+	
+ 
+	
 }
