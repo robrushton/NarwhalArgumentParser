@@ -182,4 +182,17 @@ public class ArgumentParserTest {
         assertEquals("5", ap.getStringValue("stuff"));
         
     }
+    
+    @Test
+    public void testBooleanMultipleTimesTrueAndFalse() {
+        ArgumentParser ap = new ArgumentParser();
+        ap.addArguments("Arg 1", "This should be true", "boolean");
+        ap.addArguments("Arg 2", "This should be false", "boolean");
+        ap.addArguments("Arg 3", "This should be true", "boolean");
+        String[] args = {"true", "false", "true"};
+        ap.parse(args);
+        assertEquals(true, ap.getBooleanValue("Arg 1"));
+        assertEquals(false, ap.getBooleanValue("Arg 2"));
+        assertEquals(true, ap.getBooleanValue("Arg 3"));  
+    }
 }
