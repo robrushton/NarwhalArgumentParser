@@ -48,7 +48,16 @@ public class ArgumentParser
                         //Error.. Value s supposed to be an int
                     }
                 } else if ("boolean".equals(myArgs.get(myNames.get(count)).dataType)) {
-                    myArgs.get(myNames.get(count)).setBooleanValue(Boolean.parseBoolean(args[i]));
+                    String boolTest = myArgs.get(myNames.get(count)).toString();
+                    if (boolTest == "true") {
+                        myArgs.get(myNames.get(count)).setBooleanValue(Boolean.parseBoolean(args[i]));
+                    }
+                    else if (boolTest == "false") {
+                        myArgs.get(myNames.get(count)).setBooleanValue(Boolean.parseBoolean(args[i]));
+                    }
+                    else {
+                        //Error.. Value s supposed to be a boolean
+                    }
                 }
                 count++;//I placed a value so increment
             }
