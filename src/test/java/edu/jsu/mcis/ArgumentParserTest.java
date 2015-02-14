@@ -21,7 +21,7 @@ public class ArgumentParserTest {
         ArgumentParser ap = new ArgumentParser();
         ArgumentParser.ArgumentObject ao = new ArgumentParser.ArgumentObject();
         String s = ao.getStringValue();
-        assertEquals(null, s);
+        assertEquals("", s);
     }
     
     @Test
