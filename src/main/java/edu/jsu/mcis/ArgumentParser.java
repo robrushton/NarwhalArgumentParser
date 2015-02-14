@@ -109,9 +109,9 @@ public class ArgumentParser
     }
 
     private void printHelpInfo() {
-        System.out.println("Usage Information:");
+        System.out.println("\nUsage Information:");
         for (String s : myNames) {
-            if (myArgs.get(s).getDescriptionValue() != null) {
+            if (myArgs.get(s).getDescriptionValue() != "") {
                 System.out.println(s + " --- " + myArgs.get(s).getDescriptionValue());
             }
         }
