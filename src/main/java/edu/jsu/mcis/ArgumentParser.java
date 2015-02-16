@@ -49,10 +49,10 @@ public class ArgumentParser
                     }
                 } else if ("boolean".equals(myArgs.get(myNames.get(count)).dataType)) {
                     String boolTest = args[i];
-                    if (boolTest == "true") {
+                    if (boolTest.equals("true") || boolTest.equals("True")) {
                         myArgs.get(myNames.get(count)).setBooleanValue(true);
                     }
-                    else if (boolTest == "false") {
+                    else if (boolTest.equals("false") || boolTest.equals("False")) {
                         myArgs.get(myNames.get(count)).setBooleanValue(false);
                     }
                     else {

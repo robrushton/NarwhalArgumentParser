@@ -23,6 +23,6 @@ public class VolumeCalculator {
         three = ap.getIntValue("Height");
         optionalValue = ap.getStringValue("Type");
         
-        System.out.println((one * two * three) + " " + optionalValue);
+        System.out.println((one * three) + " " + optionalValue);
     }
 }
