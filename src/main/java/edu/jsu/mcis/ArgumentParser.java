@@ -9,16 +9,16 @@ public class ArgumentParser
     private ArrayList<String> myNames = new ArrayList<String>();
     
     public void parse(String[] args) {
-        int count = 0;//Keep track of how many values I have placed
+        int count = 0;
         for (int i = 0; i < args.length; i++)
         {
-            if (args[i].startsWith("-"))//If it starts with a dash then do this
+            if (args[i].startsWith("-"))
             {
                 if (args[i].startsWith("--")) {
                     if (myArgs.containsKey(args[i].substring(2))) {
                         myArgs.get(args[i].substring(2)).setStringValue(args[i+1]);
                     } else {
-                        System.out.println("Error unique type not specified in volume calculator");
+                        System.out.println("Error: Type not specified");
                     }
                     i++;
                 }else if (args[i].equals("-h"))
@@ -28,7 +28,7 @@ public class ArgumentParser
                 {
                     
                 }
-            } else // if it doesn't start with dash then it is a value
+            } else
             {   
                 if ("String".equals(myArgs.get(myNames.get(count)).dataType)) {//If dataType is supposed to be string then place a string in its string value
                     myArgs.get(myNames.get(count)).setStringValue(args[i]);
@@ -37,7 +37,7 @@ public class ArgumentParser
                     {
                         myArgs.get(myNames.get(count)).setIntValue(Integer.parseInt(args[i]));
                     } catch (java.lang.NumberFormatException e) {
-                       System.out.println("Value s supposed to be an int");
+                       System.out.println("Value expected: Integer");
                     }
                 } else if ("float".equals(myArgs.get(myNames.get(count)).dataType)) {
                     try
@@ -45,7 +45,7 @@ public class ArgumentParser
                     myArgs.get(myNames.get(count)).setFloatValue(Float.parseFloat(args[i]));
                     } catch (java.lang.NumberFormatException e) 
                     {
-                        System.out.println("Value s supposed to be an int");
+                        System.out.println("Value expected: Float");
                     }
                 } else if ("boolean".equals(myArgs.get(myNames.get(count)).dataType)) {
                     String boolTest = args[i];
@@ -56,10 +56,10 @@ public class ArgumentParser
                         myArgs.get(myNames.get(count)).setBooleanValue(false);
                     }
                     else {
-                        System.out.println("Value s supposed to be a boolean");
+                        System.out.println("Value expected: boolean");
                     }
                 }
-                count++;//I placed a value so increment
+                count++;
             }
         }
     }
@@ -99,7 +99,6 @@ public class ArgumentParser
 
 
     public void addOptionalArgument(String type) {
-        //Add an argument called type where he can store a string value into
         addArguments(type, "String");
     }
     
