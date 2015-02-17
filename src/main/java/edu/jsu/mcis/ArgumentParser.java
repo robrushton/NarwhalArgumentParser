@@ -18,7 +18,7 @@ public class ArgumentParser
                     if (myArgs.containsKey(args[i].substring(2))) {
                         myArgs.get(args[i].substring(2)).setStringValue(args[i+1]);
                     } else {
-                        //Error unique type not specified in volumecalc
+                        System.out.println("Error unique type not specified in volume calculator");
                     }
                     i++;
                 }else if (args[i].equals("-h"))
@@ -37,7 +37,7 @@ public class ArgumentParser
                     {
                         myArgs.get(myNames.get(count)).setIntValue(Integer.parseInt(args[i]));
                     } catch (java.lang.NumberFormatException e) {
-                        //Error.. Value s supposed to be an int
+                       System.out.println("Value s supposed to be an int");
                     }
                 } else if ("float".equals(myArgs.get(myNames.get(count)).dataType)) {
                     try
@@ -45,7 +45,7 @@ public class ArgumentParser
                     myArgs.get(myNames.get(count)).setFloatValue(Float.parseFloat(args[i]));
                     } catch (java.lang.NumberFormatException e) 
                     {
-                        //Error.. Value s supposed to be an int
+                        System.out.println("Value s supposed to be an int");
                     }
                 } else if ("boolean".equals(myArgs.get(myNames.get(count)).dataType)) {
                     String boolTest = args[i];
@@ -56,7 +56,7 @@ public class ArgumentParser
                         myArgs.get(myNames.get(count)).setBooleanValue(false);
                     }
                     else {
-                        //Error.. Value s supposed to be a boolean
+                        System.out.println("Value s supposed to be a boolean");
                     }
                 }
                 count++;//I placed a value so increment
