@@ -160,24 +160,22 @@ public class ArgumentParserTest {
     }
    
     @Test
-    public void testParse()
+    public void testOptionalArgumentDefaultValue()
     {
         ArgumentParser ap = new ArgumentParser();
         ap.addArguments("thing", "Length of the object", "float");
-        String[] inp = {"-h", "--stuff", "5"};
         ap.addOptionalArgument("stuff", "5");
-        ap.parse(inp);
         assertEquals("5", ap.getStringValue("stuff"));
         
     }    
     
     @Test
-    public void testSingleArgument()
+    public void testSingleArgumentNoDefaultValue()
     {
         ArgumentParser ap = new ArgumentParser();
         ap.addArguments("thing", "Length of the object", "float");
         ap.addOptionalArgument("stuff");
-        String[] inp = {"-h", "--stuff", "5"};
+        String[] inp = {"--stuff", "5"};
         ap.parse(inp);
         assertEquals("5", ap.getStringValue("stuff"));
         
@@ -194,5 +192,15 @@ public class ArgumentParserTest {
         assertEquals(true, ap.getBooleanValue("Arg 1"));
         assertEquals(false, ap.getBooleanValue("Arg 2"));
         assertEquals(true, ap.getBooleanValue("Arg 3"));  
+    }
+    
+    @Test
+    public void testShortOptionalArgumentForLongName() {
+        ArgumentParser ap = new ArgumentParser();
+        ap.addArguments("Length", "Length of the object", "int");
+        ap.addOptionalArgument("type", " ", "t");
+        String[] inp = {"-t", "circle", "5"};
+        ap.parse(inp);
+        assertEquals("circle", ap.getStringValue("type")); 
     }
 }

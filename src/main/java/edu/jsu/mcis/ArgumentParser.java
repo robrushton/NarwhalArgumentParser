@@ -6,30 +6,29 @@ public class ArgumentParser
 {   
     public Map<String, ArgumentObject> myArgs = new HashMap<>();
     private ArrayList<String> myNames = new ArrayList<String>();
+    private ArrayList<String> nicknames = new ArrayList<String>();
     
     public void parse(String[] args) 
 	{
         int count = 0;
-        for (int i = 0; i < args.length; i++)
-        {
-            if (args[i].startsWith("-"))
-            {
-                if (args[i].startsWith("--")) 
-				{
-                    if (myArgs.containsKey(args[i].substring(2))) 
-					{
+        for (int i = 0; i < args.length; i++) {
+            if (args[i].startsWith("-")) {
+                if (args[i].startsWith("--")) {
+                    if (myArgs.containsKey(args[i].substring(2))) {
                         myArgs.get(args[i].substring(2)).setStringValue(args[i+1]);
-                    } else 
-					{
+                    } else {
                         System.out.println("Error: Type not specified");
                     }
                     i++;
-                }else if (args[i].equals("-h"))
-                {
+                }else if (args[i].equals("-h")) {
                     printHelpInfo();
-                } else
-                {
-                    
+                } else if (nicknames.contains(args[i].substring(1))) {
+                    for (int w = 0; w < myNames.size(); w++) {
+                        if (myArgs.get(myNames.get(w)).getNicknameValue().equals(args[i].substring(1))) {
+                            myArgs.get(myNames.get(w)).setStringValue(args[i+1]);
+                            i++;
+                        }
+                    }
                 }
             } else
             {   
@@ -98,6 +97,9 @@ public class ArgumentParser
 	{
         myArgs.get(s).setIntValue(n);
     }
+    private void setNicknameValue(String s, String n) {
+        myArgs.get(s).setNicknameValue(n);
+    }
     private void setFloatValue(String s, float n) 
 	{
         myArgs.get(s).setFloatValue(n);
@@ -123,6 +125,12 @@ public class ArgumentParser
         addArguments(type, "String");
         setStringValue(type, defaultValue);
     }
+    public void addOptionalArgument(String type, String defaultValue, String nickname) {
+        addArguments(type, "String");
+        setStringValue(type, defaultValue);
+        nicknames.add(nickname);
+        setNicknameValue(type, nickname);
+    }
     private void printHelpInfo() 
 	{
         System.out.println("\nUsage Information:");
@@ -143,6 +151,7 @@ public class ArgumentParser
         String myString = "";
         boolean myBool;
         String dataType = "";
+        String nickname = "";
         
         public String getDataType() 
 		{
@@ -202,6 +211,14 @@ public class ArgumentParser
         public void setBooleanValue(boolean b) 
 		{
             myBool = b;
+        }
+        
+        public void setNicknameValue(String n) {
+            nickname = n;
+        }
+        
+        public String getNicknameValue() {
+            return nickname;
         }
     }
     
