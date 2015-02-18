@@ -15,7 +15,7 @@ public class ArgumentParser
             if (args[i].startsWith("-")) {
                 if (args[i].startsWith("--")) {
                     if (myArgs.containsKey(args[i].substring(2))) {
-                        myArgs.get(args[i].substring(2)).setStringValue(args[i+1]);
+                        myArgs.get(args[i].substring(2)).myString = args[i+1];
                     } else {
                         //throw new invalidInputException();
                     }
@@ -24,8 +24,8 @@ public class ArgumentParser
                     printHelpInfo();
                 } else if (nicknames.contains(args[i].substring(1))) {
                     for (int w = 0; w < myNames.size(); w++) {
-                        if (myArgs.get(myNames.get(w)).getNicknameValue().equals(args[i].substring(1))) {
-                            myArgs.get(myNames.get(w)).setStringValue(args[i+1]);
+                        if (myArgs.get(myNames.get(w)).nickname.equals(args[i].substring(1))) {
+                            myArgs.get(myNames.get(w)).myString = args[i+1];
                             i++;
                         }
                     }
@@ -34,12 +34,12 @@ public class ArgumentParser
             {   
                 if ("String".equals(myArgs.get(myNames.get(count)).dataType)) 
 				{
-                    myArgs.get(myNames.get(count)).setStringValue(args[i]);
+                    myArgs.get(myNames.get(count)).myString = args[i];
                 } else if ("int".equals(myArgs.get(myNames.get(count)).dataType)) 
 				{
                     try
                     {
-                        myArgs.get(myNames.get(count)).setIntValue(Integer.parseInt(args[i]));
+                        myArgs.get(myNames.get(count)).myInt = Integer.parseInt(args[i]);
                     } catch (java.lang.NumberFormatException e) {
                        System.out.println("Value expected: Integer");
                     }
@@ -47,7 +47,7 @@ public class ArgumentParser
 				{
                     try
                     {
-                    myArgs.get(myNames.get(count)).setFloatValue(Float.parseFloat(args[i]));
+                    myArgs.get(myNames.get(count)).myFloat = Float.parseFloat(args[i]);
                     } catch (java.lang.NumberFormatException e) 
                     {
                         System.out.println("Value expected: Float");
@@ -57,11 +57,11 @@ public class ArgumentParser
                     String boolTest = args[i];
                     if (boolTest.equals("true") || boolTest.equals("True")) 
 					{
-                        myArgs.get(myNames.get(count)).setBooleanValue(true);
+                        myArgs.get(myNames.get(count)).myBool = true;
                     }
                     else if (boolTest.equals("false") || boolTest.equals("False")) 
 					{
-                        myArgs.get(myNames.get(count)).setBooleanValue(false);
+                        myArgs.get(myNames.get(count)).myBool = false;
                     }
                     else 
 					{
@@ -75,47 +75,49 @@ public class ArgumentParser
     
     public int getIntValue(String s) 
 	{
-        return myArgs.get(s).getIntValue();
+        return myArgs.get(s).myInt;
     }
     public float getFloatValue(String s) 
 	{
-        return myArgs.get(s).getFloatValue();
+        return myArgs.get(s).myFloat;
     }
     public boolean getBooleanValue(String s) 
 	{
-        return myArgs.get(s).getBooleanValue();
+        return myArgs.get(s).myBool;
     }
     public String getStringValue(String s) 
 	{
-        return myArgs.get(s).getStringValue();
+        return myArgs.get(s).myString;
     }
     public String getDescriptionValue(String s) 
 	{
-        return myArgs.get(s).getDescriptionValue();
+        return myArgs.get(s).myDescription;
     }
     private void setIntValue(String s, int n) 
 	{
-        myArgs.get(s).setIntValue(n);
+        myArgs.get(s).myInt = n;
     }
     private void setNicknameValue(String s, String n) {
-        myArgs.get(s).setNicknameValue(n);
+        myArgs.get(s).nickname = n;
     }
     private void setFloatValue(String s, float n) 
 	{
-        myArgs.get(s).setFloatValue(n);
+        myArgs.get(s).myFloat = n;
     }
-    private void setBoolenValue(String s, boolean n) 
+    private void setBooleanValue(String s, boolean n) 
 	{
-        myArgs.get(s).setBooleanValue(n);
+        myArgs.get(s).myBool = n;
     }
     private void setStringValue(String s, String n) 
 	{
-        myArgs.get(s).setStringValue(n);
+        myArgs.get(s).myString = n;
     }
     private void setDescriptionValue(String s, String n) 
 	{
-        myArgs.get(s).setDescriptionValue(n);
+        myArgs.get(s).myDescription = n;
     }
+    
+    
     public void addOptionalArgument(String type) 
 	{
         addArguments(type, "String");
@@ -136,90 +138,22 @@ public class ArgumentParser
         System.out.println("\nUsage Information:");
         for (String s : myNames) 
 		{
-            if (myArgs.get(s).getDescriptionValue() != "") 
+            if (myArgs.get(s).myDescription != "") 
 			{
-                System.out.println(s + " --- " + myArgs.get(s).getDescriptionValue());
+                System.out.println(s + " --- " + myArgs.get(s).myDescription);
             }
         }
     }
     
-    static class ArgumentObject 
+    private class ArgumentObject 
     {
-        String myDescription = "";
-        int myInt;
-        float myFloat;
-        String myString = "";
-        boolean myBool;
-        String dataType = "";
-        String nickname = "";
-        
-        public String getDataType() 
-		{
-            return dataType;
-        }
-        
-        public void setDataType(String s) 
-		{
-            dataType = s;
-        }
-
-        public String getDescriptionValue() 
-        {
-            return myDescription;
-        }
-
-        public void setDescriptionValue(String d) 
-		{
-            myDescription = d;
-        }
-
-        public int getIntValue() 
-		{
-            return myInt;
-        }
-
-        public void setIntValue(int i) 
-		{
-            myInt = i;
-        }
-
-        public float getFloatValue() 
-		{
-            return myFloat;
-        }
-
-        public void setFloatValue(float f) 
-		{
-            myFloat = f;
-        }
-
-        public String getStringValue() 
-		{
-            return myString;
-        }
-
-        public void setStringValue(String s) 
-		{
-            myString = s;
-        }
-
-        public boolean getBooleanValue() 
-		{
-            return myBool;
-        }
-
-        public void setBooleanValue(boolean b) 
-		{
-            myBool = b;
-        }
-        
-        public void setNicknameValue(String n) {
-            nickname = n;
-        }
-        
-        public String getNicknameValue() {
-            return nickname;
-        }
+        public String myDescription = "";
+        public int myInt;
+        public float myFloat;
+        public String myString = "";
+        public boolean myBool;
+        public String dataType = "";
+        public String nickname = "";
     }
     
     public void addArguments(String name, String description, String dataType) 
@@ -227,8 +161,8 @@ public class ArgumentParser
         ArgumentObject ao = new ArgumentObject();
         myArgs.put(name, ao);
         myNames.add(name);
-        ao.setDescriptionValue(description);
-        ao.setDataType(dataType);
+        ao.myDescription = description;
+        ao.dataType = dataType;
     }
 	
     public void addArguments(String name, String dataType) 
@@ -236,7 +170,7 @@ public class ArgumentParser
         ArgumentObject ao = new ArgumentObject();
         myArgs.put(name, ao);
         myNames.add(name);
-        ao.setDataType(dataType);
+        ao.dataType = dataType;
     }
 
 }
