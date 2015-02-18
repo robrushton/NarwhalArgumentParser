@@ -4,67 +4,57 @@ import java.util.*;
 
 public class ArgumentParser
 {   
-    public Map<String, ArgumentObject> myArgs = new HashMap<>();
+    public Map<String, Argument> myArgs = new HashMap<>();
     private ArrayList<String> myNames = new ArrayList<String>();
     private ArrayList<String> nicknames = new ArrayList<String>();
     
-    public void parse(String[] args) 
+    public void parse(String[] userInput) 
 	{
         int count = 0;
-        for (int i = 0; i < args.length; i++) {
-            if (args[i].startsWith("-")) {
-                if (args[i].startsWith("--")) {
-                    if (myArgs.containsKey(args[i].substring(2))) {
-                        myArgs.get(args[i].substring(2)).myString = args[i+1];
+        for (int i = 0; i < userInput.length; i++) {
+            if (userInput[i].startsWith("-")) {
+                if (isHelpArgument(userInput[i])) {
+                    printHelpInfo();
+                } else if (userInput[i].startsWith("--")) {
+                    if (myArgs.containsKey(userInput[i].substring(2))) {
+                        setOptionalArgument(userInput, i);
                     } else {
                         //throw new invalidInputException();
                     }
                     i++;
-                }else if (args[i].equals("-h")) {
-                    printHelpInfo();
-                } else if (nicknames.contains(args[i].substring(1))) {
+                } else if (nicknames.contains(userInput[i].substring(1))) {
                     for (int w = 0; w < myNames.size(); w++) {
-                        if (myArgs.get(myNames.get(w)).nickname.equals(args[i].substring(1))) {
-                            myArgs.get(myNames.get(w)).myString = args[i+1];
+                        if (isNicknameAtW(userInput, i, w)) {
+                            setOptionalArgumentNickname(userInput, i, w);
                             i++;
                         }
                     }
                 }
             } else
             {   
-                if ("String".equals(myArgs.get(myNames.get(count)).dataType)) 
-				{
-                    myArgs.get(myNames.get(count)).myString = args[i];
-                } else if ("int".equals(myArgs.get(myNames.get(count)).dataType)) 
-				{
-                    try
-                    {
-                        myArgs.get(myNames.get(count)).myInt = Integer.parseInt(args[i]);
+                if ("String".equals(myArgs.get(myNames.get(count)).dataType)) {
+                    myArgs.get(myNames.get(count)).myString = userInput[i];
+                } else if ("int".equals(myArgs.get(myNames.get(count)).dataType)) {
+                    try {
+                        myArgs.get(myNames.get(count)).myInt = Integer.parseInt(userInput[i]);
                     } catch (java.lang.NumberFormatException e) {
                        System.out.println("Value expected: Integer");
                     }
-                } else if ("float".equals(myArgs.get(myNames.get(count)).dataType)) 
-				{
-                    try
-                    {
-                    myArgs.get(myNames.get(count)).myFloat = Float.parseFloat(args[i]);
-                    } catch (java.lang.NumberFormatException e) 
-                    {
+                } else if ("float".equals(myArgs.get(myNames.get(count)).dataType)) {
+                    try {
+                        myArgs.get(myNames.get(count)).myFloat = Float.parseFloat(userInput[i]);
+                    } catch (java.lang.NumberFormatException e) {
                         System.out.println("Value expected: Float");
                     }
-                } else if ("boolean".equals(myArgs.get(myNames.get(count)).dataType)) 
-				{
-                    String boolTest = args[i];
-                    if (boolTest.equals("true") || boolTest.equals("True")) 
-					{
+                } else if ("boolean".equals(myArgs.get(myNames.get(count)).dataType)) {
+                    String boolTest = userInput[i];
+                    if (boolTest.equals("true") || boolTest.equals("True")) {
                         myArgs.get(myNames.get(count)).myBool = true;
                     }
-                    else if (boolTest.equals("false") || boolTest.equals("False")) 
-					{
+                    else if (boolTest.equals("false") || boolTest.equals("False")) {
                         myArgs.get(myNames.get(count)).myBool = false;
                     }
-                    else 
-					{
+                    else  {
                         System.out.println("Value expected: boolean");
                     }
                 }
@@ -145,8 +135,7 @@ public class ArgumentParser
         }
     }
     
-    private class ArgumentObject 
-    {
+    private class Argument {
         public String myDescription = "";
         public int myInt;
         public float myFloat;
@@ -158,7 +147,7 @@ public class ArgumentParser
     
     public void addArguments(String name, String description, String dataType) 
 	{
-        ArgumentObject ao = new ArgumentObject();
+        Argument ao = new Argument();
         myArgs.put(name, ao);
         myNames.add(name);
         ao.myDescription = description;
@@ -167,10 +156,29 @@ public class ArgumentParser
 	
     public void addArguments(String name, String dataType) 
 	{
-        ArgumentObject ao = new ArgumentObject();
+        Argument ao = new Argument();
         myArgs.put(name, ao);
         myNames.add(name);
         ao.dataType = dataType;
     }
-
+    
+    private boolean isHelpArgument(String s) {
+        if (s.equals("-h")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    private void setOptionalArgument(String[] userInput, int index) {
+        myArgs.get(userInput[index].substring(2)).myString = userInput[index+1];
+    }
+    
+    private boolean isNicknameAtW(String[] userInput, int index, int w) {
+        return myArgs.get(myNames.get(w)).nickname.equals(userInput[index].substring(1));
+    }
+    
+    private void setOptionalArgumentNickname(String[] userInput, int index, int w) {
+        myArgs.get(myNames.get(w)).myString = userInput[index+1];
+    }
 }
