@@ -10,7 +10,7 @@ public class ArgumentParserTest {
     {
         ArgumentParser ap = new ArgumentParser();
 	ap.addArguments("testString", "It's a string thing", "String");
-        assertEquals("It's a string thing", ap.getDescriptionValue("testString"));
+        assertEquals("It's a string thing", ap.getDescription("testString"));
     }
 	
     @Test
@@ -45,9 +45,9 @@ public class ArgumentParserTest {
         assertEquals("Hello", ap.getStringValue(one));
         assertEquals(5, ap.getIntValue(two));
         assertEquals(true, ap.getBooleanValue(three));
-        assertEquals("It's a string thing", ap.getDescriptionValue(one));
-        assertEquals("It's an int!", ap.getDescriptionValue(two));
-        assertEquals("It is a bool", ap.getDescriptionValue(three));
+        assertEquals("It's a string thing", ap.getDescription(one));
+        assertEquals("It's an int!", ap.getDescription(two));
+        assertEquals("It is a bool", ap.getDescription(three));
     }
     
     @Test
