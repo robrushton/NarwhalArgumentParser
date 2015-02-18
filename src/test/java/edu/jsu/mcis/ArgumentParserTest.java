@@ -182,7 +182,8 @@ public class ArgumentParserTest {
     }
     
     @Test
-    public void testBooleanMultipleTimesTrueAndFalse() {
+    public void testBooleanMultipleTimesTrueAndFalse()
+    {
         ArgumentParser ap = new ArgumentParser();
         ap.addArguments("Arg 1", "This should be true", "boolean");
         ap.addArguments("Arg 2", "This should be false", "boolean");
@@ -202,5 +203,44 @@ public class ArgumentParserTest {
         String[] inp = {"-t", "circle", "5"};
         ap.parse(inp);
         assertEquals("circle", ap.getStringValue("type")); 
+    }
+    
+    @Test
+    public void testDashDashFront()
+    {
+        ArgumentParser ap = new ArgumentParser();
+        ap.addArguments("Arg 1", "This should be true", "boolean");
+        ap.addArguments("Arg 2", "This should be false", "boolean");
+        ap.addArguments("Arg 3", "This should be true", "boolean");
+        ap.addOptionalArgument("stuff", "5");
+        String[] inp = {"--stuff", "4", "true", "false", "true"};
+        ap.parse(inp);
+        assertEquals("4", ap.getStringValue("stuff"));
+    }  
+    
+    @Test
+    public void testDashDashMiddle()
+    {
+        ArgumentParser ap = new ArgumentParser();
+        ap.addArguments("Arg 1", "This should be true", "boolean");
+        ap.addArguments("Arg 2", "This should be false", "boolean");
+        ap.addArguments("Arg 3", "This should be true", "boolean");
+        ap.addOptionalArgument("stuff", "5");
+        String[] inp = { "true", "false", "--stuff", "4", "true"};
+        ap.parse(inp);
+        assertEquals("4", ap.getStringValue("stuff"));
+    }  
+    
+    @Test
+    public void testDashDashEnd()
+    {
+        ArgumentParser ap = new ArgumentParser();
+        ap.addArguments("Arg 1", "This should be true", "boolean");
+        ap.addArguments("Arg 2", "This should be false", "boolean");
+        ap.addArguments("Arg 3", "This should be true", "boolean");
+        ap.addOptionalArgument("stuff", "5");
+        String[] inp = {"true", "false", "true", "--stuff", "4"};
+        ap.parse(inp);
+        assertEquals("4", ap.getStringValue("stuff"));
     }
 }

@@ -18,6 +18,9 @@ public class ArgumentParser
                         myArgs.get(args[i].substring(2)).setStringValue(args[i+1]);
                     } else {
                         System.out.println("Error: Type not specified");
+                    } else 
+					{
+                        //throw new invalidInputException();
                     }
                     i++;
                 }else if (args[i].equals("-h")) {
@@ -238,4 +241,5 @@ public class ArgumentParser
         myNames.add(name);
         ao.setDataType(dataType);
     }
+
 }
