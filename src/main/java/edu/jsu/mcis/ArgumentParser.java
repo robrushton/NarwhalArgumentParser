@@ -6,7 +6,7 @@ public class ArgumentParser
 {   
     public Map<String, Argument> myArgs = new HashMap<>();
     private ArrayList<String> keys = new ArrayList<String>();
-    private ArrayList<String> nicknames = new ArrayList<String>();
+    private Map<String, String> nicknames = new HashMap<>();
     
     public void parse(String[] userInput) 
 	{
@@ -21,15 +21,10 @@ public class ArgumentParser
                     } else {
                         //throw new invalidInputException();
                     }
-                    i++;
-                } else if (nicknames.contains(userInput[i].substring(1))) {
-                    for (int w = 0; w < keys.size(); w++) {
-                        if (isNicknameAtW(userInput, i, w)) {
-                            setOptionalArgumentNickname(userInput, i, w);
-                            i++;
-                        }
-                    }
+                } else if (nicknames.containsKey(userInput[i].substring(1))) {
+                    setOptionalArgumentNickname(userInput, i, nicknames.get(userInput[i].substring(1)));
                 }
+                i++;
             } else {   
                 if (isDataTypeEqualTo("String", count)) {
                     setStringValue(keys.get(count), userInput[i]);
@@ -95,8 +90,8 @@ public class ArgumentParser
     public void addOptionalArgument(String type, String defaultValue, String nickname) {
         addArguments(type, "String");
         setStringValue(type, defaultValue);
-        nicknames.add(nickname);
-        setNicknameValue(type, nickname);
+        nicknames.put(nickname, type);
+        setNickname(type, nickname);
     }
     private void printHelpInfo() {
         System.out.println("\nUsage Information:");
@@ -120,7 +115,7 @@ public class ArgumentParser
     private void setIntValue(String s, int n) {
         myArgs.get(s).myInt = n;
     }
-    private void setNicknameValue(String s, String n) {
+    private void setNickname(String s, String n) {
         myArgs.get(s).nickname = n;
     }
     private void setFloatValue(String s, float n) {
@@ -132,7 +127,7 @@ public class ArgumentParser
     private void setStringValue(String s, String n) {
         myArgs.get(s).myString = n;
     }
-    private void setDescriptionValue(String s, String n) {
+    private void setDescription(String s, String n) {
         myArgs.get(s).myDescription = n;
     }
     
@@ -165,12 +160,8 @@ public class ArgumentParser
         myArgs.get(userInput[index].substring(2)).myString = userInput[index+1];
     }
     
-    private boolean isNicknameAtW(String[] userInput, int index, int w) {
-        return myArgs.get(keys.get(w)).nickname.equals(userInput[index].substring(1));
-    }
-    
-    private void setOptionalArgumentNickname(String[] userInput, int index, int w) {
-        myArgs.get(keys.get(w)).myString = userInput[index+1];
+    private void setOptionalArgumentNickname(String[] userInput, int index, String key) {
+        myArgs.get(key).myString = userInput[index+1];
     }
     
     private boolean isDataTypeEqualTo(String dataType, int count) {
