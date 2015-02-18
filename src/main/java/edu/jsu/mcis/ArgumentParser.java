@@ -17,9 +17,6 @@ public class ArgumentParser
                     if (myArgs.containsKey(args[i].substring(2))) {
                         myArgs.get(args[i].substring(2)).setStringValue(args[i+1]);
                     } else {
-                        System.out.println("Error: Type not specified");
-                    } else 
-					{
                         //throw new invalidInputException();
                     }
                     i++;

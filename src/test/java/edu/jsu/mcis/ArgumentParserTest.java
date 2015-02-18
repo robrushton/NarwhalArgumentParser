@@ -206,6 +206,34 @@ public class ArgumentParserTest {
     }
     
     @Test
+    public void testMultipleShortOptionalArgumentForLongName() {
+        ArgumentParser ap = new ArgumentParser();
+        ap.addArguments("Length", "Length of the object", "int");
+        ap.addArguments("Width", "Width of the object", "int");
+        ap.addArguments("Height", "Height of the object", "int");
+        ap.addOptionalArgument("type", " ", "t");
+        ap.addOptionalArgument("color", " ", "c");
+        String[] inp = {"-t", "circle", "5", "-c", "red", "7", "10"};
+        ap.parse(inp);
+        assertEquals("circle", ap.getStringValue("type")); 
+        assertEquals("red", ap.getStringValue("color"));
+    }
+    
+    @Test
+    public void testOneShortOptionalArgumentForLongNameAndOneLong() {
+        ArgumentParser ap = new ArgumentParser();
+        ap.addArguments("Length", "Length of the object", "int");
+        ap.addArguments("Width", "Width of the object", "int");
+        ap.addArguments("Height", "Height of the object", "int");
+        ap.addOptionalArgument("type", " ", "t");
+        ap.addOptionalArgument("color", " ", "c");
+        String[] inp = {"-t", "circle", "5", "--color", "red", "7", "10"};
+        ap.parse(inp);
+        assertEquals("circle", ap.getStringValue("type")); 
+        assertEquals("red", ap.getStringValue("color"));
+    }
+    
+    @Test
     public void testDashDashFront()
     {
         ArgumentParser ap = new ArgumentParser();
