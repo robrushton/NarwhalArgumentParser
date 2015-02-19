@@ -12,24 +12,23 @@ public class ArgumentParser <T>
 	{
         int count = 0;
         for (int i = 0; i < userInput.length; i++) {
-            if (userInput[i].startsWith("-")) {
+            if (isLongOptionalArgument(userInput, i)) {
+                if (myArgs.containsKey(userInput[i].substring(2))) {
+                    setOptionalArgument(userInput, i);
+                } else {
+                        //throw new invalidInputException();
+                }
+                i++;
+            } else if (isShortOptionalArgument(userInput, i)) {
                 if (isHelpArgument(userInput[i])) {
                     printHelpInfo();
-                } else if (userInput[i].startsWith("--")) {
-                    if (myArgs.containsKey(userInput[i].substring(2))) {
-                        setOptionalArgument(userInput, i);
-                    } else {
-                        //throw new invalidInputException();
-                    }
-                } else if (nicknames.containsKey(userInput[i].substring(1))) {
-                    setOptionalArgumentNickname(userInput, i, nicknames.get(userInput[i].substring(1)));
+                }else if (nicknames.containsKey(userInput[i].substring(1))) {
+                    setOptionalArgument(userInput, i, nicknames.get(userInput[i].substring(1)));
                 }
                 i++;
             } else {
                 setValue(keys.get(count), userInput[i]);
-                if (isDataTypeEqualTo("String", count)) {
-                    
-                } else if (isDataTypeEqualTo("int", count)) {
+                if (isDataTypeEqualTo("int", count)) {
                     try {
                         Integer.parseInt(userInput[i]);
                     } catch (java.lang.NumberFormatException e) {
@@ -57,6 +56,30 @@ public class ArgumentParser <T>
         } else {
             return false;
         }
+    }
+    
+    private boolean isLongOptionalArgument(String[] userInput, int index) {
+        if (userInput[index].startsWith("--")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    private boolean isShortOptionalArgument(String[] userInput, int index) {
+        if (userInput[index].startsWith("-")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    private void setOptionalArgument(String[] userInput, int index) {
+        myArgs.get(userInput[index].substring(2)).myValue = userInput[index+1];
+    }
+    
+    private void setOptionalArgument(String[] userInput, int index, String key) {
+        myArgs.get(key).myValue = userInput[index+1];
     }
     
     public <T> T getValue(String s) {
@@ -139,14 +162,6 @@ public class ArgumentParser <T>
         } else {
             return false;
         }
-    }
-    
-    private void setOptionalArgument(String[] userInput, int index) {
-        myArgs.get(userInput[index].substring(2)).myValue = userInput[index+1];
-    }
-    
-    private void setOptionalArgumentNickname(String[] userInput, int index, String key) {
-        myArgs.get(key).myValue = userInput[index+1];
     }
     
     private boolean isDataTypeEqualTo(String dataType, int count) {
