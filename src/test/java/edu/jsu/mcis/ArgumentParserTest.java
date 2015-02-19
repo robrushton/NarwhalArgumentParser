@@ -181,4 +181,15 @@ public class ArgumentParserTest {
         ap.parse(inp);
         assertEquals("4", ap.getStringValue("stuff"));
     }
+    
+    @Test
+    public void testDashHPrintsHelp() {
+        ArgumentParser ap = new ArgumentParser();
+        ap.addArguments("Arg 1", "This should be true", "boolean");
+        ap.addArguments("Arg 2", "This should be false", "boolean");
+        ap.addArguments("Arg 3", "This should be true", "boolean");
+        ap.addOptionalArgument("type", "", "t");
+        String[] inp = {"-h"};
+        ap.parse(inp);
+    }
 }

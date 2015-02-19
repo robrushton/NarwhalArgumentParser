@@ -127,9 +127,6 @@ public class ArgumentParser
     private void setStringValue(String s, String n) {
         myArgs.get(s).myString = n;
     }
-    private void setDescription(String s, String n) {
-        myArgs.get(s).myDescription = n;
-    }
     
     public void addArguments(String name, String description, String dataType) 
 	{
