@@ -25,9 +25,9 @@ public class ArgumentParserTest {
         ap.addArguments(three, "boolean");
         String[] myStringArray = {"Hello","5","true"};
         ap.parse(myStringArray);
-        assertEquals("Hello", ap.getStringValue(one));
-        assertEquals(5, ap.getIntValue(two));
-        assertEquals(true, ap.getBooleanValue(three));
+        assertEquals("Hello", (String) ap.getValue(one));
+        assertEquals(5, (int) ap.getValue(two));
+        assertEquals(true, (boolean) ap.getValue(three));
     }
     
     @Test
@@ -42,9 +42,9 @@ public class ArgumentParserTest {
         ap.addArguments(three, "It is a bool", "boolean");
         String[] myStringArray = {"Hello","5","true"};
         ap.parse(myStringArray);
-        assertEquals("Hello", ap.getStringValue(one));
-        assertEquals(5, ap.getIntValue(two));
-        assertEquals(true, ap.getBooleanValue(three));
+        assertEquals("Hello", (String) ap.getValue(one));
+        assertEquals(5, (int) ap.getValue(two));
+        assertEquals(true, (boolean) ap.getValue(three));
         assertEquals("It's a string thing", ap.getDescription(one));
         assertEquals("It's an int!", ap.getDescription(two));
         assertEquals("It is a bool", ap.getDescription(three));
@@ -63,10 +63,10 @@ public class ArgumentParserTest {
         ap.addArguments(four, "Name of object", "String");
         String[] args = {"12.34", "false", "7", "Fred"};
         ap.parse(args);
-        assertEquals(12.34, ap.getFloatValue(one), 0.01);
-        assertEquals(false, ap.getBooleanValue(two));
-        assertEquals(7, ap.getIntValue(three));
-        assertEquals("Fred", ap.getStringValue(four));   
+        assertEquals(12.34, (float) ap.getValue(one), 0.01);
+        assertEquals(false, (boolean) ap.getValue(two));
+        assertEquals(7, (int) ap.getValue(three));
+        assertEquals("Fred", (String) ap.getValue(four));   
     }
    
     @Test
@@ -75,7 +75,7 @@ public class ArgumentParserTest {
         ArgumentParser ap = new ArgumentParser();
         ap.addArguments("thing", "Length of the object", "float");
         ap.addOptionalArgument("stuff", "5");
-        assertEquals("5", ap.getStringValue("stuff"));
+        assertEquals("5", (String) ap.getValue("stuff"));
         
     }    
     
@@ -87,7 +87,7 @@ public class ArgumentParserTest {
         ap.addOptionalArgument("stuff");
         String[] inp = {"--stuff", "5"};
         ap.parse(inp);
-        assertEquals("5", ap.getStringValue("stuff"));
+        assertEquals("5", (String) ap.getValue("stuff"));
         
     }
     
@@ -100,9 +100,9 @@ public class ArgumentParserTest {
         ap.addArguments("Arg 3", "This should be true", "boolean");
         String[] args = {"true", "false", "true"};
         ap.parse(args);
-        assertEquals(true, ap.getBooleanValue("Arg 1"));
-        assertEquals(false, ap.getBooleanValue("Arg 2"));
-        assertEquals(true, ap.getBooleanValue("Arg 3"));  
+        assertEquals(true, (boolean) ap.getValue("Arg 1"));
+        assertEquals(false, (boolean) ap.getValue("Arg 2"));
+        assertEquals(true, (boolean) ap.getValue("Arg 3"));  
     }
     
     @Test
@@ -112,7 +112,7 @@ public class ArgumentParserTest {
         ap.addOptionalArgument("type", " ", "t");
         String[] inp = {"-t", "circle", "5"};
         ap.parse(inp);
-        assertEquals("circle", ap.getStringValue("type")); 
+        assertEquals("circle", (String) ap.getValue("type")); 
     }
     
     @Test
@@ -125,8 +125,8 @@ public class ArgumentParserTest {
         ap.addOptionalArgument("color", " ", "c");
         String[] inp = {"-t", "circle", "5", "-c", "red", "7", "10"};
         ap.parse(inp);
-        assertEquals("circle", ap.getStringValue("type")); 
-        assertEquals("red", ap.getStringValue("color"));
+        assertEquals("circle", (String) ap.getValue("type")); 
+        assertEquals("red", (String) ap.getValue("color"));
     }
     
     @Test
@@ -139,8 +139,8 @@ public class ArgumentParserTest {
         ap.addOptionalArgument("color", " ", "c");
         String[] inp = {"-t", "circle", "5", "--color", "red", "7", "10"};
         ap.parse(inp);
-        assertEquals("circle", ap.getStringValue("type")); 
-        assertEquals("red", ap.getStringValue("color"));
+        assertEquals("circle", (String) ap.getValue("type")); 
+        assertEquals("red", (String) ap.getValue("color"));
     }
     
     @Test
@@ -153,7 +153,7 @@ public class ArgumentParserTest {
         ap.addOptionalArgument("stuff", "5");
         String[] inp = {"--stuff", "4", "true", "false", "true"};
         ap.parse(inp);
-        assertEquals("4", ap.getStringValue("stuff"));
+        assertEquals("4", (String) ap.getValue("stuff"));
     }  
     
     @Test
@@ -166,7 +166,7 @@ public class ArgumentParserTest {
         ap.addOptionalArgument("stuff", "5");
         String[] inp = { "true", "false", "--stuff", "4", "true"};
         ap.parse(inp);
-        assertEquals("4", ap.getStringValue("stuff"));
+        assertEquals("4", (String) ap.getValue("stuff"));
     }  
     
     @Test
@@ -179,7 +179,7 @@ public class ArgumentParserTest {
         ap.addOptionalArgument("stuff", "5");
         String[] inp = {"true", "false", "true", "--stuff", "4"};
         ap.parse(inp);
-        assertEquals("4", ap.getStringValue("stuff"));
+        assertEquals("4", (String) ap.getValue("stuff"));
     }
     
     @Test

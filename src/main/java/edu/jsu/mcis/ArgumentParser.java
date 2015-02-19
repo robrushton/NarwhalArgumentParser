@@ -2,7 +2,7 @@ package edu.jsu.mcis;
 
 import java.util.*;
 
-public class ArgumentParser
+public class ArgumentParser <T>
 {   
     public Map<String, Argument> myArgs = new HashMap<>();
     private ArrayList<String> keys = new ArrayList<String>();
@@ -25,29 +25,24 @@ public class ArgumentParser
                     setOptionalArgumentNickname(userInput, i, nicknames.get(userInput[i].substring(1)));
                 }
                 i++;
-            } else {   
+            } else {
+                setValue(keys.get(count), userInput[i]);
                 if (isDataTypeEqualTo("String", count)) {
-                    setStringValue(keys.get(count), userInput[i]);
+                    
                 } else if (isDataTypeEqualTo("int", count)) {
                     try {
-                        setIntValue(keys.get(count), Integer.parseInt(userInput[i]));
+                        Integer.parseInt(userInput[i]);
                     } catch (java.lang.NumberFormatException e) {
                        //throw should be int exception
                     }
                 } else if (isDataTypeEqualTo("float", count)) {
                     try {
-                        setFloatValue(keys.get(count), Float.parseFloat(userInput[i]));
+                        Float.parseFloat(userInput[i]);
                     } catch (java.lang.NumberFormatException e) {
                         //throw should be float exception
                     }
                 } else if (isDataTypeEqualTo("boolean", count)) {
-                    if (userInput[i].equals("true") || userInput[i].equals("True")) {
-                        setBooleanValue(keys.get(count), true);
-                    }
-                    else if (userInput[i].equals("false") || userInput[i].equals("False")) {
-                        setBooleanValue(keys.get(count), false);
-                    }
-                    else  {
+                    if (!isItABoolean(userInput, i)) {
                         //throw should be boolean exception
                     }
                 }
@@ -56,24 +51,29 @@ public class ArgumentParser
         }
     }
     
-    public int getIntValue(String s) 
-	{
-        return myArgs.get(s).myInt;
+    private boolean isItABoolean(String[] userInput, int index) {
+        if (userInput[index].equals("true") || userInput[index].equals("True") || userInput[index].equals("false") || userInput[index].equals("False")) {
+            return true;
+        } else {
+            return false;
+        }
     }
-    public float getFloatValue(String s) 
-	{
-        return myArgs.get(s).myFloat;
+    
+    public <T> T getValue(String s) {
+        if (myArgs.get(s).dataType.equals("String")) {
+            return (T) myArgs.get(s).myValue;
+        } else if (myArgs.get(s).dataType.equals("int")) {
+            return (T) new Integer(Integer.parseInt(myArgs.get(s).myValue));
+        } else if (myArgs.get(s).dataType.equals("float")) {
+            return (T) new Float(Float.parseFloat(myArgs.get(s).myValue));
+        } else if (myArgs.get(s).dataType.equals("boolean")) {
+            return (T) new Boolean(Boolean.parseBoolean(myArgs.get(s).myValue));
+        } else {
+            return null;
+        }
     }
-    public boolean getBooleanValue(String s) 
-	{
-        return myArgs.get(s).myBool;
-    }
-    public String getStringValue(String s) 
-	{
-        return myArgs.get(s).myString;
-    }
-    public String getDescription(String s) 
-	{
+    
+    public String getDescription(String s) 	{
         return myArgs.get(s).myDescription;
     }
     
@@ -85,11 +85,11 @@ public class ArgumentParser
     public void addOptionalArgument(String type, String defaultValue) 
 	{
         addArguments(type, "String");
-        setStringValue(type, defaultValue);
+        setValue(type, defaultValue);
     }
     public void addOptionalArgument(String type, String defaultValue, String nickname) {
         addArguments(type, "String");
-        setStringValue(type, defaultValue);
+        setValue(type, defaultValue);
         nicknames.put(nickname, type);
         setNickname(type, nickname);
     }
@@ -104,28 +104,16 @@ public class ArgumentParser
     
     private class Argument {
         public String myDescription = "";
-        public int myInt;
-        public float myFloat;
-        public String myString = "";
-        public boolean myBool;
+        public String myValue = "";
         public String dataType = "";
         public String nickname = "";
     }
     
-    private void setIntValue(String s, int n) {
-        myArgs.get(s).myInt = n;
+    private void setValue(String s, String n) {
+        myArgs.get(s).myValue = n;
     }
     private void setNickname(String s, String n) {
         myArgs.get(s).nickname = n;
-    }
-    private void setFloatValue(String s, float n) {
-        myArgs.get(s).myFloat = n;
-    }
-    private void setBooleanValue(String s, boolean n) {
-        myArgs.get(s).myBool = n;
-    }
-    private void setStringValue(String s, String n) {
-        myArgs.get(s).myString = n;
     }
     
     public void addArguments(String name, String description, String dataType) 
@@ -154,11 +142,11 @@ public class ArgumentParser
     }
     
     private void setOptionalArgument(String[] userInput, int index) {
-        myArgs.get(userInput[index].substring(2)).myString = userInput[index+1];
+        myArgs.get(userInput[index].substring(2)).myValue = userInput[index+1];
     }
     
     private void setOptionalArgumentNickname(String[] userInput, int index, String key) {
-        myArgs.get(key).myString = userInput[index+1];
+        myArgs.get(key).myValue = userInput[index+1];
     }
     
     private boolean isDataTypeEqualTo(String dataType, int count) {

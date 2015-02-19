@@ -20,14 +20,14 @@ public class VolumeCalculator {
         
         
         String optionalValue = "";
-        String one = ap.getStringValue("pet");
-        int two = ap.getIntValue("number");
-        boolean three = ap.getBooleanValue("rainy");
-        float four = ap.getFloatValue("bathrooms");
-        optionalValue = ap.getStringValue("Type");
-        int l = ap.getIntValue("Length");
-        int w = ap.getIntValue("Width");
-        int h = ap.getIntValue("Height");
+        String one = (String) ap.getValue("pet");
+        int two = (int) ap.getValue("number");
+        boolean three = (boolean) ap.getValue("rainy");
+        float four = (float) ap.getValue("bathrooms");
+        optionalValue = (String) ap.getValue("Type");
+        int l = (int) ap.getValue("Length");
+        int w = (int) ap.getValue("Width");
+        int h = (int) ap.getValue("Height");
         
         System.out.println(one + " " + two +  " " + three + " " + four + " " + optionalValue);
         System.out.println("Volume of object is: " + (l * w * h));
