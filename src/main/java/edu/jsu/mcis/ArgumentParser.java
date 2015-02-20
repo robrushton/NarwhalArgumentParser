@@ -2,14 +2,12 @@ package edu.jsu.mcis;
 
 import java.util.*;
 
-public class ArgumentParser <T>
-{   
+public class ArgumentParser {   
     public Map<String, Argument> myArgs = new HashMap<>();
     private ArrayList<String> keys = new ArrayList<String>();
     private Map<String, String> nicknames = new HashMap<>();
     
-    public void parse(String[] userInput) 
-	{
+    public void parse(String[] userInput) {
         int count = 0;
         for (int i = 0; i < userInput.length; i++) {
             if (isLongOptionalArgument(userInput, i)) {
