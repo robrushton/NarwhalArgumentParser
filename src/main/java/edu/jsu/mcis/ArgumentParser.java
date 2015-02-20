@@ -94,7 +94,7 @@ public class ArgumentParser {
         }
     }
     
-    public String getDescription(String s) {
+    public String getArgumentDescription(String s) {
         return myArgs.get(s).myDescription;
     }
     
