@@ -13,10 +13,11 @@ public class VolumeCalculator {
         ap.addArguments("Length", "Length of the object", "int");
         ap.addArguments("Width", "Width of the object", "int");
         ap.addArguments("Height", "Height of the object", "int");
-        ap.addOptionalArgument("Type", " ");
+        ap.addOptionalArgument("Type", " ", "t");
         ap.addOptionalArgument("Color");
+        ap.addFlag("x");
+        ap.addFlag("w");
         ap.parse(args);
-        
 
         String optionalValue = "";
         String one = ap.getValue("pet");
@@ -30,5 +31,7 @@ public class VolumeCalculator {
         
         System.out.println(one + " " + two +  " " + three + " " + four + " " + optionalValue);
         System.out.println("Volume of object is: " + (l * w * h));
+        System.out.println("x is " + ap.checkFlag("x"));
+        System.out.println("w is " + ap.checkFlag("w"));
     }
 }

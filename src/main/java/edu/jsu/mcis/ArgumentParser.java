@@ -7,6 +7,8 @@ public class ArgumentParser {
     private Map<String, Argument> myArgs = new HashMap<>();
     private ArrayList<String> keys = new ArrayList<>();
     private Map<String, String> nicknames = new HashMap<>();
+    private String programDescription = "";
+    private Map<String, Boolean> flags = new HashMap<>();
     
     public void parse(String[] userInput) {
         int count = 0;
@@ -15,16 +17,20 @@ public class ArgumentParser {
                 if (myArgs.containsKey(userInput[i].substring(2))) {
                     setOptionalArgument(userInput, i);
                 } else {
-                        //throw new invalidInputException();
+                        //throw new invalidILongArgument();
                 }
                 i++;
             } else if (isShortOptionalArgument(userInput, i)) {
                 if (isHelpArgument(userInput[i])) {
                     printHelpInfo();
-                }else if (nicknames.containsKey(userInput[i].substring(1))) {
+                } else if (isItAFlagArgument(userInput, i)) {
+                    flags.put(userInput[i].substring(1), true);
+                } else if (nicknames.containsKey(userInput[i].substring(1))) {
                     setOptionalArgument(userInput, i, nicknames.get(userInput[i].substring(1)));
+                    i++;
+                } else {
+                    //throws new invalidShortArgument();
                 }
-                i++;
             } else {
                 setValue(keys.get(count), userInput[i]);
                 if (isDataTypeEqualTo("int", count)) {
@@ -47,6 +53,10 @@ public class ArgumentParser {
                 count++;
             }
         }
+    }
+    
+    private boolean isItAFlagArgument(String[] userInput, int i) {
+        return flags.containsKey(userInput[i].substring(1));
     }
     
     private boolean isItAValidBoolean(String[] userInput, int index) {
@@ -148,5 +158,17 @@ public class ArgumentParser {
     
     private boolean isDataTypeEqualTo(String dataType, int count) {
         return myArgs.get(keys.get(count)).dataType.equals(dataType);
+    }
+    
+    public void setProgramDescription(String s) {
+        programDescription = s;
+    }
+    
+    public void addFlag(String s) {
+        flags.put(s, Boolean.FALSE);
+    }
+    
+    public boolean checkFlag(String s) {
+        return flags.get(s).booleanValue();
     }
 }

@@ -192,4 +192,35 @@ public class ArgumentParserTest {
         String[] inp = {"-h"};
         ap.parse(inp);
     }
+    
+    @Test
+    public void testFlagTrueBeginning() {
+        ArgumentParser ap = new ArgumentParser();
+        ap.addArguments("Arg 1", "This should be true", "boolean");
+        ap.addFlag("t");
+        String[] inp = {"-t"};
+        ap.parse(inp);
+        assertTrue(ap.checkFlag("t"));
+    }
+    
+    @Test
+    public void testFlagFalseBeginning() {
+        ArgumentParser ap = new ArgumentParser();
+        ap.addFlag("t");
+        ap.addArguments("Arg 1", "This should be true", "boolean");
+        String[] inp = {"true"};
+        ap.parse(inp);
+        assertFalse(ap.checkFlag("t"));
+    }
+    
+    @Test
+    public void testFlagTrueMiddle() {
+        ArgumentParser ap = new ArgumentParser();
+        ap.addArguments("Arg 1", "Test argument as well", "boolean");
+        ap.addArguments("Arg 2", "Test argument", "boolean");
+        ap.addFlag("t");
+        String[] inp = {"true","-t","false"};
+        ap.parse(inp);
+        assertTrue(ap.checkFlag("t"));
+    }
 }
