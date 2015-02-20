@@ -2,9 +2,10 @@ package edu.jsu.mcis;
 
 import java.util.*;
 
-public class ArgumentParser {   
-    public Map<String, Argument> myArgs = new HashMap<>();
-    private ArrayList<String> keys = new ArrayList<String>();
+
+public class ArgumentParser { 
+    private Map<String, Argument> myArgs = new HashMap<>();
+    private ArrayList<String> keys = new ArrayList<>();
     private Map<String, String> nicknames = new HashMap<>();
     
     public void parse(String[] userInput) {
@@ -39,7 +40,7 @@ public class ArgumentParser {
                         //throw should be float exception
                     }
                 } else if (isDataTypeEqualTo("boolean", count)) {
-                    if (!isItABoolean(userInput, i)) {
+                    if (!isItAValidBoolean(userInput, i)) {
                         //throw should be boolean exception
                     }
                 }
@@ -48,28 +49,17 @@ public class ArgumentParser {
         }
     }
     
-    private boolean isItABoolean(String[] userInput, int index) {
-        if (userInput[index].equals("true") || userInput[index].equals("True") || userInput[index].equals("false") || userInput[index].equals("False")) {
-            return true;
-        } else {
-            return false;
-        }
+    private boolean isItAValidBoolean(String[] userInput, int index) {
+        return (userInput[index].equals("false") || userInput[index].equals("true") ||
+                userInput[index].equals("True") || userInput[index].equals("False"));
     }
     
     private boolean isLongOptionalArgument(String[] userInput, int index) {
-        if (userInput[index].startsWith("--")) {
-            return true;
-        } else {
-            return false;
-        }
+        return (userInput[index].startsWith("--"));
     }
     
     private boolean isShortOptionalArgument(String[] userInput, int index) {
-        if (userInput[index].startsWith("-")) {
-            return true;
-        } else {
-            return false;
-        }
+        return (userInput[index].startsWith("-"));
     }
     
     private void setOptionalArgument(String[] userInput, int index) {
@@ -94,17 +84,15 @@ public class ArgumentParser {
         }
     }
     
-    public String getDescription(String s) 	{
+    public String getDescription(String s) {
         return myArgs.get(s).myDescription;
     }
     
     
-    public void addOptionalArgument(String type) 
-	{
+    public void addOptionalArgument(String type) {
         addArguments(type, "String");
     }
-    public void addOptionalArgument(String type, String defaultValue) 
-	{
+    public void addOptionalArgument(String type, String defaultValue) {
         addArguments(type, "String");
         setValue(type, defaultValue);
     }
@@ -155,18 +143,10 @@ public class ArgumentParser {
     }
     
     private boolean isHelpArgument(String s) {
-        if (s.equals("-h")) {
-            return true;
-        } else {
-            return false;
-        }
+        return s.equals("-h");
     }
     
     private boolean isDataTypeEqualTo(String dataType, int count) {
-         if (myArgs.get(keys.get(count)).dataType.equals(dataType)) {
-             return true;
-         } else {
-             return false;
-         }
+        return myArgs.get(keys.get(count)).dataType.equals(dataType);
     }
 }

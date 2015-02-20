@@ -17,9 +17,9 @@ public class ArgumentParserTest {
     public void testAddArgumentsNoDescription()
     {
         ArgumentParser ap = new ArgumentParser();
-        String one = new String("Test Name 1");
-        String two = new String("Test Name 2");
-        String three = new String("Test Name 3");
+        String one = "Test Name 1";
+        String two = "Test Name 2";
+        String three = "Test Name 3";
         ap.addArguments(one, "String");
         ap.addArguments(two, "int");
         ap.addArguments(three, "boolean");
@@ -34,13 +34,13 @@ public class ArgumentParserTest {
     public void testAddArgumentsWithDescription()
     {
         ArgumentParser ap = new ArgumentParser();
-        String one = new String("Test Name 1");
-        String two = new String("Test Name 2");
-        String three = new String("Test Name 3");
+        String one = "Test Name 1";
+        String two = "Test Name 2";
+        String three = "Test Name 3";
         ap.addArguments(one, "It's a string thing", "String");
         ap.addArguments(two, "It's an int!", "int");
         ap.addArguments(three, "It is a bool", "boolean");
-        String[] myStringArray = {"Hello","5","true"};
+        String[] myStringArray = {"Hello","5","True"};
         ap.parse(myStringArray);
         assertEquals("Hello", (String) ap.getValue(one));
         assertEquals(5, (int) ap.getValue(two));
@@ -53,15 +53,15 @@ public class ArgumentParserTest {
     @Test
     public void testParseValuesNotDashH() {
         ArgumentParser ap = new ArgumentParser();
-        String one = new String("Length");
-        String two = new String("Width");
-        String three = new String("Height");
-        String four = new String("Name");
+        String one = "Length";
+        String two = "Width";
+        String three = "Height";
+        String four = "Name";
         ap.addArguments(one, "Length of the object", "float");
         ap.addArguments(two, "Width of the object", "boolean");
         ap.addArguments(three, "Height of the object", "int");
         ap.addArguments(four, "Name of object", "String");
-        String[] args = {"12.34", "false", "7", "Fred"};
+        String[] args = {"12.34", "False", "7", "Fred"};
         ap.parse(args);
         assertEquals(12.34, (float) ap.getValue(one), 0.01);
         assertEquals(false, (boolean) ap.getValue(two));

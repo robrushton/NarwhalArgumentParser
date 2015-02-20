@@ -7,7 +7,7 @@ jar {
     manifest {
         attributes 'Implementation-Title': 'Argument Parser', 
                    'Implementation-Version': version, 
-                   'Main-Class': 'edu.jsu.mcis.VolumeCalculator'
+                   'Main-Class': 'VolumeCalculator'
     }
 }
 

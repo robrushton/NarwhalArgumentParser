@@ -1,7 +1,6 @@
-package edu.jsu.mcis;
+package VolumeCalculator;
 
-import java.io.*;
-import java.util.*;
+import edu.jsu.mcis.ArgumentParser;
 
 public class VolumeCalculator {
     
@@ -18,7 +17,7 @@ public class VolumeCalculator {
         ap.addOptionalArgument("Color");
         ap.parse(args);
         
-        
+
         String optionalValue = "";
         String one = ap.getValue("pet");
         int two = ap.getValue("number");
