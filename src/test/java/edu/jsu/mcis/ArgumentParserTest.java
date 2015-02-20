@@ -40,7 +40,7 @@ public class ArgumentParserTest {
         ap.addArguments(one, "It's a string thing", "String");
         ap.addArguments(two, "It's an int!", "int");
         ap.addArguments(three, "It is a bool", "boolean");
-        String[] myStringArray = {"Hello","5","true"};
+        String[] myStringArray = {"Hello","5","True"};
         ap.parse(myStringArray);
         assertEquals("Hello", (String) ap.getValue(one));
         assertEquals(5, (int) ap.getValue(two));
@@ -61,7 +61,7 @@ public class ArgumentParserTest {
         ap.addArguments(two, "Width of the object", "boolean");
         ap.addArguments(three, "Height of the object", "int");
         ap.addArguments(four, "Name of object", "String");
-        String[] args = {"12.34", "false", "7", "Fred"};
+        String[] args = {"12.34", "False", "7", "Fred"};
         ap.parse(args);
         assertEquals(12.34, (float) ap.getValue(one), 0.01);
         assertEquals(false, (boolean) ap.getValue(two));

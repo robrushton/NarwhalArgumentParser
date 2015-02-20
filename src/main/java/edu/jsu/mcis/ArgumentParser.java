@@ -41,7 +41,7 @@ public class ArgumentParser <T>
                         //throw should be float exception
                     }
                 } else if (isDataTypeEqualTo("boolean", count)) {
-                    if (!isItABoolean(userInput, i)) {
+                    if (!isItAValidBoolean(userInput, i)) {
                         //throw should be boolean exception
                     }
                 }
@@ -50,7 +50,7 @@ public class ArgumentParser <T>
         }
     }
     
-    private boolean isItABoolean(String[] userInput, int index) {
+    private boolean isItAValidBoolean(String[] userInput, int index) {
         if (userInput[index].equals("true") || userInput[index].equals("True") || userInput[index].equals("false") || userInput[index].equals("False")) {
             return true;
         } else {
