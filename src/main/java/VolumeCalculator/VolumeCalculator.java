@@ -1,8 +1,6 @@
-
+package VolumeCalculator;
 
 import edu.jsu.mcis.ArgumentParser;
-import java.io.*;
-import java.util.*;
 
 public class VolumeCalculator {
     
@@ -20,7 +18,7 @@ public class VolumeCalculator {
         ap.parse(args);
         
         
-        String optionalValue = "";
+        String optionalValue;
         String one = (String) ap.getValue("pet");
         int two = (int) ap.getValue("number");
         boolean three = (boolean) ap.getValue("rainy");

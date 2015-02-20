@@ -17,9 +17,9 @@ public class ArgumentParserTest {
     public void testAddArgumentsNoDescription()
     {
         ArgumentParser ap = new ArgumentParser();
-        String one = new String("Test Name 1");
-        String two = new String("Test Name 2");
-        String three = new String("Test Name 3");
+        String one = "Test Name 1";
+        String two = "Test Name 2";
+        String three = "Test Name 3";
         ap.addArguments(one, "String");
         ap.addArguments(two, "int");
         ap.addArguments(three, "boolean");
@@ -34,9 +34,9 @@ public class ArgumentParserTest {
     public void testAddArgumentsWithDescription()
     {
         ArgumentParser ap = new ArgumentParser();
-        String one = new String("Test Name 1");
-        String two = new String("Test Name 2");
-        String three = new String("Test Name 3");
+        String one = "Test Name 1";
+        String two = "Test Name 2";
+        String three = "Test Name 3";
         ap.addArguments(one, "It's a string thing", "String");
         ap.addArguments(two, "It's an int!", "int");
         ap.addArguments(three, "It is a bool", "boolean");
@@ -53,10 +53,10 @@ public class ArgumentParserTest {
     @Test
     public void testParseValuesNotDashH() {
         ArgumentParser ap = new ArgumentParser();
-        String one = new String("Length");
-        String two = new String("Width");
-        String three = new String("Height");
-        String four = new String("Name");
+        String one = "Length";
+        String two = "Width";
+        String three = "Height";
+        String four = "Name";
         ap.addArguments(one, "Length of the object", "float");
         ap.addArguments(two, "Width of the object", "boolean");
         ap.addArguments(three, "Height of the object", "int");
