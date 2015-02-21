@@ -4,7 +4,7 @@ import java.util.*;
 
 
 public class ArgumentParser { 
-private Map<String, Argument> myArgs = new HashMap<>();
+    private Map<String, Argument> myArgs = new HashMap<>();
     private ArrayList<String> keys = new ArrayList<>();
     private Map<String, String> nicknames = new HashMap<>();
     private String programDescription = "";
@@ -98,7 +98,7 @@ private Map<String, Argument> myArgs = new HashMap<>();
     }
      
     private boolean isHelpArgument(String s) {
-        return s.equals("-h");
+        return s.equals("-h") || s.equals("--Help");
     }
     
     public <T> T getValue(String s) {
