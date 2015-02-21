@@ -102,38 +102,17 @@ private Map<String, Argument> myArgs = new HashMap<>();
     }
     
     public <T> T getValue(String s) {
-        switch (myArgs.get(s).dataType) {
-            case "String":
-                if (!myArgs.get(s).myValue.equals("")) {
-                    return (T) myArgs.get(s).myValue;
-                } else {
-                    //throws no value at key exception
-                }
-                break;
-
-            case "int":
-                if (!myArgs.get(s).myValue.equals("")) {
-                    return (T) new Integer(Integer.parseInt(myArgs.get(s).myValue));
-                } else {
-                    //throws no value at key exception
-                }
-                break;
-            case "float":
-                if (!myArgs.get(s).myValue.equals("")) {
-                    return (T) new Float(Float.parseFloat(myArgs.get(s).myValue));
-                } else {
-                    //throws no value at key exception
-                }
-                break;
-            case "boolean":
-                if (!myArgs.get(s).myValue.equals("")) {
-                    return (T) new Boolean(Boolean.parseBoolean(myArgs.get(s).myValue));
-                } else {
-                    //throws no value at key exception
-                }
-                break;
+        if (myArgs.get(s).dataType.equals("String")) {
+            return (T) myArgs.get(s).myValue;
+        } else if (myArgs.get(s).dataType.equals("int")) {
+            return (T) new Integer(Integer.parseInt(myArgs.get(s).myValue));
+        } else if (myArgs.get(s).dataType.equals("float")) {
+            return (T) new Float(Float.parseFloat(myArgs.get(s).myValue));
+        } else if (myArgs.get(s).dataType.equals("boolean")) {
+            return (T) new Boolean(Boolean.parseBoolean(myArgs.get(s).myValue));
+        } else {
+            return null;
         }
-    return null;
     }
     
     public String getArgumentDescription(String s) {
