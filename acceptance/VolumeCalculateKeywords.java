@@ -26,31 +26,31 @@ public class VolumeCalculateKeywords{
     }
     
     public String getLengths(){
-        return Integer.toString(ap.getIntValue("length"));
+        return Integer.toString((int) ap.getValue("length"));
     }
 
     public String getWidths(){
-        return Integer.toString(ap.getIntValue("width"));
+        return Integer.toString((int) ap.getValue("width"));
     }
 
     public String getHeights(){
-        return Integer.toString(ap.getIntValue("height"));
+        return Integer.toString((int) ap.getValue("height"));
     }
     
     public String getPet(){
-        return ap.getStringValue("pet");
+        return ap.getValue("pet");
     }
     
     public String getNumber(){
-        return Integer.toString(ap.getIntValue("number"));
+        return Integer.toString((int) ap.getValue("number"));
     }
     
     public String getRainy(){
-        return Boolean.toString(ap.getBooleanValue("rainy"));
+        return Boolean.toString((boolean) ap.getValue("rainy"));
     }
     
     public String getBathrooms(){
-        return Float.toString(ap.getFloatValue("bathrooms"));
+        return Float.toString((float) ap.getValue("bathrooms"));
     }
 
 }
