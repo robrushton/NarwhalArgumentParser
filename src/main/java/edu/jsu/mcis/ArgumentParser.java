@@ -4,80 +4,101 @@ import java.util.*;
 
 
 public class ArgumentParser { 
-    private Map<String, Argument> myArgs = new HashMap<>();
+private Map<String, Argument> myArgs = new HashMap<>();
     private ArrayList<String> keys = new ArrayList<>();
     private Map<String, String> nicknames = new HashMap<>();
     private String programDescription = "";
     private Map<String, Boolean> flags = new HashMap<>();
     
-    public void parse(String[] userInput) {
+    public void parse(String[] args) {
+        Queue<String> userInputQueue = new LinkedList<>();
+        convertArrayToQueue(args, userInputQueue);
         int count = 0;
-        for (int i = 0; i < userInput.length; i++) {
-            if (isLongOptionalArgument(userInput, i)) {
-                if (myArgs.containsKey(userInput[i].substring(2))) {
-                    setOptionalArgument(userInput, i);
+        while (!userInputQueue.isEmpty()) {
+            String userInput = userInputQueue.poll();
+            if (isLongOptionalArgument(userInput)) {
+                if (isInputInKeys(userInput)) {
+                    setOptionalArgument(userInput, userInputQueue);
                 } else {
-                        //throw new invalidILongArgument();
+                    //throws new invalidLongArgument();
                 }
-                i++;
-            } else if (isShortOptionalArgument(userInput, i)) {
-                if (isHelpArgument(userInput[i])) {
+            } else if (isShortOptionalArgument(userInput)) {
+                if (isHelpArgument(userInput)) {
                     printHelpInfo();
-                } else if (isItAFlagArgument(userInput, i)) {
-                    flags.put(userInput[i].substring(1), true);
-                } else if (nicknames.containsKey(userInput[i].substring(1))) {
-                    setOptionalArgument(userInput, i, nicknames.get(userInput[i].substring(1)));
-                    i++;
+                } else if (isInputInFlags(userInput)) {
+                    flags.put(userInput.substring(1), Boolean.TRUE);
+                } else if (isInputInNicknames(userInput)) {
+                    setOptionalArgument(userInput, userInputQueue);
                 } else {
                     //throws new invalidShortArgument();
                 }
             } else {
-                setValue(keys.get(count), userInput[i]);
+                setValue(keys.get(count), userInput);
                 if (isDataTypeEqualTo("int", count)) {
                     try {
-                        Integer.parseInt(userInput[i]);
+                        Integer.parseInt(userInput);
                     } catch (java.lang.NumberFormatException e) {
                        //throw should be int exception
                     }
                 } else if (isDataTypeEqualTo("float", count)) {
                     try {
-                        Float.parseFloat(userInput[i]);
+                        Float.parseFloat(userInput);
                     } catch (java.lang.NumberFormatException e) {
                         //throw should be float exception
                     }
                 } else if (isDataTypeEqualTo("boolean", count)) {
-                    if (!isItAValidBoolean(userInput, i)) {
+                    if (!isItAValidBoolean(userInput)) {
                         //throw should be boolean exception
                     }
                 }
                 count++;
             }
+        }  
+    }
+    
+    private void convertArrayToQueue(String[] args, Queue<String> userInputQueue) {
+        userInputQueue.addAll(Arrays.asList(args));
+    }
+    
+    private boolean isInputInNicknames(String userInput) {
+        return nicknames.containsKey(userInput.substring(1));
+    }
+    
+    private boolean isInputInKeys(String userInput) {
+        return myArgs.containsKey(userInput.substring(2));
+    }
+    
+    private boolean isInputInFlags(String userInput) {
+        return flags.containsKey(userInput.substring(1));
+    }
+    
+    private boolean isItAValidBoolean(String userInput) {
+        return (userInput.equals("false") || userInput.equals("true") ||
+                userInput.equals("True") || userInput.equals("False"));
+    }
+    
+    private boolean isLongOptionalArgument(String userInput) {
+        return (userInput.startsWith("--"));
+    }
+    
+    private boolean isShortOptionalArgument(String userInput) {
+        return (userInput.startsWith("-"));
+    }
+       
+    private boolean isDataTypeEqualTo(String dataType, int count) {
+        return myArgs.get(keys.get(count)).dataType.equals(dataType);
+    }
+    
+    private void setOptionalArgument(String userInput, Queue<String> userInputQueue) {
+        if (nicknames.containsKey(userInput.substring(1))) {
+            myArgs.get(nicknames.get(userInput.substring(1))).myValue = userInputQueue.poll();
+        } else {
+            myArgs.get(userInput.substring(2)).myValue = userInputQueue.poll();
         }
     }
-    
-    private boolean isItAFlagArgument(String[] userInput, int i) {
-        return flags.containsKey(userInput[i].substring(1));
-    }
-    
-    private boolean isItAValidBoolean(String[] userInput, int index) {
-        return (userInput[index].equals("false") || userInput[index].equals("true") ||
-                userInput[index].equals("True") || userInput[index].equals("False"));
-    }
-    
-    private boolean isLongOptionalArgument(String[] userInput, int index) {
-        return (userInput[index].startsWith("--"));
-    }
-    
-    private boolean isShortOptionalArgument(String[] userInput, int index) {
-        return (userInput[index].startsWith("-"));
-    }
-    
-    private void setOptionalArgument(String[] userInput, int index) {
-        myArgs.get(userInput[index].substring(2)).myValue = userInput[index+1];
-    }
-    
-    private void setOptionalArgument(String[] userInput, int index, String key) {
-        myArgs.get(key).myValue = userInput[index+1];
+     
+    private boolean isHelpArgument(String s) {
+        return s.equals("-h");
     }
     
     public <T> T getValue(String s) {
@@ -112,6 +133,7 @@ public class ArgumentParser {
         nicknames.put(nickname, type);
         setNickname(type, nickname);
     }
+    
     private void printHelpInfo() {
         System.out.println("\nUsage Information:");
         for (String s : keys) {
@@ -150,14 +172,6 @@ public class ArgumentParser {
         myArgs.put(name, ao);
         keys.add(name);
         ao.dataType = dataType;
-    }
-    
-    private boolean isHelpArgument(String s) {
-        return s.equals("-h");
-    }
-    
-    private boolean isDataTypeEqualTo(String dataType, int count) {
-        return myArgs.get(keys.get(count)).dataType.equals(dataType);
     }
     
     public void setProgramDescription(String s) {
