@@ -19,6 +19,8 @@ public class ArgumentParser {
             if (isLongOptionalArgument(userInput)) {
                 if (isInputInKeys(userInput)) {
                     setOptionalArgument(userInput, userInputQueue);
+                } else if (isHelpArgument(userInput)) {
+                    printHelpInfo();
                 } else {
                     //throws new invalidLongArgument();
                 }
