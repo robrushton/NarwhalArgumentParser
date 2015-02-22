@@ -175,6 +175,10 @@ public class ArgumentParser {
     public void setProgramDescription(String s) {
         programDescription = s;
     }
+	
+	public String checkProgramDescription(String s){
+		return programDescription;
+	}
     
     public void addFlag(String s) {
         flags.put(s, Boolean.FALSE);

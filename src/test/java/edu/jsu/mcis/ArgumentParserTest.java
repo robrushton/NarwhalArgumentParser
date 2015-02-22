@@ -203,4 +203,12 @@ public class ArgumentParserTest {
         ap.parse(inp);
         assertTrue(ap.checkFlag("t"));
     }
+	@Test
+	public void testProgramDescription(){
+		ap.addArguments("DNR 1", "Testing the program", "boolean");
+		ap.setProgramDescription("Testing DNR");
+		String[] inp = {"the description"};
+		ap.parse(inp);
+		assertEquals("Testing DNR", ap.checkProgramDescription("Testing DNR"));
+	}
 }
