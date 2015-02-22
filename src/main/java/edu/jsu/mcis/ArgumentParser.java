@@ -9,6 +9,7 @@ public class ArgumentParser {
     private Map<String, String> nicknames = new HashMap<>();
     private String programDescription = "";
     private Map<String, Boolean> flags = new HashMap<>();
+    private int realArgCounter;
     
     public void parse(String[] args) {
         Queue<String> userInputQueue = new LinkedList<>();
@@ -122,24 +123,43 @@ public class ArgumentParser {
     
     public void addOptionalArgument(String type) {
         addArguments(type, "String");
+        realArgCounter--;
     }
     public void addOptionalArgument(String type, String defaultValue) {
         addArguments(type, "String");
         setValue(type, defaultValue);
+        realArgCounter--;
     }
     public void addOptionalArgument(String type, String defaultValue, String nickname) {
         addArguments(type, "String");
         setValue(type, defaultValue);
         nicknames.put(nickname, type);
         setNickname(type, nickname);
+        realArgCounter--;
     }
     
     private void printHelpInfo() {
-        System.out.println("\nUsage Information:");
-        for (String s : keys) {
-            if (!myArgs.get(s).myDescription.equals("")) {
-                System.out.println(s + " --- " + myArgs.get(s).myDescription);
+        int printLoopCount = 0;
+        String className = this.getClass().getName();
+        System.out.print("\nUsage Information: java " + className + " ");
+        for (String k : keys) {
+            if (printLoopCount < realArgCounter) {
+                System.out.print(k + " ");
             }
+            printLoopCount++;
+        }
+        System.out.println();
+        System.out.println(programDescription);
+        System.out.println();
+        System.out.println("Arguments: ");
+        printLoopCount = 0;
+        for (String s : keys) {
+            if (printLoopCount < realArgCounter) {
+                if (!myArgs.get(s).myDescription.equals("")) {
+                    System.out.println(s + ": " + myArgs.get(s).myDescription);
+                }
+            }
+            printLoopCount++;
         }
     }
     
@@ -164,6 +184,7 @@ public class ArgumentParser {
         keys.add(name);
         ao.myDescription = description;
         ao.dataType = dataType;
+        realArgCounter++;
     }
 	
     public void addArguments(String name, String dataType) 
@@ -172,6 +193,7 @@ public class ArgumentParser {
         myArgs.put(name, ao);
         keys.add(name);
         ao.dataType = dataType;
+        realArgCounter++;
     }
     
     public void setProgramDescription(String s) {
