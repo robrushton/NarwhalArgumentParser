@@ -1,9 +1,8 @@
 package edu.jsu.mcis;
-
 import java.util.*;
 
-
 public class ArgumentParser { 
+	
     private Map<String, Argument> myArgs = new HashMap<>();
     private ArrayList<String> keys = new ArrayList<>();
     private Map<String, String> nicknames = new HashMap<>();
@@ -121,7 +120,6 @@ public class ArgumentParser {
         return myArgs.get(s).myDescription;
     }
     
-    
     public void addOptionalArgument(String type) {
         addArguments(type, "String");
     }
@@ -159,8 +157,7 @@ public class ArgumentParser {
         myArgs.get(s).nickname = n;
     }
     
-    public void addArguments(String name, String description, String dataType) 
-	{
+    public void addArguments(String name, String description, String dataType) {
         Argument ao = new Argument();
         myArgs.put(name, ao);
         keys.add(name);
@@ -168,8 +165,7 @@ public class ArgumentParser {
         ao.dataType = dataType;
     }
 	
-    public void addArguments(String name, String dataType) 
-	{
+    public void addArguments(String name, String dataType) {
         Argument ao = new Argument();
         myArgs.put(name, ao);
         keys.add(name);
