@@ -6,9 +6,9 @@ public class VolumeCalculator {
     
     public static void main(String[] args) {
         ArgumentParser ap = new ArgumentParser();
-        ap.addArguments("pet", "String", "Length of the object");
-        ap.addArguments("number", "int", "Width of the object");
-        ap.addArguments("rainy", "boolean", "Height of the object");
+        ap.addArguments("pet", "String", "Its a pet");
+        ap.addArguments("number", "int", "some number");
+        ap.addArguments("rainy", "boolean", "is it rainy");
         ap.addArguments("bathrooms", "float", "Other thing");
         ap.addArguments("Length", "int", "Length of the object");
         ap.addArguments("Width", "int", "Width of the object");

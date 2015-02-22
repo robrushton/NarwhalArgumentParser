@@ -176,16 +176,6 @@ public class ArgumentParserTest {
     }
     
     @Test
-    public void testDashHPrintsHelp() {
-        ap.addArguments("Arg 1", "boolean", "This should be true");
-        ap.addArguments("Arg 2", "boolean", "This should be false");
-        ap.addArguments("Arg 3", "boolean", "This should be true");
-        ap.addOptionalArgument("type", "", "t");
-        String[] inp = {"-h"};
-        ap.parse(inp);
-    }
-    
-    @Test
     public void testFlagTrueBeginning() {
         ap.addArguments("Arg 1", "boolean", "This should be true");
         ap.addFlag("t");
@@ -220,5 +210,46 @@ public class ArgumentParserTest {
         String[] inp = {"the description"};
         ap.parse(inp);
         assertEquals("Testing DNR", ap.getProgramDescription());
+    }
+    
+    @Test
+    public void testEnterFloatWhenShouldBeInt() {
+        
+    }
+    
+    @Test
+    public void testEnterIntWhenShouldBeBoolean() {
+        
+    }
+    
+    @Test
+    public void testEnterStringWhenShouldBeFloat() {
+        
+    }
+    
+    @Test
+    public void testProductOwnerCallsForValueNotThatIsNotAnArgument() {
+        ap.addArguments("Length", "int");
+        String[] input = {"5"};
+        ap.parse(input);
+        
+        /*
+        
+        ap.getValue("Width");
+        Catch exception
+        
+        */
+    }
+    
+    @Test
+    public void testProductOwnerAddsArgumentWithInproperDataType() {
+        ap.addArguments("Length", "int");
+        
+        /*
+        ap.addArguments("Length", "type");
+        Catch exception
+        
+        */
+        
     }
 }

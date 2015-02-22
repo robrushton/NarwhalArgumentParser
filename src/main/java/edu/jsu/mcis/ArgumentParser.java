@@ -142,7 +142,6 @@ public class ArgumentParser {
     public void addOptionalArgument(String type) {
         OptionalArgument oa = new OptionalArgument();
         optionalArgs.put(type, oa);
-        numPositionalArgs--;
     }
     public void addOptionalArgument(String type, String defaultValue) {
         addOptionalArgument(type);
@@ -181,6 +180,7 @@ public class ArgumentParser {
             }
             printLoopCount++;
         }
+        System.exit(1);
     }
     
     private class PositionalArgument {
