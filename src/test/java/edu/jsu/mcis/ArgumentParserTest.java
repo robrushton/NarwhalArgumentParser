@@ -209,6 +209,6 @@ public class ArgumentParserTest {
 		ap.setProgramDescription("Testing DNR");
 		String[] inp = {"the description"};
 		ap.parse(inp);
-		assertEquals("Testing DNR", ap.checkProgramDescription("Testing DNR"));
+		assertEquals("Testing DNR", ap.checkProgramDescription());
 	}
 }

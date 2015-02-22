@@ -198,7 +198,7 @@ public class ArgumentParser {
         programDescription = s;
     }
 	
-	public String checkProgramDescription(String s){
+	public String checkProgramDescription(){
 		return programDescription;
 	}
     
