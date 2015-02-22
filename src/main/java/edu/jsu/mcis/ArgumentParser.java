@@ -3,12 +3,12 @@ import java.util.*;
 
 public class ArgumentParser { 
 	
-    private Map<String, Argument> myArgs = new HashMap<>();
-    private ArrayList<String> keys = new ArrayList<>();
+    private Map<String, PositionalArgument> positionalArgs = new LinkedHashMap<>();
+    private Map<String, OptionalArgument> optionalArgs = new HashMap<>();
+    private Map<String, Boolean> flagArgs = new HashMap<>();
     private Map<String, String> nicknames = new HashMap<>();
     private String programDescription = "";
-    private Map<String, Boolean> flags = new HashMap<>();
-    private int realArgCounter;
+    private int numPositionalArgs;
     
     public void parse(String[] args) {
         Queue<String> userInputQueue = new LinkedList<>();
@@ -17,7 +17,7 @@ public class ArgumentParser {
         while (!userInputQueue.isEmpty()) {
             String userInput = userInputQueue.poll();
             if (isLongOptionalArgument(userInput)) {
-                if (isInputInKeys(userInput)) {
+                if (checkIfOptionalArgument(userInput)) {
                     setOptionalArgument(userInput, userInputQueue);
                 } else if (isHelpArgument(userInput)) {
                     printHelpInfo();
@@ -27,15 +27,15 @@ public class ArgumentParser {
             } else if (isShortOptionalArgument(userInput)) {
                 if (isHelpArgument(userInput)) {
                     printHelpInfo();
-                } else if (isInputInFlags(userInput)) {
-                    flags.put(userInput.substring(1), Boolean.TRUE);
-                } else if (isInputInNicknames(userInput)) {
+                } else if (isItAFlag(userInput.substring(1))) {
+                    flagArgs.put(userInput.substring(1), Boolean.TRUE);
+                } else if (isItANickname(userInput.substring(1))) {
                     setOptionalArgument(userInput, userInputQueue);
                 } else {
                     //throws new invalidShortArgument();
                 }
             } else {
-                setValue(keys.get(count), userInput);
+                setValue((String) positionalArgs.keySet().toArray()[count], userInput);
                 if (isDataTypeEqualTo("int", count)) {
                     try {
                         Integer.parseInt(userInput);
@@ -62,16 +62,8 @@ public class ArgumentParser {
         userInputQueue.addAll(Arrays.asList(args));
     }
     
-    private boolean isInputInNicknames(String userInput) {
-        return nicknames.containsKey(userInput.substring(1));
-    }
-    
-    private boolean isInputInKeys(String userInput) {
-        return myArgs.containsKey(userInput.substring(2));
-    }
-    
-    private boolean isInputInFlags(String userInput) {
-        return flags.containsKey(userInput.substring(1));
+    private boolean checkIfOptionalArgument(String s) {
+        return optionalArgs.containsKey(s.substring(2));
     }
     
     private boolean isItAValidBoolean(String userInput) {
@@ -88,14 +80,14 @@ public class ArgumentParser {
     }
        
     private boolean isDataTypeEqualTo(String dataType, int count) {
-        return myArgs.get(keys.get(count)).dataType.equals(dataType);
+        return positionalArgs.get((String) positionalArgs.keySet().toArray()[count]).dataType.equals(dataType);
     }
     
     private void setOptionalArgument(String userInput, Queue<String> userInputQueue) {
         if (nicknames.containsKey(userInput.substring(1))) {
-            myArgs.get(nicknames.get(userInput.substring(1))).myValue = userInputQueue.poll();
+            optionalArgs.get(nicknames.get(userInput.substring(1))).value = userInputQueue.poll();
         } else {
-            myArgs.get(userInput.substring(2)).myValue = userInputQueue.poll();
+            optionalArgs.get(userInput.substring(2)).value = userInputQueue.poll();
         }
     }
      
@@ -103,47 +95,75 @@ public class ArgumentParser {
         return s.equals("-h") || s.equals("--Help");
     }
     
+    private void setValue(String s, String n) {
+        positionalArgs.get(s).myValue = n;
+    }
+    
     public <T> T getValue(String s) {
-        if (myArgs.get(s).dataType.equals("String")) {
-            return (T) myArgs.get(s).myValue;
-        } else if (myArgs.get(s).dataType.equals("int")) {
-            return (T) new Integer(Integer.parseInt(myArgs.get(s).myValue));
-        } else if (myArgs.get(s).dataType.equals("float")) {
-            return (T) new Float(Float.parseFloat(myArgs.get(s).myValue));
-        } else if (myArgs.get(s).dataType.equals("boolean")) {
-            return (T) new Boolean(Boolean.parseBoolean(myArgs.get(s).myValue));
-        } else {
-            return null;
+        if (isItAPositional(s)) {
+            if (positionalArgs.get(s).dataType.equals("String")) {
+                return (T) positionalArgs.get(s).myValue;
+            } else if (positionalArgs.get(s).dataType.equals("int")) {
+                return (T) new Integer(Integer.parseInt(positionalArgs.get(s).myValue));
+            } else if (positionalArgs.get(s).dataType.equals("float")) {
+                return (T) new Float(Float.parseFloat(positionalArgs.get(s).myValue));
+            } else if (positionalArgs.get(s).dataType.equals("boolean")) {
+                return (T) new Boolean(Boolean.parseBoolean(positionalArgs.get(s).myValue));
+            }
+        } else if (isItAnOptional(s)) {
+            return (T) optionalArgs.get(s).value;
+        } else if (isItAFlag(s)) {
+            return (T) flagArgs.get(s);
         }
+        //throws no argument called s exception
+        return null;
+    }
+    
+    private boolean isItAPositional(String s) {
+        return positionalArgs.containsKey(s);
+    }
+    
+    private boolean isItAnOptional(String s) {
+        return optionalArgs.containsKey(s);
+    }
+    
+    private boolean isItANickname(String userInput) {
+        return nicknames.containsKey(userInput);
+    }
+     
+    private boolean isItAFlag(String userInput) {
+        return flagArgs.containsKey(userInput);
     }
     
     public String getArgumentDescription(String s) {
-        return myArgs.get(s).myDescription;
+        return positionalArgs.get(s).myDescription;
     }
     
     public void addOptionalArgument(String type) {
-        addArguments(type, "String");
-        realArgCounter--;
+        OptionalArgument oa = new OptionalArgument();
+        optionalArgs.put(type, oa);
+        numPositionalArgs--;
     }
     public void addOptionalArgument(String type, String defaultValue) {
-        addArguments(type, "String");
-        setValue(type, defaultValue);
-        realArgCounter--;
+        addOptionalArgument(type);
+        optionalArgs.get(type).value = defaultValue;
     }
     public void addOptionalArgument(String type, String defaultValue, String nickname) {
-        addArguments(type, "String");
-        setValue(type, defaultValue);
+        addOptionalArgument(type, defaultValue);
         nicknames.put(nickname, type);
         setNickname(type, nickname);
-        realArgCounter--;
+    }
+    
+    private void setNickname(String s, String n) {
+        optionalArgs.get(s).nickname = n;
     }
     
     private void printHelpInfo() {
         int printLoopCount = 0;
         String className = this.getClass().getName();
         System.out.print("\nUsage Information: java " + className + " ");
-        for (String k : keys) {
-            if (printLoopCount < realArgCounter) {
+        for (String k : positionalArgs.keySet()) {
+            if (printLoopCount < numPositionalArgs) {
                 System.out.print(k + " ");
             }
             printLoopCount++;
@@ -153,60 +173,57 @@ public class ArgumentParser {
         System.out.println();
         System.out.println("Arguments: ");
         printLoopCount = 0;
-        for (String s : keys) {
-            if (printLoopCount < realArgCounter) {
-                if (!myArgs.get(s).myDescription.equals("")) {
-                    System.out.println(s + ": " + myArgs.get(s).myDescription);
+        for (String s : positionalArgs.keySet()) {
+            if (printLoopCount < numPositionalArgs) {
+                if (!positionalArgs.get(s).myDescription.equals("")) {
+                    System.out.println(s + ": " + positionalArgs.get(s).myDescription);
                 }
             }
             printLoopCount++;
         }
     }
     
-    private class Argument {
+    private class PositionalArgument {
         public String myDescription = "";
         public String myValue = "";
         public String dataType = "";
+    }
+    
+    private class OptionalArgument {
         public String nickname = "";
-    }
-    
-    private void setValue(String s, String n) {
-        myArgs.get(s).myValue = n;
-    }
-    private void setNickname(String s, String n) {
-        myArgs.get(s).nickname = n;
-    }
-    
-    public void addArguments(String name, String description, String dataType) {
-        Argument ao = new Argument();
-        myArgs.put(name, ao);
-        keys.add(name);
-        ao.myDescription = description;
-        ao.dataType = dataType;
-        realArgCounter++;
+        public String value = "";
     }
 	
     public void addArguments(String name, String dataType) {
-        Argument ao = new Argument();
-        myArgs.put(name, ao);
-        keys.add(name);
-        ao.dataType = dataType;
-        realArgCounter++;
+        PositionalArgument ao = new PositionalArgument();
+        positionalArgs.put(name, ao);
+        if (isProperDataType(dataType)) {
+            ao.dataType = dataType;
+        } else {
+            ao.dataType = "String";
+            //throws inproper datatype exception
+        }
+        numPositionalArgs++;
+    }
+    
+    private boolean isProperDataType(String dt) {
+        return dt.equals("String") || dt.equals("int") || dt.equals("float") || dt.equals("boolean");
+    }
+    
+    public void addArguments(String name, String dataType, String description) {
+        addArguments(name, dataType);
+        positionalArgs.get(name).myDescription = description;
     }
     
     public void setProgramDescription(String s) {
         programDescription = s;
     }
 	
-	public String checkProgramDescription(){
-		return programDescription;
-	}
-    
-    public void addFlag(String s) {
-        flags.put(s, Boolean.FALSE);
+    public String getProgramDescription(){
+        return programDescription;
     }
     
-    public boolean checkFlag(String s) {
-        return flags.get(s).booleanValue();
+    public void addFlag(String s) {
+        flagArgs.put(s, Boolean.FALSE);
     }
 }

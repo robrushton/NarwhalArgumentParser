@@ -4,16 +4,16 @@ import org.junit.*;
 import static org.junit.Assert.*;
 
 public class ArgumentParserTest {
-	private ArgumentParser ap;
+    private ArgumentParser ap;
 	
     @Before
-	public void startArgumentParser(){
-		 ap = new ArgumentParser();
-	}
+    public void startArgumentParser(){
+        ap = new ArgumentParser();
+    }
 	
     @Test
     public void testGetDescriptionValue() {
-		ap.addArguments("testString", "It's a string thing", "String");
+    ap.addArguments("testString", "String", "It's a string thing");
         assertEquals("It's a string thing", ap.getArgumentDescription("testString"));
     }
 	
@@ -37,9 +37,9 @@ public class ArgumentParserTest {
         String one = "Test Name 1";
         String two = "Test Name 2";
         String three = "Test Name 3";
-        ap.addArguments(one, "It's a string thing", "String");
-        ap.addArguments(two, "It's an int!", "int");
-        ap.addArguments(three, "It is a bool", "boolean");
+        ap.addArguments(one, "String", "It's a string thing");
+        ap.addArguments(two, "int", "It's an int!");
+        ap.addArguments(three, "boolean", "It is a bool");
         String[] myStringArray = {"Hello","5","True"};
         ap.parse(myStringArray);
         assertEquals("Hello", (String) ap.getValue(one));
@@ -56,10 +56,10 @@ public class ArgumentParserTest {
         String two = "Width";
         String three = "Height";
         String four = "Name";
-        ap.addArguments(one, "Length of the object", "float");
-        ap.addArguments(two, "Width of the object", "boolean");
-        ap.addArguments(three, "Height of the object", "int");
-        ap.addArguments(four, "Name of object", "String");
+        ap.addArguments(one, "float", "Length of the object");
+        ap.addArguments(two, "boolean", "Width of the object");
+        ap.addArguments(three, "int", "Height of the object");
+        ap.addArguments(four, "String", "Name of object");
         String[] args = {"12.34", "False", "7", "Fred"};
         ap.parse(args);
         assertEquals(12.34, (float) ap.getValue(one), 0.01);
@@ -70,15 +70,24 @@ public class ArgumentParserTest {
    
     @Test
     public void testOptionalArgumentDefaultValue() {
-        ap.addArguments("thing", "Length of the object", "float");
+        ap.addArguments("thing", "float", "Length of the object");
         ap.addOptionalArgument("stuff", "5");
         assertEquals("5", (String) ap.getValue("stuff"));
+    }
+    
+    @Test
+    public void testOptionalArgumentDefaultValueBeingChanged() {
+        ap.addArguments("thing", "float", "Length of the object");
+        ap.addOptionalArgument("stuff", "5");
+        String[] inp = {"--stuff", "10"};
+        ap.parse(inp);
+        assertEquals("10", (String) ap.getValue("stuff"));
         
-    }    
+    }  
     
     @Test
     public void testSingleArgumentNoDefaultValue() {
-        ap.addArguments("thing", "Length of the object", "float");
+        ap.addArguments("thing", "float", "Length of the object");
         ap.addOptionalArgument("stuff");
         String[] inp = {"--stuff", "5"};
         ap.parse(inp);
@@ -88,9 +97,9 @@ public class ArgumentParserTest {
     
     @Test
     public void testBooleanMultipleTimesTrueAndFalse() {
-        ap.addArguments("Arg 1", "This should be true", "boolean");
-        ap.addArguments("Arg 2", "This should be false", "boolean");
-        ap.addArguments("Arg 3", "This should be true", "boolean");
+        ap.addArguments("Arg 1", "boolean", "This should be true");
+        ap.addArguments("Arg 2", "boolean", "This should be false");
+        ap.addArguments("Arg 3", "boolean", "This should be true");
         String[] args = {"true", "false", "true"};
         ap.parse(args);
         assertEquals(true, (boolean) ap.getValue("Arg 1"));
@@ -100,7 +109,7 @@ public class ArgumentParserTest {
     
     @Test
     public void testShortOptionalArgumentForLongName() {
-        ap.addArguments("Length", "Length of the object", "int");
+        ap.addArguments("Length", "int", "Length of the object");
         ap.addOptionalArgument("type", " ", "t");
         String[] inp = {"-t", "circle", "5"};
         ap.parse(inp);
@@ -109,9 +118,9 @@ public class ArgumentParserTest {
     
     @Test
     public void testMultipleShortOptionalArgumentForLongName() {
-        ap.addArguments("Length", "Length of the object", "int");
-        ap.addArguments("Width", "Width of the object", "int");
-        ap.addArguments("Height", "Height of the object", "int");
+        ap.addArguments("Length", "int", "Length of the object");
+        ap.addArguments("Width", "int", "Width of the object");
+        ap.addArguments("Height", "int", "Height of the object");
         ap.addOptionalArgument("type", " ", "t");
         ap.addOptionalArgument("color", " ", "c");
         String[] inp = {"-t", "circle", "5", "-c", "red", "7", "10"};
@@ -122,9 +131,9 @@ public class ArgumentParserTest {
     
     @Test
     public void testOneShortOptionalArgumentForLongNameAndOneLong() {
-        ap.addArguments("Length", "Length of the object", "int");
-        ap.addArguments("Width", "Width of the object", "int");
-        ap.addArguments("Height", "Height of the object", "int");
+        ap.addArguments("Length", "int", "Length of the object");
+        ap.addArguments("Width", "int", "Width of the object");
+        ap.addArguments("Height", "int", "Height of the object");
         ap.addOptionalArgument("type", " ", "t");
         ap.addOptionalArgument("color", " ", "c");
         String[] inp = {"-t", "circle", "5", "--color", "red", "7", "10"};
@@ -135,9 +144,9 @@ public class ArgumentParserTest {
     
     @Test
     public void testDashDashFront() {
-        ap.addArguments("Arg 1", "This should be true", "boolean");
-        ap.addArguments("Arg 2", "This should be false", "boolean");
-        ap.addArguments("Arg 3", "This should be true", "boolean");
+        ap.addArguments("Arg 1", "boolean", "This should be true");
+        ap.addArguments("Arg 2", "boolean", "This should be false");
+        ap.addArguments("Arg 3", "boolean", "This should be true");
         ap.addOptionalArgument("stuff", "5");
         String[] inp = {"--stuff", "4", "true", "false", "true"};
         ap.parse(inp);
@@ -146,9 +155,9 @@ public class ArgumentParserTest {
     
     @Test
     public void testDashDashMiddle() {
-        ap.addArguments("Arg 1", "This should be true", "boolean");
-        ap.addArguments("Arg 2", "This should be false", "boolean");
-        ap.addArguments("Arg 3", "This should be true", "boolean");
+        ap.addArguments("Arg 1", "boolean", "This should be true");
+        ap.addArguments("Arg 2", "boolean", "This should be false");
+        ap.addArguments("Arg 3", "boolean", "This should be true");
         ap.addOptionalArgument("stuff", "5");
         String[] inp = { "true", "false", "--stuff", "4", "true"};
         ap.parse(inp);
@@ -157,9 +166,9 @@ public class ArgumentParserTest {
     
     @Test
     public void testDashDashEnd() {
-        ap.addArguments("Arg 1", "This should be true", "boolean");
-        ap.addArguments("Arg 2", "This should be false", "boolean");
-        ap.addArguments("Arg 3", "This should be true", "boolean");
+        ap.addArguments("Arg 1", "boolean", "This should be true");
+        ap.addArguments("Arg 2", "boolean", "This should be false");
+        ap.addArguments("Arg 3", "boolean", "This should be true");
         ap.addOptionalArgument("stuff", "5");
         String[] inp = {"true", "false", "true", "--stuff", "4"};
         ap.parse(inp);
@@ -168,9 +177,9 @@ public class ArgumentParserTest {
     
     @Test
     public void testDashHPrintsHelp() {
-        ap.addArguments("Arg 1", "This should be true", "boolean");
-        ap.addArguments("Arg 2", "This should be false", "boolean");
-        ap.addArguments("Arg 3", "This should be true", "boolean");
+        ap.addArguments("Arg 1", "boolean", "This should be true");
+        ap.addArguments("Arg 2", "boolean", "This should be false");
+        ap.addArguments("Arg 3", "boolean", "This should be true");
         ap.addOptionalArgument("type", "", "t");
         String[] inp = {"-h"};
         ap.parse(inp);
@@ -178,37 +187,38 @@ public class ArgumentParserTest {
     
     @Test
     public void testFlagTrueBeginning() {
-        ap.addArguments("Arg 1", "This should be true", "boolean");
+        ap.addArguments("Arg 1", "boolean", "This should be true");
         ap.addFlag("t");
         String[] inp = {"-t"};
         ap.parse(inp);
-        assertTrue(ap.checkFlag("t"));
+        assertEquals(true, ap.getValue("t"));
     }
     
     @Test
     public void testFlagFalseBeginning() {
         ap.addFlag("t");
-        ap.addArguments("Arg 1", "This should be true", "boolean");
+        ap.addArguments("Arg 1", "boolean", "This should be true");
         String[] inp = {"true"};
         ap.parse(inp);
-        assertFalse(ap.checkFlag("t"));
+        assertEquals(false, ap.getValue("t"));
     }
     
     @Test
     public void testFlagTrueMiddle() {
-        ap.addArguments("Arg 1", "Test argument as well", "boolean");
-        ap.addArguments("Arg 2", "Test argument", "boolean");
+        ap.addArguments("Arg 1", "boolean", "Test argument as well");
+        ap.addArguments("Arg 2", "boolean", "Test argument");
         ap.addFlag("t");
         String[] inp = {"true","-t","false"};
         ap.parse(inp);
-        assertTrue(ap.checkFlag("t"));
+        assertEquals(true, ap.getValue("t"));
     }
-	@Test
-	public void testProgramDescription(){
-		ap.addArguments("DNR 1", "Testing the program", "boolean");
-		ap.setProgramDescription("Testing DNR");
-		String[] inp = {"the description"};
-		ap.parse(inp);
-		assertEquals("Testing DNR", ap.checkProgramDescription());
-	}
+    
+    @Test
+    public void testProgramDescription(){
+        ap.addArguments("DNR 1", "boolean", "Testing the program");
+        ap.setProgramDescription("Testing DNR");
+        String[] inp = {"the description"};
+        ap.parse(inp);
+        assertEquals("Testing DNR", ap.getProgramDescription());
+    }
 }

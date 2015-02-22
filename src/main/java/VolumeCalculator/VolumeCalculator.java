@@ -6,13 +6,13 @@ public class VolumeCalculator {
     
     public static void main(String[] args) {
         ArgumentParser ap = new ArgumentParser();
-        ap.addArguments("pet", "Length of the object", "String");
-        ap.addArguments("number", "Width of the object", "int");
-        ap.addArguments("rainy", "Height of the object", "boolean");
-        ap.addArguments("bathrooms", "Other thing", "float");
-        ap.addArguments("Length", "Length of the object", "int");
-        ap.addArguments("Width", "Width of the object", "int");
-        ap.addArguments("Height", "Height of the object", "int");
+        ap.addArguments("pet", "String", "Length of the object");
+        ap.addArguments("number", "int", "Width of the object");
+        ap.addArguments("rainy", "boolean", "Height of the object");
+        ap.addArguments("bathrooms", "float", "Other thing");
+        ap.addArguments("Length", "int", "Length of the object");
+        ap.addArguments("Width", "int", "Width of the object");
+        ap.addArguments("Height", "int", "Height of the object");
         ap.addOptionalArgument("Type", " ", "t");
         ap.addOptionalArgument("Color");
         ap.addFlag("x");
@@ -31,7 +31,7 @@ public class VolumeCalculator {
         
         System.out.println(one + " " + two +  " " + three + " " + four + " " + optionalValue);
         System.out.println("Volume of object is: " + (l * w * h));
-        System.out.println("x is " + ap.checkFlag("x"));
-        System.out.println("w is " + ap.checkFlag("w"));
+        System.out.println("x is " + ap.getValue("x"));
+        System.out.println("w is " + ap.getValue("w"));
     }
 }

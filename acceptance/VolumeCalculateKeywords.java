@@ -10,18 +10,18 @@ public class VolumeCalculateKeywords{
     
     public void initializeFirstTest() {
         String[] args = {"dog", "2", "true", "3.5"};
-        ap.addArguments("pet", "It's a pet", "String");
-        ap.addArguments("number", "It's a number", "int");
-        ap.addArguments("rainy", "Is it raining", "boolean");
-        ap.addArguments("bathrooms", "how many bathrooms", "float");
+        ap.addArguments("pet", "String", "It's a pet");
+        ap.addArguments("number", "int", "It's a number");
+        ap.addArguments("rainy", "boolean", "Is it raining");
+        ap.addArguments("bathrooms", "float", "how many bathrooms");
         ap.parse(args);
     }
     
     public void initializeSecondTest() {
         String[] args = {"7","5","2"};
-        ap.addArguments("length", "Length of the object", "int");
-        ap.addArguments("width", "Width of the object", "int");
-        ap.addArguments("height", "Height of the object", "int");
+        ap.addArguments("length", "int", "Length of the object");
+        ap.addArguments("width", "int", "Width of the object");
+        ap.addArguments("height", "int", "Height of the object");
         ap.parse(args);
     }
     
