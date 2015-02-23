@@ -14,7 +14,7 @@ public class ArgumentParser {
     public void parse(String[] args) {
         Queue<String> userInputQueue = new LinkedList<>();
         convertArrayToQueue(args, userInputQueue);
-        int count = 0;
+        int positionalArgsPlaced = 0;
         while (!userInputQueue.isEmpty()) {
             String userInput = userInputQueue.poll();
             if (isLongOptionalArgument(userInput)) {
@@ -36,31 +36,42 @@ public class ArgumentParser {
                     throw new InvalidShortArgumentException();
                 }
             } else {
-                if (positionalArgs.size() >= count) {
-                    setValue((String) positionalArgs.keySet().toArray()[count], userInput);
-                    if (isDataTypeEqualTo("int", count)) {
+                if (isItTooManyArgs(positionalArgsPlaced)) {
+                    setValue((String) positionalArgs.keySet().toArray()[positionalArgsPlaced], userInput);
+                    if (isDataTypeEqualTo("int", positionalArgsPlaced)) {
                         try {
                             Integer.parseInt(userInput);
                         } catch (java.lang.NumberFormatException e) {
                            //throw should be int exception
                         }
-                    } else if (isDataTypeEqualTo("float", count)) {
+                    } else if (isDataTypeEqualTo("float", positionalArgsPlaced)) {
                         try {
                             Float.parseFloat(userInput);
                         } catch (java.lang.NumberFormatException e) {
                             //throw should be float exception
                         }
-                    } else if (isDataTypeEqualTo("boolean", count)) {
+                    } else if (isDataTypeEqualTo("boolean", positionalArgsPlaced)) {
                         if (!isItAValidBoolean(userInput)) {
                             //throw should be boolean exception
                         }
                     }
-                    count++;
+                    positionalArgsPlaced++;
                 } else {
                     //throws exception for giving too many positional arguments
                 }
             }
+            if (notGivenEnoughPositionalArgs(positionalArgsPlaced)) {
+                //throws new not enough positional args given exception
+            }
         }  
+    }
+    
+    private boolean notGivenEnoughPositionalArgs(int given) {
+        return positionalArgs.size() != given;
+    }
+    
+    private boolean isItTooManyArgs(int given) {
+        return positionalArgs.size() >= given;
     }
     
     private boolean isItAFlagLong(String userInput) {

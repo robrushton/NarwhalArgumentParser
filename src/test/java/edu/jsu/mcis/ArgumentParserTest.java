@@ -329,6 +329,16 @@ public class ArgumentParserTest {
     }
     
     @Test
+    public void testUserEntersTooManyPositionalArguments() {
+        
+    }
+    
+    @Test
+    public void testNotEnoughPositionalArgsGiven() {
+        
+    }
+    
+    @Test
     public void testProductOwnerCallsForValueNotThatIsNotAnArgument() {
         ap.addArguments("Length", "int");
         String[] inp = {"5"};
