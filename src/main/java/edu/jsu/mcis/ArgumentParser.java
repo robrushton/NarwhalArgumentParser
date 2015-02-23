@@ -11,7 +11,7 @@ public class ArgumentParser {
     private String programName = "";
     private int numPositionalArgs;
     
-    public void parse(String[] args) throws InvalidLongArgumentException, InvalidShortArgumentException{
+    public void parse(String[] args) {
         Queue<String> userInputQueue = new LinkedList<>();
         convertArrayToQueue(args, userInputQueue);
         int count = 0;
