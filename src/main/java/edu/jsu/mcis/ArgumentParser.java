@@ -193,7 +193,7 @@ public class ArgumentParser {
             }
             printLoopCount++;
         }
-        System.exit(1);
+        System.exit(0);
     }
     
     private class PositionalArgument {
@@ -240,13 +240,11 @@ public class ArgumentParser {
         flagArgs.put(s, Boolean.FALSE);
     }
     
-    public class InvalidLongArgumentException extends Exception
-    {
+    public class InvalidLongArgumentException extends RuntimeException {
         
     }
     
-        public class InvalidShortArgumentException extends Exception
-    {
+    public class InvalidShortArgumentException extends RuntimeException {
         
     }
     

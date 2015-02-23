@@ -19,11 +19,8 @@ public class ArgumentParserTest {
         ap.addArguments(one, "String");
         ap.addArguments(two, "int");
         ap.addArguments(three, "boolean");
-        String[] myStringArray = {"Hello","5","true"};
-        try{       
-            ap.parse(myStringArray);
-        }catch(ArgumentParser.InvalidLongArgumentException e){
-        }catch(ArgumentParser.InvalidShortArgumentException e){}
+        String[] inp = {"Hello","5","true"};
+        ap.parse(inp);
         assertEquals("Hello", (String) ap.getValue(one));
         assertEquals(5, (int) ap.getValue(two));
         assertEquals(true, (boolean) ap.getValue(three));
@@ -37,11 +34,8 @@ public class ArgumentParserTest {
         ap.addArguments(one, "String", "It's a string thing");
         ap.addArguments(two, "int", "It's an int!");
         ap.addArguments(three, "boolean", "It is a bool");
-        String[] myStringArray = {"Hello","5","True"};
-        try{       
-            ap.parse(myStringArray);
-        }catch(ArgumentParser.InvalidLongArgumentException e){}
-        catch(ArgumentParser.InvalidShortArgumentException e){}
+        String[] inp = {"Hello","5","True"};
+        ap.parse(inp);
         assertEquals("Hello", (String) ap.getValue(one));
         assertEquals(5, (int) ap.getValue(two));
         assertEquals(true, (boolean) ap.getValue(three));
@@ -57,11 +51,8 @@ public class ArgumentParserTest {
         ap.addArguments(two, "boolean", "Width of the object");
         ap.addArguments(three, "int", "Height of the object");
         ap.addArguments(four, "String", "Name of object");
-        String[] args = {"12.34", "False", "7", "Fred"};
-        try{       
-            ap.parse(args);
-        }catch(ArgumentParser.InvalidLongArgumentException e){}
-        catch(ArgumentParser.InvalidShortArgumentException e){}
+        String[] inp = {"12.34", "False", "7", "Fred"};
+        ap.parse(inp);
         assertEquals(12.34, (float) ap.getValue(one), 0.01);
         assertEquals(false, (boolean) ap.getValue(two));
         assertEquals(7, (int) ap.getValue(three));
@@ -80,11 +71,8 @@ public class ArgumentParserTest {
         ap.addArguments(four, "String", "Name of object");
         ap.setProgramDescription("This program prints arguments");
         ap.setProgramName("ArgumentPrinter");
-        String[] args = {"12.34", "False", "7", "Fred"};
-        try{       
-            ap.parse(args);
-        }catch(ArgumentParser.InvalidLongArgumentException e){}
-        catch(ArgumentParser.InvalidShortArgumentException e){}
+        String[] inp = {"12.34", "False", "7", "Fred"};
+        ap.parse(inp);
         assertEquals(12.34, (float) ap.getValue(one), 0.01);
         assertEquals(false, (boolean) ap.getValue(two));
         assertEquals(7, (int) ap.getValue(three));
@@ -104,10 +92,7 @@ public class ArgumentParserTest {
         ap.addArguments("thing", "float", "Length of the object");
         ap.addOptionalArgument("stuff", "5");
         String[] inp = {"--stuff", "10"};
-        try{       
-            ap.parse(inp);
-        }catch(ArgumentParser.InvalidLongArgumentException e){}
-        catch(ArgumentParser.InvalidShortArgumentException e){}
+        ap.parse(inp);
         assertEquals("10", (String) ap.getValue("stuff"));
         
     }  
@@ -117,10 +102,7 @@ public class ArgumentParserTest {
         ap.addArguments("thing", "float", "Length of the object");
         ap.addOptionalArgument("stuff");
         String[] inp = {"--stuff", "5"};
-        try{       
-            ap.parse(inp);
-        }catch(ArgumentParser.InvalidLongArgumentException e){}
-        catch(ArgumentParser.InvalidShortArgumentException e){}
+        ap.parse(inp);
         assertEquals("5", (String) ap.getValue("stuff"));
         
     }
@@ -130,11 +112,8 @@ public class ArgumentParserTest {
         ap.addArguments("Arg 1", "boolean", "This should be true");
         ap.addArguments("Arg 2", "boolean", "This should be false");
         ap.addArguments("Arg 3", "boolean", "This should be true");
-        String[] args = {"true", "false", "true"};
-        try{       
-            ap.parse(args);
-        }catch(ArgumentParser.InvalidLongArgumentException e){}
-        catch(ArgumentParser.InvalidShortArgumentException e){}
+        String[] inp = {"true", "false", "true"};
+        ap.parse(inp);
         assertEquals(true, (boolean) ap.getValue("Arg 1"));
         assertEquals(false, (boolean) ap.getValue("Arg 2"));
         assertEquals(true, (boolean) ap.getValue("Arg 3"));  
@@ -145,10 +124,7 @@ public class ArgumentParserTest {
         ap.addArguments("Length", "int", "Length of the object");
         ap.addOptionalArgument("type", " ", "t");
         String[] inp = {"-t", "circle", "5"};
-        try{       
-            ap.parse(inp);
-        }catch(ArgumentParser.InvalidLongArgumentException e){}
-        catch(ArgumentParser.InvalidShortArgumentException e){}
+        ap.parse(inp);
         assertEquals("circle", (String) ap.getValue("type")); 
     }
     
@@ -160,10 +136,7 @@ public class ArgumentParserTest {
         ap.addOptionalArgument("type", " ", "t");
         ap.addOptionalArgument("color", " ", "c");
         String[] inp = {"-t", "circle", "5", "-c", "red", "7", "10"};
-        try{       
-            ap.parse(inp);
-        }catch(ArgumentParser.InvalidLongArgumentException e){}
-        catch(ArgumentParser.InvalidShortArgumentException e){}
+        ap.parse(inp);
         assertEquals("circle", (String) ap.getValue("type")); 
         assertEquals("red", (String) ap.getValue("color"));
     }
@@ -176,10 +149,7 @@ public class ArgumentParserTest {
         ap.addOptionalArgument("type", " ", "t");
         ap.addOptionalArgument("color", " ", "c");
         String[] inp = {"-t", "circle", "5", "--color", "red", "7", "10"};
-        try{       
-            ap.parse(inp);
-        }catch(ArgumentParser.InvalidLongArgumentException e){}
-        catch(ArgumentParser.InvalidShortArgumentException e){}
+        ap.parse(inp);
         assertEquals("circle", (String) ap.getValue("type")); 
         assertEquals("red", (String) ap.getValue("color"));
     }
@@ -191,10 +161,7 @@ public class ArgumentParserTest {
         ap.addArguments("Arg 3", "boolean", "This should be true");
         ap.addOptionalArgument("stuff", "5");
         String[] inp = {"--stuff", "4", "true", "false", "true"};
-        try{       
-            ap.parse(inp);
-        }catch(ArgumentParser.InvalidLongArgumentException e){}
-        catch(ArgumentParser.InvalidShortArgumentException e){}
+        ap.parse(inp);
         assertEquals("4", (String) ap.getValue("stuff"));
     }  
     
@@ -205,10 +172,7 @@ public class ArgumentParserTest {
         ap.addArguments("Arg 3", "boolean", "This should be true");
         ap.addOptionalArgument("stuff", "5");
         String[] inp = { "true", "false", "--stuff", "4", "true"};
-        try{       
-            ap.parse(inp);
-        }catch(ArgumentParser.InvalidLongArgumentException e){}
-        catch(ArgumentParser.InvalidShortArgumentException e){}
+        ap.parse(inp);
         assertEquals("4", (String) ap.getValue("stuff"));
     }  
     
@@ -219,10 +183,7 @@ public class ArgumentParserTest {
         ap.addArguments("Arg 3", "boolean", "This should be true");
         ap.addOptionalArgument("stuff", "5");
         String[] inp = {"true", "false", "true", "--stuff", "4"};
-        try{       
-            ap.parse(inp);
-        }catch(ArgumentParser.InvalidLongArgumentException e){}
-        catch(ArgumentParser.InvalidShortArgumentException e){}
+        ap.parse(inp);
         assertEquals("4", (String) ap.getValue("stuff"));
     }
     
@@ -231,10 +192,7 @@ public class ArgumentParserTest {
         ap.addArguments("Arg 1", "boolean", "This should be true");
         ap.addFlag("t");
         String[] inp = {"-t"};
-        try{       
-            ap.parse(inp);
-        }catch(ArgumentParser.InvalidLongArgumentException e){}
-        catch(ArgumentParser.InvalidShortArgumentException e){}
+        ap.parse(inp);
         assertEquals(true, ap.getValue("t"));
     }
     
@@ -243,10 +201,7 @@ public class ArgumentParserTest {
         ap.addFlag("t");
         ap.addArguments("Arg 1", "boolean", "This should be true");
         String[] inp = {"true"};
-        try{       
-            ap.parse(inp);
-        }catch(ArgumentParser.InvalidLongArgumentException e){}
-        catch(ArgumentParser.InvalidShortArgumentException e){}
+        ap.parse(inp);
         assertEquals(false, ap.getValue("t"));
     }
     
@@ -256,10 +211,7 @@ public class ArgumentParserTest {
         ap.addArguments("Arg 2", "boolean", "Test argument");
         ap.addFlag("t");
         String[] inp = {"true","-t","false"};
-        try{       
-            ap.parse(inp);
-        }catch(ArgumentParser.InvalidLongArgumentException e){}
-        catch(ArgumentParser.InvalidShortArgumentException e){}
+        ap.parse(inp);
         assertEquals(true, ap.getValue("t"));
     }
     
@@ -270,10 +222,7 @@ public class ArgumentParserTest {
         ap.addFlag("t");
         ap.addFlag("r");
         String[] inp = {"true","-t","false", "-r"};
-        try{       
-            ap.parse(inp);
-        }catch(ArgumentParser.InvalidLongArgumentException e){}
-        catch(ArgumentParser.InvalidShortArgumentException e){}
+        ap.parse(inp);
         assertEquals(true, ap.getValue("t"));
         assertEquals(true, ap.getValue("r"));
     }
@@ -285,10 +234,7 @@ public class ArgumentParserTest {
         ap.addFlag("t");
         ap.addFlag("r");
         String[] inp = {"true","-t","false"};
-        try{       
-            ap.parse(inp);
-        }catch(ArgumentParser.InvalidLongArgumentException e){}
-catch(ArgumentParser.InvalidShortArgumentException e){}        
+        ap.parse(inp);        
         assertEquals(true, ap.getValue("t"));
         assertEquals(false, ap.getValue("r"));
     }
@@ -300,10 +246,7 @@ catch(ArgumentParser.InvalidShortArgumentException e){}
         ap.addFlag("t");
         ap.addFlag("r");
         String[] inp = {"true","-tr","false"};
-        try{       
-            ap.parse(inp);
-        }catch(ArgumentParser.InvalidLongArgumentException e){}
-        catch(ArgumentParser.InvalidShortArgumentException e){}
+        ap.parse(inp);
         assertEquals(true, ap.getValue("t"));
         assertEquals(true, ap.getValue("r"));
     }
@@ -317,10 +260,7 @@ catch(ArgumentParser.InvalidShortArgumentException e){}
         ap.addFlag("n");
         ap.addFlag("e");
         String[] inp = {"true","-ke","false","-na"};
-        try{       
-            ap.parse(inp);
-        }catch(ArgumentParser.InvalidLongArgumentException e){}
-        catch(ArgumentParser.InvalidShortArgumentException e){}
+        ap.parse(inp);
         assertEquals(true, ap.getValue("k"));
         assertEquals(true, ap.getValue("a"));
         assertEquals(true, ap.getValue("n"));
@@ -336,10 +276,7 @@ catch(ArgumentParser.InvalidShortArgumentException e){}
         ap.addFlag("n");
         ap.addFlag("e");
         String[] inp = {"true","-ke","false","-a"};
-        try{       
-            ap.parse(inp);
-        }catch(ArgumentParser.InvalidLongArgumentException e){}
-        catch(ArgumentParser.InvalidShortArgumentException e){}
+        ap.parse(inp);
         assertEquals(true, ap.getValue("k"));
         assertEquals(true, ap.getValue("a"));
         assertEquals(false, ap.getValue("n"));
@@ -355,10 +292,7 @@ catch(ArgumentParser.InvalidShortArgumentException e){}
         ap.addFlag("n");
         ap.addFlag("e");
         String[] inp = {"true","-kane","false"};
-        try{       
-            ap.parse(inp);
-        }catch(ArgumentParser.InvalidLongArgumentException e){}
-        catch(ArgumentParser.InvalidShortArgumentException e){}
+        ap.parse(inp);
         assertEquals(true, ap.getValue("k"));
         assertEquals(true, ap.getValue("a"));
         assertEquals(true, ap.getValue("n"));
@@ -373,10 +307,7 @@ catch(ArgumentParser.InvalidShortArgumentException e){}
         ap.addFlag("a");
         ap.addFlag("n");
         String[] inp = {"true","-ka","false", "-an"};
-        try{       
-            ap.parse(inp);
-        }catch(ArgumentParser.InvalidLongArgumentException e){}
-        catch(ArgumentParser.InvalidShortArgumentException e){}
+        ap.parse(inp);
         assertEquals(true, ap.getValue("k"));
         assertEquals(true, ap.getValue("a"));
         assertEquals(true, ap.getValue("n"));
@@ -400,11 +331,8 @@ catch(ArgumentParser.InvalidShortArgumentException e){}
     @Test
     public void testProductOwnerCallsForValueNotThatIsNotAnArgument() {
         ap.addArguments("Length", "int");
-        String[] input = {"5"};
-        try{       
-            ap.parse(input);
-        }catch(ArgumentParser.InvalidLongArgumentException e){}
-        catch(ArgumentParser.InvalidShortArgumentException e){}
+        String[] inp = {"5"};
+        ap.parse(inp);
         
         /*
         
