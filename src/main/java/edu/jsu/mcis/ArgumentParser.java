@@ -36,25 +36,29 @@ public class ArgumentParser {
                     //throws new invalidShortArgument();
                 }
             } else {
-                setValue((String) positionalArgs.keySet().toArray()[count], userInput);
-                if (isDataTypeEqualTo("int", count)) {
-                    try {
-                        Integer.parseInt(userInput);
-                    } catch (java.lang.NumberFormatException e) {
-                       //throw should be int exception
+                if (positionalArgs.size() >= count) {
+                    setValue((String) positionalArgs.keySet().toArray()[count], userInput);
+                    if (isDataTypeEqualTo("int", count)) {
+                        try {
+                            Integer.parseInt(userInput);
+                        } catch (java.lang.NumberFormatException e) {
+                           //throw should be int exception
+                        }
+                    } else if (isDataTypeEqualTo("float", count)) {
+                        try {
+                            Float.parseFloat(userInput);
+                        } catch (java.lang.NumberFormatException e) {
+                            //throw should be float exception
+                        }
+                    } else if (isDataTypeEqualTo("boolean", count)) {
+                        if (!isItAValidBoolean(userInput)) {
+                            //throw should be boolean exception
+                        }
                     }
-                } else if (isDataTypeEqualTo("float", count)) {
-                    try {
-                        Float.parseFloat(userInput);
-                    } catch (java.lang.NumberFormatException e) {
-                        //throw should be float exception
-                    }
-                } else if (isDataTypeEqualTo("boolean", count)) {
-                    if (!isItAValidBoolean(userInput)) {
-                        //throw should be boolean exception
-                    }
+                    count++;
+                } else {
+                    //throws exception for giving too many positional arguments
                 }
-                count++;
             }
         }  
     }
