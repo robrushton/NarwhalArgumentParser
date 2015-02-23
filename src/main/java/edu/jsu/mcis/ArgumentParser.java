@@ -11,7 +11,7 @@ public class ArgumentParser {
     private String programName = "";
     private int numPositionalArgs;
     
-    public void parse(String[] args) {
+    public void parse(String[] args) throws InvalidLongArgumentException, InvalidShortArgumentException{
         Queue<String> userInputQueue = new LinkedList<>();
         convertArrayToQueue(args, userInputQueue);
         int count = 0;
@@ -23,7 +23,7 @@ public class ArgumentParser {
                 } else if (isHelpArgument(userInput)) {
                     printHelpInfo();
                 } else {
-                    //throws new invalidLongArgument();
+                    throw new InvalidLongArgumentException();
                 }
             } else if (isShortOptionalArgument(userInput)) {
                 if (isHelpArgument(userInput)) {
@@ -33,7 +33,7 @@ public class ArgumentParser {
                 } else if (isItANickname(userInput.substring(1))) {
                     setOptionalArgument(userInput, userInputQueue);
                 } else {
-                    //throws new invalidShortArgument();
+                    throw new InvalidShortArgumentException();
                 }
             } else {
                 setValue((String) positionalArgs.keySet().toArray()[count], userInput);
@@ -239,4 +239,15 @@ public class ArgumentParser {
     public void addFlag(String s) {
         flagArgs.put(s, Boolean.FALSE);
     }
+    
+    public class InvalidLongArgumentException extends Exception
+    {
+        
+    }
+    
+        public class InvalidShortArgumentException extends Exception
+    {
+        
+    }
+    
 }
