@@ -8,6 +8,7 @@ public class ArgumentParser {
     private Map<String, Boolean> flagArgs = new HashMap<>();
     private Map<String, String> nicknames = new HashMap<>();
     private String programDescription = "";
+    private String programName = "";
     private int numPositionalArgs;
     
     public void parse(String[] args) {
@@ -151,10 +152,6 @@ public class ArgumentParser {
         return flagArgs.containsKey(userInput);
     }
     
-    public String getArgumentDescription(String s) {
-        return positionalArgs.get(s).myDescription;
-    }
-    
     public void addOptionalArgument(String type) {
         OptionalArgument oa = new OptionalArgument();
         optionalArgs.put(type, oa);
@@ -176,7 +173,7 @@ public class ArgumentParser {
     private void printHelpInfo() {
         int printLoopCount = 0;
         String className = this.getClass().getName();
-        System.out.print("\nUsage Information: java " + className + " ");
+        System.out.print("\nUsage Information: java " + programName + " ");
         for (String k : positionalArgs.keySet()) {
             if (printLoopCount < numPositionalArgs) {
                 System.out.print(k + " ");
@@ -234,9 +231,9 @@ public class ArgumentParser {
     public void setProgramDescription(String s) {
         programDescription = s;
     }
-	
-    public String getProgramDescription(){
-        return programDescription;
+    
+    public void setProgramName(String s) {
+        programName = s;
     }
     
     public void addFlag(String s) {

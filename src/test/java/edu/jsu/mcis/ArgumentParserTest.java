@@ -12,12 +12,6 @@ public class ArgumentParserTest {
     }
 	
     @Test
-    public void testGetDescriptionValue() {
-    ap.addArguments("testString", "String", "It's a string thing");
-        assertEquals("It's a string thing", ap.getArgumentDescription("testString"));
-    }
-	
-    @Test
     public void testAddArgumentsNoDescription() {
         String one = "Test Name 1";
         String two = "Test Name 2";
@@ -45,9 +39,6 @@ public class ArgumentParserTest {
         assertEquals("Hello", (String) ap.getValue(one));
         assertEquals(5, (int) ap.getValue(two));
         assertEquals(true, (boolean) ap.getValue(three));
-        assertEquals("It's a string thing", ap.getArgumentDescription(one));
-        assertEquals("It's an int!", ap.getArgumentDescription(two));
-        assertEquals("It is a bool", ap.getArgumentDescription(three));
     }
     
     @Test
@@ -66,6 +57,27 @@ public class ArgumentParserTest {
         assertEquals(false, (boolean) ap.getValue(two));
         assertEquals(7, (int) ap.getValue(three));
         assertEquals("Fred", (String) ap.getValue(four));   
+    }
+    
+    @Test
+    public void testAddingProgramDescriptionAndName() {
+        String one = "Length";
+        String two = "Width";
+        String three = "Height";
+        String four = "Name";
+        ap.addArguments(one, "float", "Length of the object");
+        ap.addArguments(two, "boolean", "Width of the object");
+        ap.addArguments(three, "int", "Height of the object");
+        ap.addArguments(four, "String", "Name of object");
+        ap.setProgramDescription("This program prints arguments");
+        ap.setProgramName("ArgumentPrinter");
+        String[] args = {"12.34", "False", "7", "Fred"};
+        ap.parse(args);
+        assertEquals(12.34, (float) ap.getValue(one), 0.01);
+        assertEquals(false, (boolean) ap.getValue(two));
+        assertEquals(7, (int) ap.getValue(three));
+        assertEquals("Fred", (String) ap.getValue(four)); 
+        
     }
    
     @Test
@@ -299,15 +311,6 @@ public class ArgumentParserTest {
         assertEquals(true, ap.getValue("k"));
         assertEquals(true, ap.getValue("a"));
         assertEquals(true, ap.getValue("n"));
-    }
-    
-    @Test
-    public void testProgramDescription(){
-        ap.addArguments("DNR 1", "boolean", "Testing the program");
-        ap.setProgramDescription("Testing DNR");
-        String[] inp = {"the description"};
-        ap.parse(inp);
-        assertEquals("Testing DNR", ap.getProgramDescription());
     }
     
     @Test

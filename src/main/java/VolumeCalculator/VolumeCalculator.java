@@ -17,6 +17,8 @@ public class VolumeCalculator {
         ap.addOptionalArgument("Color");
         ap.addFlag("x");
         ap.addFlag("w");
+        ap.setProgramDescription("Gets volume of last three numbers");
+        ap.setProgramName("VolumeCalculator");
         ap.parse(args);
 
         String optionalValue = "";
