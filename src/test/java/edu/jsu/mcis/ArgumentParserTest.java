@@ -19,8 +19,8 @@ public class ArgumentParserTest {
         ap.addArguments(one, "String");
         ap.addArguments(two, "int");
         ap.addArguments(three, "boolean");
-        String[] myStringArray = {"Hello","5","true"};
-        ap.parse(myStringArray);
+        String[] inp = {"Hello","5","true"};
+        ap.parse(inp);
         assertEquals("Hello", (String) ap.getValue(one));
         assertEquals(5, (int) ap.getValue(two));
         assertEquals(true, (boolean) ap.getValue(three));
@@ -34,8 +34,8 @@ public class ArgumentParserTest {
         ap.addArguments(one, "String", "It's a string thing");
         ap.addArguments(two, "int", "It's an int!");
         ap.addArguments(three, "boolean", "It is a bool");
-        String[] myStringArray = {"Hello","5","True"};
-        ap.parse(myStringArray);
+        String[] inp = {"Hello","5","True"};
+        ap.parse(inp);
         assertEquals("Hello", (String) ap.getValue(one));
         assertEquals(5, (int) ap.getValue(two));
         assertEquals(true, (boolean) ap.getValue(three));
@@ -51,8 +51,8 @@ public class ArgumentParserTest {
         ap.addArguments(two, "boolean", "Width of the object");
         ap.addArguments(three, "int", "Height of the object");
         ap.addArguments(four, "String", "Name of object");
-        String[] args = {"12.34", "False", "7", "Fred"};
-        ap.parse(args);
+        String[] inp = {"12.34", "False", "7", "Fred"};
+        ap.parse(inp);
         assertEquals(12.34, (float) ap.getValue(one), 0.01);
         assertEquals(false, (boolean) ap.getValue(two));
         assertEquals(7, (int) ap.getValue(three));
@@ -71,8 +71,8 @@ public class ArgumentParserTest {
         ap.addArguments(four, "String", "Name of object");
         ap.setProgramDescription("This program prints arguments");
         ap.setProgramName("ArgumentPrinter");
-        String[] args = {"12.34", "False", "7", "Fred"};
-        ap.parse(args);
+        String[] inp = {"12.34", "False", "7", "Fred"};
+        ap.parse(inp);
         assertEquals(12.34, (float) ap.getValue(one), 0.01);
         assertEquals(false, (boolean) ap.getValue(two));
         assertEquals(7, (int) ap.getValue(three));
@@ -112,8 +112,8 @@ public class ArgumentParserTest {
         ap.addArguments("Arg 1", "boolean", "This should be true");
         ap.addArguments("Arg 2", "boolean", "This should be false");
         ap.addArguments("Arg 3", "boolean", "This should be true");
-        String[] args = {"true", "false", "true"};
-        ap.parse(args);
+        String[] inp = {"true", "false", "true"};
+        ap.parse(inp);
         assertEquals(true, (boolean) ap.getValue("Arg 1"));
         assertEquals(false, (boolean) ap.getValue("Arg 2"));
         assertEquals(true, (boolean) ap.getValue("Arg 3"));  
@@ -234,7 +234,7 @@ public class ArgumentParserTest {
         ap.addFlag("t");
         ap.addFlag("r");
         String[] inp = {"true","-t","false"};
-        ap.parse(inp);
+        ap.parse(inp);        
         assertEquals(true, ap.getValue("t"));
         assertEquals(false, ap.getValue("r"));
     }
@@ -331,8 +331,8 @@ public class ArgumentParserTest {
     @Test
     public void testProductOwnerCallsForValueNotThatIsNotAnArgument() {
         ap.addArguments("Length", "int");
-        String[] input = {"5"};
-        ap.parse(input);
+        String[] inp = {"5"};
+        ap.parse(inp);
         
         /*
         
@@ -353,4 +353,10 @@ public class ArgumentParserTest {
         */
         
     }
+   /* 
+    @Test(expected = ArgumentParser.InvalidLongArgumentException.class)
+    public void testInvalidLongArgumentException(){
+        
+    }
+    */
 }

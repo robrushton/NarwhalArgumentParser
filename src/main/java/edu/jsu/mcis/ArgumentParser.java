@@ -23,7 +23,7 @@ public class ArgumentParser {
                 } else if (isHelpArgument(userInput)) {
                     printHelpInfo();
                 } else {
-                    //throws new invalidLongArgument();
+                    throw new InvalidLongArgumentException();
                 }
             } else if (isShortOptionalArgument(userInput)) {
                 if (isHelpArgument(userInput)) {
@@ -33,7 +33,7 @@ public class ArgumentParser {
                 } else if (isItANickname(userInput.substring(1))) {
                     setOptionalArgument(userInput, userInputQueue);
                 } else {
-                    //throws new invalidShortArgument();
+                    throw new InvalidShortArgumentException();
                 }
             } else {
                 if (positionalArgs.size() >= count) {
@@ -197,7 +197,7 @@ public class ArgumentParser {
             }
             printLoopCount++;
         }
-        System.exit(1);
+        System.exit(0);
     }
     
     private class PositionalArgument {
@@ -243,4 +243,13 @@ public class ArgumentParser {
     public void addFlag(String s) {
         flagArgs.put(s, Boolean.FALSE);
     }
+    
+    public class InvalidLongArgumentException extends RuntimeException {
+        
+    }
+    
+    public class InvalidShortArgumentException extends RuntimeException {
+        
+    }
+    
 }
