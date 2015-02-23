@@ -204,6 +204,104 @@ public class ArgumentParserTest {
     }
     
     @Test
+    public void testMultipleFlagsSeperatedBothTrue() {
+        ap.addArguments("Arg 1", "boolean", "Test argument as well");
+        ap.addArguments("Arg 2", "boolean", "Test argument");
+        ap.addFlag("t");
+        ap.addFlag("r");
+        String[] inp = {"true","-t","false", "-r"};
+        ap.parse(inp);
+        assertEquals(true, ap.getValue("t"));
+        assertEquals(true, ap.getValue("r"));
+    }
+    
+    @Test
+    public void testMultipleFlagsSeperatedOneTrueOtherFalse() {
+        ap.addArguments("Arg 1", "boolean", "Test argument as well");
+        ap.addArguments("Arg 2", "boolean", "Test argument");
+        ap.addFlag("t");
+        ap.addFlag("r");
+        String[] inp = {"true","-t","false"};
+        ap.parse(inp);
+        assertEquals(true, ap.getValue("t"));
+        assertEquals(false, ap.getValue("r"));
+    }
+    
+    @Test
+    public void testTwoFlagsTogetherInMiddleBothTrue() {
+        ap.addArguments("Arg 1", "boolean", "Test argument as well");
+        ap.addArguments("Arg 2", "boolean", "Test argument");
+        ap.addFlag("t");
+        ap.addFlag("r");
+        String[] inp = {"true","-tr","false"};
+        ap.parse(inp);
+        assertEquals(true, ap.getValue("t"));
+        assertEquals(true, ap.getValue("r"));
+    }
+    
+    @Test
+    public void testFourFlagsTwoTogetherTwoSeperateAllTrue() {
+        ap.addArguments("Arg 1", "boolean", "Test argument as well");
+        ap.addArguments("Arg 2", "boolean", "Test argument");
+        ap.addFlag("k");
+        ap.addFlag("a");
+        ap.addFlag("n");
+        ap.addFlag("e");
+        String[] inp = {"true","-ke","false","-na"};
+        ap.parse(inp);
+        assertEquals(true, ap.getValue("k"));
+        assertEquals(true, ap.getValue("a"));
+        assertEquals(true, ap.getValue("n"));
+        assertEquals(true, ap.getValue("e"));
+    }
+    
+    @Test
+    public void testFourFlagsTwoTogetherOneSeperateThreeTrue() {
+        ap.addArguments("Arg 1", "boolean", "Test argument as well");
+        ap.addArguments("Arg 2", "boolean", "Test argument");
+        ap.addFlag("k");
+        ap.addFlag("a");
+        ap.addFlag("n");
+        ap.addFlag("e");
+        String[] inp = {"true","-ke","false","-a"};
+        ap.parse(inp);
+        assertEquals(true, ap.getValue("k"));
+        assertEquals(true, ap.getValue("a"));
+        assertEquals(false, ap.getValue("n"));
+        assertEquals(true, ap.getValue("e"));
+    }
+    
+    @Test
+    public void testFourFlagsAllTogetherAllTrue() {
+        ap.addArguments("Arg 1", "boolean", "Test argument as well");
+        ap.addArguments("Arg 2", "boolean", "Test argument");
+        ap.addFlag("k");
+        ap.addFlag("a");
+        ap.addFlag("n");
+        ap.addFlag("e");
+        String[] inp = {"true","-kane","false"};
+        ap.parse(inp);
+        assertEquals(true, ap.getValue("k"));
+        assertEquals(true, ap.getValue("a"));
+        assertEquals(true, ap.getValue("n"));
+        assertEquals(true, ap.getValue("e"));
+    }
+    
+    @Test
+    public void testThreeFlagsTogetherOneFlaggedTwiceAllTrue() {
+        ap.addArguments("Arg 1", "boolean", "Test argument as well");
+        ap.addArguments("Arg 2", "boolean", "Test argument");
+        ap.addFlag("k");
+        ap.addFlag("a");
+        ap.addFlag("n");
+        String[] inp = {"true","-ka","false", "-an"};
+        ap.parse(inp);
+        assertEquals(true, ap.getValue("k"));
+        assertEquals(true, ap.getValue("a"));
+        assertEquals(true, ap.getValue("n"));
+    }
+    
+    @Test
     public void testProgramDescription(){
         ap.addArguments("DNR 1", "boolean", "Testing the program");
         ap.setProgramDescription("Testing DNR");

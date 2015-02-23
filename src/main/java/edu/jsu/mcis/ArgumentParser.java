@@ -27,8 +27,8 @@ public class ArgumentParser {
             } else if (isShortOptionalArgument(userInput)) {
                 if (isHelpArgument(userInput)) {
                     printHelpInfo();
-                } else if (isItAFlag(userInput.substring(1))) {
-                    flagArgs.put(userInput.substring(1), Boolean.TRUE);
+                } else if (isItAFlagLong(userInput.substring(1))) {
+                    flipFlag(userInput.substring(1));
                 } else if (isItANickname(userInput.substring(1))) {
                     setOptionalArgument(userInput, userInputQueue);
                 } else {
@@ -56,6 +56,22 @@ public class ArgumentParser {
                 count++;
             }
         }  
+    }
+    
+    private boolean isItAFlagLong(String userInput) {
+        for (int i = 0; i < userInput.length(); i++){
+            String singleFlag = userInput.substring(i, i+1);
+            if (!isItAFlag(singleFlag)) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    private void flipFlag(String userInput) {
+        for (int i = 0; i < userInput.length(); i++) {
+            flagArgs.put(userInput.substring(i, i+1), Boolean.TRUE);
+        }
     }
     
     private void convertArrayToQueue(String[] args, Queue<String> userInputQueue) {
