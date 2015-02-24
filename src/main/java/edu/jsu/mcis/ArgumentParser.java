@@ -72,7 +72,7 @@ public class ArgumentParser {
     }
     
     private boolean isItTooManyArgs(int given) {
-        return positionalArgs.size() >= given;
+        return positionalArgs.size() > given;
     }
     
     private boolean isItAFlagLong(String userInput) {

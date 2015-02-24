@@ -321,60 +321,54 @@ public class ArgumentParserTest {
 		
 	}
     
-    @Test
+    @Test(expected = ArgumentParser.InvalidDataTypeException.class)
     public void testEnterFloatWhenShouldBeInt() {
-        
+        ap.addArguments("Arg 1", "int");
+        String[] inp = {"1.5"};
+        ap.parse(inp);
     }
     
-    @Test
+    @Test(expected = ArgumentParser.InvalidDataTypeException.class)
     public void testEnterIntWhenShouldBeBoolean() {
-        
+        ap.addArguments("Arg 1", "boolean");
+        String[] inp = {"1"};
+        ap.parse(inp);
     }
     
-    @Test
+    @Test(expected = ArgumentParser.InvalidDataTypeException.class)
     public void testEnterStringWhenShouldBeFloat() {
-        
+        ap.addArguments("Arg 1", "float");
+        String[] inp = {"hello"};
+        ap.parse(inp);
     }
     
-    @Test
+    @Test(expected = ArgumentParser.PositionalArgumentException.class)
     public void testUserEntersTooManyPositionalArguments() {
-        
+        ap.addArguments("Arg 1", "int");
+        String[] inp = {"1", "2"};
+        ap.parse(inp);
     }
     
-    @Test
+    @Test(expected = ArgumentParser.PositionalArgumentException.class)
     public void testNotEnoughPositionalArgsGiven() {
-        
+        ap.addArguments("Arg 1", "int");
+        ap.addArguments("Arg2", "int");
+        String[] inp = {"1"};
+        ap.parse(inp);
     }
     
-    @Test
-    public void testProductOwnerCallsForValueNotThatIsNotAnArgument() {
+    @Test(expected = ArgumentParser.NoArgCalledException.class)
+    public void testProductOwnerCallsForValueThatIsNotAnArgument() {
         ap.addArguments("Length", "int");
         String[] inp = {"5"};
-        ap.parse(inp);
-        
-        /*
-        
+        ap.parse(inp);         
         ap.getValue("Width");
-        Catch exception
-        
-        */
     }
     
-    @Test
+    @Test(expected = ArgumentParser.InvalidDataTypeException.class)
     public void testProductOwnerAddsArgumentWithInproperDataType() {
-        ap.addArguments("Length", "int");
-        
-        /*
+        ap.addArguments("Length", "int"); 
         ap.addArguments("Length", "type");
-        Catch exception
-        
-        */
-        
     }
-   /* 
-    @Test(expected = ArgumentParser.InvalidLongArgumentException.class)
-    public void testInvalidLongArgumentException(){
-        
-    }
-    */
+    
 }
