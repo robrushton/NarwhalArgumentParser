@@ -91,7 +91,7 @@ public class ArgumentParserTest {
     public void testOptionalArgumentDefaultValueBeingChanged() {
         ap.addArguments("thing", "float", "Length of the object");
         ap.addOptionalArgument("stuff", "5");
-        String[] inp = {"--stuff", "10"};
+        String[] inp = {"--stuff", "10", "4.6"};
         ap.parse(inp);
         assertEquals("10", (String) ap.getValue("stuff"));
         
@@ -101,7 +101,7 @@ public class ArgumentParserTest {
     public void testSingleArgumentNoDefaultValue() {
         ap.addArguments("thing", "float", "Length of the object");
         ap.addOptionalArgument("stuff");
-        String[] inp = {"--stuff", "5"};
+        String[] inp = {"--stuff", "5", "4.2"};
         ap.parse(inp);
         assertEquals("5", (String) ap.getValue("stuff"));
         
@@ -191,7 +191,7 @@ public class ArgumentParserTest {
     public void testFlagTrueBeginning() {
         ap.addArguments("Arg 1", "boolean", "This should be true");
         ap.addFlag("t");
-        String[] inp = {"-t"};
+        String[] inp = {"-t", "false"};
         ap.parse(inp);
         assertEquals(true, ap.getValue("t"));
     }

@@ -43,28 +43,28 @@ public class ArgumentParser {
                         try {
                             Integer.parseInt(userInput);
                         } catch (java.lang.NumberFormatException e) {
-                           //throw should be int exception
+                           throw new InvalidDataTypeException();
                         }
                     } else if (isDataTypeEqualTo(Datatype.FLOAT, positionalArgsPlaced)) {
                         try {
                             Float.parseFloat(userInput);
                         } catch (java.lang.NumberFormatException e) {
-                            //throw should be float exception
+                            throw new InvalidDataTypeException();
                         }
                     } else if (isDataTypeEqualTo(Datatype.BOOLEAN, positionalArgsPlaced)) {
                         if (!isItAValidBoolean(userInput)) {
-                            //throw should be boolean exception
+                            throw new InvalidDataTypeException();
                         }
                     }
                     positionalArgsPlaced++;
                 } else {
-                    //throws exception for giving too many positional arguments
+                    throw new PositionalArgumentException();
                 }
             }
-            if (notGivenEnoughPositionalArgs(positionalArgsPlaced)) {
-                //throws new not enough positional args given exception
-            }
-        }  
+        }
+        if (notGivenEnoughPositionalArgs(positionalArgsPlaced)) {
+            throw new PositionalArgumentException();
+        }        
     }
     
     private boolean notGivenEnoughPositionalArgs(int given) {
@@ -148,7 +148,7 @@ public class ArgumentParser {
         } else if (isItAFlag(s)) {
             return (T) flagArgs.get(s);
         }
-        //throws no argument called s exception
+        //throw new NoArgCalledException();
         return null;
     }
     
@@ -238,7 +238,7 @@ public class ArgumentParser {
         } else if (dataType.equals("boolean")) {
             ao.dataType = Datatype.BOOLEAN;
         } else {
-            //throws inproper datatype exception
+            throw new InvalidDataTypeException();
         }
         numPositionalArgs++;
     }
@@ -265,6 +265,18 @@ public class ArgumentParser {
     }
     
     public class InvalidShortArgumentException extends RuntimeException {
+        
+    }
+    
+    public class InvalidDataTypeException extends RuntimeException {
+        
+    }
+    
+    public class PositionalArgumentException extends RuntimeException {
+        
+    }
+    
+    public class NoArgCalledException extends RuntimeException {
         
     }
     
