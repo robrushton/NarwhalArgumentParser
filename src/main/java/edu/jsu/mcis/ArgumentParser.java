@@ -24,7 +24,7 @@ public class ArgumentParser {
                 } else if (isHelpArgument(userInput)) {
                     printHelpInfo();
                 } else {
-                    throw new InvalidLongArgumentException();
+                    throw new InvalidOptionalArgumentException("\n " + userInput + " '--' value not defined.");
                 }
             } else if (isShortOptionalArgument(userInput)) {
                 if (isHelpArgument(userInput)) {
@@ -34,7 +34,7 @@ public class ArgumentParser {
                 } else if (isItANickname(userInput.substring(1))) {
                     setOptionalArgument(userInput, userInputQueue);
                 } else {
-                    throw new InvalidShortArgumentException();
+                    throw new InvalidOptionalArgumentException("\n " + userInput + " '-' value not defined.");
                 }
             } else {
                 if (isItTooManyArgs(positionalArgsPlaced)) {
@@ -43,27 +43,27 @@ public class ArgumentParser {
                         try {
                             Integer.parseInt(userInput);
                         } catch (java.lang.NumberFormatException e) {
-                           throw new InvalidDataTypeException();
+                           throw new InvalidDataTypeException("\n " + userInput + ". Value is invalid data type. Expected int");
                         }
                     } else if (isDataTypeEqualTo(Datatype.FLOAT, positionalArgsPlaced)) {
                         try {
                             Float.parseFloat(userInput);
                         } catch (java.lang.NumberFormatException e) {
-                            throw new InvalidDataTypeException();
+                            throw new InvalidDataTypeException("\n " + userInput + ". Value is invalid data type. Expected float");
                         }
                     } else if (isDataTypeEqualTo(Datatype.BOOLEAN, positionalArgsPlaced)) {
                         if (!isItAValidBoolean(userInput)) {
-                            throw new InvalidDataTypeException();
+                            throw new InvalidDataTypeException("\n " + userInput + ". Value is invalid data type. Expected boolean");
                         }
                     }
                     positionalArgsPlaced++;
                 } else {
-                    throw new PositionalArgumentException();
+                    throw new PositionalArgumentException("\n " + userInput + ". Too many positional arguments.");
                 }
             }
         }
         if (notGivenEnoughPositionalArgs(positionalArgsPlaced)) {
-            throw new PositionalArgumentException();
+            throw new PositionalArgumentException("\n Not enough positional arguments.");
         }        
     }
     
@@ -148,8 +148,7 @@ public class ArgumentParser {
         } else if (isItAFlag(s)) {
             return (T) flagArgs.get(s);
         }
-        //throw new NoArgCalledException();
-        return null;
+        throw new NoArgCalledException("\n " + s + " is not a valid argument.");
     }
     
     private boolean isItAPositional(String s) {
@@ -238,7 +237,7 @@ public class ArgumentParser {
         } else if (dataType.equals("boolean")) {
             ao.dataType = Datatype.BOOLEAN;
         } else {
-            throw new InvalidDataTypeException();
+            throw new InvalidDataTypeException("\n " + dataType + ": is not an excepted data type.");
         }
         numPositionalArgs++;
     }
@@ -260,24 +259,29 @@ public class ArgumentParser {
         flagArgs.put(s, Boolean.FALSE);
     }
     
-    public class InvalidLongArgumentException extends RuntimeException {
+    public class InvalidOptionalArgumentException extends RuntimeException {
+        public InvalidOptionalArgumentException(String msg){
+            super(msg);
+        }
         
     }
-    
-    public class InvalidShortArgumentException extends RuntimeException {
-        
-    }
-    
+
     public class InvalidDataTypeException extends RuntimeException {
-        
+        public InvalidDataTypeException(String msg){
+            super(msg);
+        }
     }
     
     public class PositionalArgumentException extends RuntimeException {
-        
+        public PositionalArgumentException(String msg){
+            super(msg);
+        }
     }
     
     public class NoArgCalledException extends RuntimeException {
-        
+        public NoArgCalledException(String msg){
+            super(msg);
+        }
     }
     
 }
