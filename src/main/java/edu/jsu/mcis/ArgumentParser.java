@@ -7,6 +7,7 @@ public class ArgumentParser {
     private Map<String, OptionalArgument> optionalArgs = new HashMap<>();
     private Map<String, Boolean> flagArgs = new HashMap<>();
     private Map<String, String> nicknames = new HashMap<>();
+    private enum Datatype {STRING, FLOAT, INT, BOOLEAN};
     private String programDescription = "";
     private String programName = "";
     private int numPositionalArgs;
@@ -38,19 +39,19 @@ public class ArgumentParser {
             } else {
                 if (isItTooManyArgs(positionalArgsPlaced)) {
                     setValue((String) positionalArgs.keySet().toArray()[positionalArgsPlaced], userInput);
-                    if (isDataTypeEqualTo("int", positionalArgsPlaced)) {
+                    if (isDataTypeEqualTo(Datatype.INT, positionalArgsPlaced)) {
                         try {
                             Integer.parseInt(userInput);
                         } catch (java.lang.NumberFormatException e) {
                            //throw should be int exception
                         }
-                    } else if (isDataTypeEqualTo("float", positionalArgsPlaced)) {
+                    } else if (isDataTypeEqualTo(Datatype.FLOAT, positionalArgsPlaced)) {
                         try {
                             Float.parseFloat(userInput);
                         } catch (java.lang.NumberFormatException e) {
                             //throw should be float exception
                         }
-                    } else if (isDataTypeEqualTo("boolean", positionalArgsPlaced)) {
+                    } else if (isDataTypeEqualTo(Datatype.BOOLEAN, positionalArgsPlaced)) {
                         if (!isItAValidBoolean(userInput)) {
                             //throw should be boolean exception
                         }
@@ -111,8 +112,8 @@ public class ArgumentParser {
         return (userInput.startsWith("-"));
     }
        
-    private boolean isDataTypeEqualTo(String dataType, int count) {
-        return positionalArgs.get((String) positionalArgs.keySet().toArray()[count]).dataType.equals(dataType);
+    private boolean isDataTypeEqualTo(Datatype dataType, int count) {
+        return positionalArgs.get((String) positionalArgs.keySet().toArray()[count]).dataType == dataType;
     }
     
     private void setOptionalArgument(String userInput, Queue<String> userInputQueue) {
@@ -133,13 +134,13 @@ public class ArgumentParser {
     
     public <T> T getValue(String s) {
         if (isItAPositional(s)) {
-            if (positionalArgs.get(s).dataType.equals("String")) {
+            if (positionalArgs.get(s).dataType == Datatype.STRING) {
                 return (T) positionalArgs.get(s).myValue;
-            } else if (positionalArgs.get(s).dataType.equals("int")) {
+            } else if (positionalArgs.get(s).dataType == Datatype.INT) {
                 return (T) new Integer(Integer.parseInt(positionalArgs.get(s).myValue));
-            } else if (positionalArgs.get(s).dataType.equals("float")) {
+            } else if (positionalArgs.get(s).dataType == Datatype.FLOAT) {
                 return (T) new Float(Float.parseFloat(positionalArgs.get(s).myValue));
-            } else if (positionalArgs.get(s).dataType.equals("boolean")) {
+            } else if (positionalArgs.get(s).dataType == Datatype.BOOLEAN) {
                 return (T) new Boolean(Boolean.parseBoolean(positionalArgs.get(s).myValue));
             }
         } else if (isItAnOptional(s)) {
@@ -187,7 +188,6 @@ public class ArgumentParser {
     
     private void printHelpInfo() {
         int printLoopCount = 0;
-        String className = this.getClass().getName();
         System.out.print("\nUsage Information: java " + programName + " ");
         for (String k : positionalArgs.keySet()) {
             if (printLoopCount < numPositionalArgs) {
@@ -214,7 +214,7 @@ public class ArgumentParser {
     private class PositionalArgument {
         public String myDescription = "";
         public String myValue = "";
-        public String dataType = "";
+        public Datatype dataType;
     }
     
     private class OptionalArgument {
@@ -225,17 +225,18 @@ public class ArgumentParser {
     public void addArguments(String name, String dataType) {
         PositionalArgument ao = new PositionalArgument();
         positionalArgs.put(name, ao);
-        if (isProperDataType(dataType)) {
-            ao.dataType = dataType;
+        if (dataType.equals("String")) {
+            ao.dataType = Datatype.STRING;
+        } else if (dataType.equals("float")) {
+            ao.dataType = Datatype.FLOAT;
+        } else if (dataType.equals("int")) {
+            ao.dataType = Datatype.INT;
+        } else if (dataType.equals("boolean")) {
+            ao.dataType = Datatype.BOOLEAN;
         } else {
-            ao.dataType = "String";
             //throws inproper datatype exception
         }
         numPositionalArgs++;
-    }
-    
-    private boolean isProperDataType(String dt) {
-        return dt.equals("String") || dt.equals("int") || dt.equals("float") || dt.equals("boolean");
     }
     
     public void addArguments(String name, String dataType, String description) {
