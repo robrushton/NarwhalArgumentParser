@@ -168,9 +168,9 @@ public class ArgumentParser {
         return flagArgs.containsKey(userInput);
     }
 	
-	public void addOptionalArgDefaultValue(String type, String defaultValue){
-		optionalArgs.get(type).value = defaultValue;
-	}
+    public void addOptionalArgDefaultValue(String type, String defaultValue){
+        optionalArgs.get(type).value = defaultValue;
+    }
     
     public void addOptionalArgument(String type) {
         OptionalArgument oa = new OptionalArgument();
