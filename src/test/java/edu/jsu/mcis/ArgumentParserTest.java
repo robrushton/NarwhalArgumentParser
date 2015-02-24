@@ -312,6 +312,14 @@ public class ArgumentParserTest {
         assertEquals(true, ap.getValue("a"));
         assertEquals(true, ap.getValue("n"));
     }
+	
+	@Test
+	public void testSetDefaultValue(){
+		ap.addOptionalArgument("int");
+		ap.addOptionalArgDefaultValue("int","20");
+		assertEquals("20", (String) ap.getValue("int"));
+		
+	}
     
     @Test
     public void testEnterFloatWhenShouldBeInt() {
