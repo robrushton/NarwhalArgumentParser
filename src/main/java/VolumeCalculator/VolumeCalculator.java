@@ -19,10 +19,7 @@ public class VolumeCalculator {
         ap.addFlag("w");
         ap.setProgramDescription("Gets volume of last three numbers");
         ap.setProgramName("VolumeCalculator");
-        try{
-            ap.parse(args);
-        }catch(ArgumentParser.InvalidLongArgumentException e){
-        }catch(ArgumentParser.InvalidShortArgumentException e){}
+        ap.parse(args);
         String optionalValue = "";
         String one = ap.getValue("pet");
         int two = ap.getValue("number");
