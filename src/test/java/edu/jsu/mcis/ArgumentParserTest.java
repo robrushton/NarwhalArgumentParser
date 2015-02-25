@@ -313,13 +313,12 @@ public class ArgumentParserTest {
         assertEquals(true, ap.getValue("n"));
     }
 	
-	@Test
-	public void testSetDefaultValue(){
-		ap.addOptionalArgument("int");
-		ap.addOptionalArgDefaultValue("int","20");
-		assertEquals("20", (String) ap.getValue("int"));
-		
-	}
+    @Test
+    public void testSetDefaultValue(){
+        ap.addOptionalArgument("int");
+        ap.addOptionalArgDefaultValue("int","20");
+        assertEquals("20", (String) ap.getValue("int"));
+    }
     
     @Test(expected = ArgumentParser.InvalidDataTypeException.class)
     public void testEnterFloatWhenShouldBeInt() {
@@ -369,6 +368,20 @@ public class ArgumentParserTest {
     public void testProductOwnerAddsArgumentWithInproperDataType() {
         ap.addArguments("Length", "int"); 
         ap.addArguments("Length", "type");
+    }
+    
+    @Test (expected = ArgumentParser.InvalidOptionalArgumentException.class)
+    public void testUserEnterInvalidLongArgument() {
+        ap.addOptionalArgument("type");
+        String[] inp = {"--circle"};
+        ap.parse(inp);
+    }
+    
+    @Test (expected = ArgumentParser.InvalidOptionalArgumentException.class)
+    public void testUserEnterInvalidShortArgument() {
+        ap.addOptionalArgument("type", "", "t");
+        String[] inp = {"-c"};
+        ap.parse(inp);
     }
     
 }
