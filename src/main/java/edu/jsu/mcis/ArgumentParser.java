@@ -258,30 +258,4 @@ public class ArgumentParser {
     public void addFlag(String s) {
         flagArgs.put(s, Boolean.FALSE);
     }
-    
-    public class InvalidOptionalArgumentException extends RuntimeException {
-        public InvalidOptionalArgumentException(String msg){
-            super(msg);
-        }
-        
-    }
-
-    public class InvalidDataTypeException extends RuntimeException {
-        public InvalidDataTypeException(String msg){
-            super(msg);
-        }
-    }
-    
-    public class PositionalArgumentException extends RuntimeException {
-        public PositionalArgumentException(String msg){
-            super(msg);
-        }
-    }
-    
-    public class NoArgCalledException extends RuntimeException {
-        public NoArgCalledException(String msg){
-            super(msg);
-        }
-    }
-    
 }
