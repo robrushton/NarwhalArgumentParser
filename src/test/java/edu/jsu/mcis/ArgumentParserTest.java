@@ -320,35 +320,35 @@ public class ArgumentParserTest {
         assertEquals("20", (String) ap.getValue("int"));
     }
     
-    @Test(expected = ArgumentParser.InvalidDataTypeException.class)
+    @Test(expected = InvalidDataTypeException.class)
     public void testEnterFloatWhenShouldBeInt() {
         ap.addArguments("Arg 1", "int");
         String[] inp = {"1.5"};
         ap.parse(inp);
     }
     
-    @Test(expected = ArgumentParser.InvalidDataTypeException.class)
+    @Test(expected = InvalidDataTypeException.class)
     public void testEnterIntWhenShouldBeBoolean() {
         ap.addArguments("Arg 1", "boolean");
         String[] inp = {"1"};
         ap.parse(inp);
     }
     
-    @Test(expected = ArgumentParser.InvalidDataTypeException.class)
+    @Test(expected = InvalidDataTypeException.class)
     public void testEnterStringWhenShouldBeFloat() {
         ap.addArguments("Arg 1", "float");
         String[] inp = {"hello"};
         ap.parse(inp);
     }
     
-    @Test(expected = ArgumentParser.PositionalArgumentException.class)
+    @Test(expected = PositionalArgumentException.class)
     public void testUserEntersTooManyPositionalArguments() {
         ap.addArguments("Arg 1", "int");
         String[] inp = {"1", "2"};
         ap.parse(inp);
     }
     
-    @Test(expected = ArgumentParser.PositionalArgumentException.class)
+    @Test(expected = PositionalArgumentException.class)
     public void testNotEnoughPositionalArgsGiven() {
         ap.addArguments("Arg 1", "int");
         ap.addArguments("Arg2", "int");
@@ -356,7 +356,7 @@ public class ArgumentParserTest {
         ap.parse(inp);
     }
     
-    @Test(expected = ArgumentParser.NoArgCalledException.class)
+    @Test(expected = NoArgCalledException.class)
     public void testProductOwnerCallsForValueThatIsNotAnArgument() {
         ap.addArguments("Length", "int");
         String[] inp = {"5"};
@@ -364,20 +364,20 @@ public class ArgumentParserTest {
         ap.getValue("Width");
     }
     
-    @Test(expected = ArgumentParser.InvalidDataTypeException.class)
+    @Test(expected = InvalidDataTypeException.class)
     public void testProductOwnerAddsArgumentWithInproperDataType() {
         ap.addArguments("Length", "int"); 
         ap.addArguments("Length", "type");
     }
     
-    @Test (expected = ArgumentParser.InvalidOptionalArgumentException.class)
+    @Test (expected = InvalidOptionalArgumentException.class)
     public void testUserEnterInvalidLongArgument() {
         ap.addOptionalArgument("type");
         String[] inp = {"--circle"};
         ap.parse(inp);
     }
     
-    @Test (expected = ArgumentParser.InvalidOptionalArgumentException.class)
+    @Test (expected = InvalidOptionalArgumentException.class)
     public void testUserEnterInvalidShortArgument() {
         ap.addOptionalArgument("type", "", "t");
         String[] inp = {"-c"};
