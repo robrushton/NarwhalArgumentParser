@@ -167,22 +167,22 @@ public class ArgumentParser {
         return flagArgs.containsKey(userInput);
     }
 	
-    public void addOptionalArgDefaultValue(String type, String defaultValue){
-        optionalArgs.get(type).value = defaultValue;
+    public void addOptionalArgDefaultValue(String name, String defaultValue){
+        optionalArgs.get(name).value = defaultValue;
     }
     
-    public void addOptionalArgument(String type) {
+    public void addOptionalArgument(String name) {
         OptionalArgument oa = new OptionalArgument();
-        optionalArgs.put(type, oa);
+        optionalArgs.put(name, oa);
     }
-    public void addOptionalArgument(String type, String defaultValue) {
-        addOptionalArgument(type);
-        optionalArgs.get(type).value = defaultValue;
+    public void addOptionalArgument(String name, String defaultValue) {
+        addOptionalArgument(name);
+        optionalArgs.get(name).value = defaultValue;
     }
-    public void addOptionalArgument(String type, String defaultValue, String nickname) {
-        addOptionalArgument(type, defaultValue);
-        nicknames.put(nickname, type);
-        setNickname(type, nickname);
+    public void addOptionalArgument(String name, String defaultValue, String nickname) {
+        addOptionalArgument(name, defaultValue);
+        nicknames.put(nickname, name);
+        setNickname(name, nickname);
     }
     
     private void setNickname(String s, String n) {
