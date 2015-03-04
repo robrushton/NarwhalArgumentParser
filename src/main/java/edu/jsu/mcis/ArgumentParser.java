@@ -64,7 +64,14 @@ public class ArgumentParser {
         }
         if (notGivenEnoughPositionalArgs(positionalArgsPlaced)) {
             throw new PositionalArgumentException("\n Not enough positional arguments.");
-        }        
+        }
+        if (isAllOptionalRequiredGiven()) {
+            //throws new not using all required optional arguments
+        }
+    }
+    
+    private boolean isAllOptionalRequiredGiven() {
+        return true;
     }
     
     private boolean notGivenEnoughPositionalArgs(int given) {
@@ -175,14 +182,31 @@ public class ArgumentParser {
         OptionalArgument oa = new OptionalArgument();
         optionalArgs.put(name, oa);
     }
+    
+    public void addOptionalArgument(String name, boolean required) {
+        addOptionalArgument(name);
+        optionalArgs.get(name).required = required;
+    }
+    
     public void addOptionalArgument(String name, String defaultValue) {
         addOptionalArgument(name);
         optionalArgs.get(name).value = defaultValue;
     }
+    
+    public void addOptionalArgument(String name, String defaultValue, boolean required) {
+        addOptionalArgument(name, defaultValue);
+        optionalArgs.get(name).required = required;
+    }
+    
     public void addOptionalArgument(String name, String defaultValue, String nickname) {
         addOptionalArgument(name, defaultValue);
         nicknames.put(nickname, name);
         setNickname(name, nickname);
+    }
+    
+    public void addOptionalArgument(String name, String defaultValue, String nickname, boolean required) {
+        addOptionalArgument(name, defaultValue, nickname);
+        optionalArgs.get(name).required = required;
     }
     
     private void setNickname(String s, String n) {
@@ -223,6 +247,7 @@ public class ArgumentParser {
     private class OptionalArgument {
         public String nickname = "";
         public String value = "";
+        public boolean required = false;
     }
 	
     public void addArguments(String name, String dataType) {
