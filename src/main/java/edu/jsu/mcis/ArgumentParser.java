@@ -193,17 +193,18 @@ public class ArgumentParser {
     
     public void addOptionalArgument(String name, boolean required) {
         addOptionalArgument(name);
-        optionalArgs.get(name).required = required;
+        setRequired(name, required);
     }
     
     public void addOptionalArgument(String name, String defaultValue) {
         addOptionalArgument(name);
-        optionalArgs.get(name).value = defaultValue;
+        OptionalArgument oa = getOptionalArgument(name);
+        oa.value = defaultValue;
     }
     
     public void addOptionalArgument(String name, String defaultValue, boolean required) {
         addOptionalArgument(name, defaultValue);
-        optionalArgs.get(name).required = required;
+        setRequired(name, required);
     }
     
     public void addOptionalArgument(String name, String defaultValue, String nickname) {
@@ -214,7 +215,16 @@ public class ArgumentParser {
     
     public void addOptionalArgument(String name, String defaultValue, String nickname, boolean required) {
         addOptionalArgument(name, defaultValue, nickname);
-        optionalArgs.get(name).required = required;
+        setRequired(name, required);
+    }
+    
+    private void setRequired(String name, boolean required) {
+        OptionalArgument oa = getOptionalArgument(name);
+        oa.required = required;
+    }
+    
+    private OptionalArgument getOptionalArgument(String key) {
+        return optionalArgs.get(key);
     }
     
     private void setNickname(String s, String n) {
