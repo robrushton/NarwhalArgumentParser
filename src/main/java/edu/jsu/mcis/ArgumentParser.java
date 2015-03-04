@@ -65,15 +65,21 @@ public class ArgumentParser {
         if (notGivenEnoughPositionalArgs(positionalArgsPlaced)) {
             throw new PositionalArgumentException("\n Not enough positional arguments.");
         }
-        if (isAllOptionalRequiredGiven()) {
-            //throws new not using all required optional arguments
+        checkIfAllRequiredOptionalArgumentsGiven();
+    }
+    
+    private void checkIfAllRequiredOptionalArgumentsGiven() {
+        for (String s : optionalArgs.keySet()) {
+            if (isArgumentRequiredButNotGiven(s)) {
+                throw new RequiredOptionalArgumentNotGivenException("\n Optional Argument " + optionalArgs.get(s) + " is required");
+            }
         }
     }
     
-    private boolean isAllOptionalRequiredGiven() {
-        return true;
+    private boolean isArgumentRequiredButNotGiven(String s) {
+        return optionalArgs.get(s).required && !optionalArgs.get(s).wasEntered;
     }
-    
+
     private boolean notGivenEnoughPositionalArgs(int given) {
         return positionalArgs.size() != given;
     }
@@ -126,8 +132,10 @@ public class ArgumentParser {
     private void setOptionalArgument(String userInput, Queue<String> userInputQueue) {
         if (nicknames.containsKey(userInput.substring(1))) {
             optionalArgs.get(nicknames.get(userInput.substring(1))).value = userInputQueue.poll();
+            optionalArgs.get(nicknames.get(userInput.substring(1))).wasEntered = true;
         } else {
             optionalArgs.get(userInput.substring(2)).value = userInputQueue.poll();
+            optionalArgs.get(userInput.substring(2)).wasEntered = true;
         }
     }
      
@@ -248,6 +256,7 @@ public class ArgumentParser {
         public String nickname = "";
         public String value = "";
         public boolean required = false;
+        public boolean wasEntered = false;
     }
 	
     public void addArguments(String name, String dataType) {

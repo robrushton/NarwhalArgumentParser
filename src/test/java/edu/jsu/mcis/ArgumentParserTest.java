@@ -320,6 +320,25 @@ public class ArgumentParserTest {
         assertEquals("20", (String) ap.getValue("int"));
     }
     
+    @Test
+    public void testOneRequiredOptionalArgument() {
+        ap.addArguments("Length", "int");
+        ap.addOptionalArgument("Type", true);
+        String[] inp = {"7", "--Type", "sphere"};
+        ap.parse(inp);
+        assertEquals("sphere", ap.getValue("Type"));
+    }
+    
+    @Test
+    public void testOneRequiredOptionalArgumentOneNotRequired() {
+        ap.addArguments("Length", "int");
+        ap.addOptionalArgument("Type", true);
+        ap.addOptionalArgument("Color", false);
+        String[] inp = {"7", "--Type", "sphere"};
+        ap.parse(inp);
+        assertEquals("sphere", ap.getValue("Type"));
+    }
+    
     @Test(expected = InvalidDataTypeException.class)
     public void testEnterFloatWhenShouldBeInt() {
         ap.addArguments("Arg 1", "int");
@@ -381,6 +400,14 @@ public class ArgumentParserTest {
     public void testUserEnterInvalidShortArgument() {
         ap.addOptionalArgument("type", "", "t");
         String[] inp = {"-c"};
+        ap.parse(inp);
+    }
+    
+    @Test (expected = RequiredOptionalArgumentNotGivenException.class)
+    public void testRequiredOptionalArgumentNotGiven() {
+        ap.addOptionalArgument("Type", "", "t", true);
+        ap.addArguments("Length", "int");
+        String[] inp = {"7"};
         ap.parse(inp);
     }
     
