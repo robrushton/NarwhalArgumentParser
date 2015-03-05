@@ -13,60 +13,72 @@ public class ArgumentParser {
     private int numPositionalArgs;
     
     public void parse(String[] args) {
-        Queue<String> userInputQueue = new LinkedList<>();
+        Queue<String> userInputQueue = new LinkedList<String>();
         convertArrayToQueue(args, userInputQueue);
-        int positionalArgsPlaced = 0;
+        int[] positionalPlaced = {0};
         while (!userInputQueue.isEmpty()) {
             String userInput = userInputQueue.poll();
             if (isLongOptionalArgument(userInput)) {
-                if (checkIfOptionalArgument(userInput)) {
-                    setOptionalArgument(userInput, userInputQueue);
-                } else if (isHelpArgument(userInput)) {
-                    printHelpInfo();
-                } else {
-                    throw new InvalidOptionalArgumentException("\n " + userInput + " '--' value not defined.");
-                }
+                parseLongOptionalArguments(userInput, userInputQueue);
             } else if (isShortOptionalArgument(userInput)) {
-                if (isHelpArgument(userInput)) {
-                    printHelpInfo();
-                } else if (isItAFlagLong(userInput.substring(1))) {
-                    flipFlag(userInput.substring(1));
-                } else if (isItANickname(userInput.substring(1))) {
-                    setOptionalArgument(userInput, userInputQueue);
-                } else {
-                    throw new InvalidOptionalArgumentException("\n " + userInput + " '-' value not defined.");
-                }
+                parseShortOptionalArguments(userInput, userInputQueue);
             } else {
-                if (isItTooManyArgs(positionalArgsPlaced)) {
-                    setValue((String) positionalArgs.keySet().toArray()[positionalArgsPlaced], userInput);
-                    if (isDataTypeEqualTo(Datatype.INT, positionalArgsPlaced)) {
-                        try {
-                            Integer.parseInt(userInput);
-                        } catch (java.lang.NumberFormatException e) {
-                           throw new InvalidDataTypeException("\n " + userInput + ". Value is invalid data type. Expected int");
-                        }
-                    } else if (isDataTypeEqualTo(Datatype.FLOAT, positionalArgsPlaced)) {
-                        try {
-                            Float.parseFloat(userInput);
-                        } catch (java.lang.NumberFormatException e) {
-                            throw new InvalidDataTypeException("\n " + userInput + ". Value is invalid data type. Expected float");
-                        }
-                    } else if (isDataTypeEqualTo(Datatype.BOOLEAN, positionalArgsPlaced)) {
-                        if (!isItAValidBoolean(userInput)) {
-                            throw new InvalidDataTypeException("\n " + userInput + ". Value is invalid data type. Expected boolean");
-                        }
-                    }
-                    positionalArgsPlaced++;
-                } else {
-                    throw new PositionalArgumentException("\n " + userInput + ". Too many positional arguments.");
-                }
+                parsePositionalArguments(userInput, userInputQueue, positionalPlaced);
             }
         }
-        if (notGivenEnoughPositionalArgs(positionalArgsPlaced)) {
-            throw new PositionalArgumentException("\n Not enough positional arguments.");
-        }
+        checkIfEnoughPositionalArgsGiven(positionalPlaced[0]);
         checkIfAllRequiredOptionalArgumentsGiven();
     }
+    
+    private void parsePositionalArguments(String userInput, Queue<String> userInputQueue, int[] positionalPlaced) {
+        if (isItTooManyArgs(positionalPlaced[0])) {
+            setValue((String) positionalArgs.keySet().toArray()[positionalPlaced[0]], userInput);
+            if (isDataTypeEqualTo(Datatype.INT, positionalPlaced[0])) {
+                try {
+                    Integer.parseInt(userInput);
+                } catch (java.lang.NumberFormatException e) {
+                   throw new InvalidDataTypeException("\n " + userInput + ". Value is invalid data type. Expected int");
+                }
+            } else if (isDataTypeEqualTo(Datatype.FLOAT, positionalPlaced[0])) {
+                try {
+                    Float.parseFloat(userInput);
+                } catch (java.lang.NumberFormatException e) {
+                    throw new InvalidDataTypeException("\n " + userInput + ". Value is invalid data type. Expected float");
+                }
+            } else if (isDataTypeEqualTo(Datatype.BOOLEAN, positionalPlaced[0])) {
+                if (!isItAValidBoolean(userInput)) {
+                    throw new InvalidDataTypeException("\n " + userInput + ". Value is invalid data type. Expected boolean");
+                }
+            }
+            positionalPlaced[0]++;
+        } else {
+            throw new PositionalArgumentException("\n " + userInput + ". Too many positional arguments.");
+        }
+    }
+    
+    private void parseLongOptionalArguments(String userInput, Queue<String> userInputQueue) {
+        if (checkIfOptionalArgument(userInput)) {
+            setOptionalArgument(userInput, userInputQueue);
+        } else if (isHelpArgument(userInput)) {
+            printHelpInfo();
+        } else {
+            throw new InvalidOptionalArgumentException("\n " + userInput + " '--' value not defined.");
+        }
+    }
+    
+    private void parseShortOptionalArguments(String userInput, Queue<String> userInputQueue) {
+        if (isHelpArgument(userInput)) {
+            printHelpInfo();
+        } else if (isItAFlagLong(userInput.substring(1))) {
+            flipFlag(userInput.substring(1));
+        } else if (isItANickname(userInput.substring(1))) {
+            setOptionalArgument(userInput, userInputQueue);
+        } else {
+            throw new InvalidOptionalArgumentException("\n " + userInput + " '-' value not defined.");
+        }
+    }
+    
+    
     
     private void checkIfAllRequiredOptionalArgumentsGiven() {
         for (String s : optionalArgs.keySet()) {
@@ -76,12 +88,14 @@ public class ArgumentParser {
         }
     }
     
+    private void checkIfEnoughPositionalArgsGiven(int given) {
+        if (positionalArgs.size() != given) {
+            throw new PositionalArgumentException("\n Not enough positional arguments.");
+        }
+    }
+    
     private boolean isArgumentRequiredButNotGiven(String s) {
         return optionalArgs.get(s).required && !optionalArgs.get(s).wasEntered;
-    }
-
-    private boolean notGivenEnoughPositionalArgs(int given) {
-        return positionalArgs.size() != given;
     }
     
     private boolean isItTooManyArgs(int given) {

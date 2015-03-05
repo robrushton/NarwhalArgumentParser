@@ -1,5 +1,5 @@
 @echo off
-cd C:\Users\Trey\Desktop\CS310\narwhal-master\Demos
+cd Demos
 echo "Running -h demo..."
 javac VolumeCalculator.java
 @echo on
