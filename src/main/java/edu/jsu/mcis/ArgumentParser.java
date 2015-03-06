@@ -1,5 +1,12 @@
 package edu.jsu.mcis;
 import java.util.*;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.DocumentBuilder;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Node;
+import org.w3c.dom.Element;
+import java.io.File;
 
 public class ArgumentParser { 
 	
@@ -301,5 +308,30 @@ public class ArgumentParser {
     
     public void addFlag(String s) {
         flagArgs.put(s, Boolean.FALSE);
+    }
+    
+    public void loadXML(String s) {
+        try {
+            File xmlFile = new File(s);
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder docBuilder = dbFactory.newDocumentBuilder();
+            Document xmlDoc = docBuilder.parse(s);
+            xmlDoc.getDocumentElement().normalize();
+            NodeList nodeList = xmlDoc.getElementsByTagName("argument");
+            for (int i = 0; i < nodeList.getLength(); i++) {
+                Node node = nodeList.item(i);
+                if (node.getNodeType() == Node.ELEMENT_NODE) {
+                    Element e = (Element) node;
+                    String eType = e.getAttribute("type");
+                    String eName = e.getElementsByTagName("name").item(0).getTextContent();
+                    String eDatatype = e.getElementsByTagName("datatype").item(0).getTextContent();
+                    String eDescription = e.getElementsByTagName("description").item(0).getTextContent();
+                    addArguments(eName, eDatatype, eDescription);
+                }
+            }
+        }catch (Exception e) {
+            System.out.println("penis");
+            e.printStackTrace();
+        }
     }
 }

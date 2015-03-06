@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<parser>
+    <argument type="positional">
+        <name>length</name>
+        <datatype>int</datatype>
+        <description>length of the object</description>
+    </argument>
+    
+    <argument type="positional">
+        <name>width</name>
+        <datatype>int</datatype>
+        <description>width of the object</description>
+    </argument>
+
+    <argument type="optional">
+        <name>Type</name>
+        <datatype>int</datatype>
+        <description></description>
+    </argument>
+</parser>

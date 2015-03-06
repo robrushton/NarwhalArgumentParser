@@ -1,10 +1,16 @@
-
 import edu.jsu.mcis.*;
 
 public class VolumeCalculator {
     
     public static void main(String[] args) {
         ArgumentParser ap = new ArgumentParser();
+        ap.loadXML("testXML.xml");
+        ap.parse(args);
+        int l = ap.getValue("length");
+        int w = ap.getValue("width");
+        int h = ap.getValue("Type");
+        System.out.println(l + w + h);
+        /*
         ap.addArguments("pet", "String", "Its a pet");
         ap.addArguments("number", "int", "some number");
         ap.addArguments("rainy", "boolean", "is it rainy");
@@ -33,5 +39,6 @@ public class VolumeCalculator {
         System.out.println("Volume of object is: " + (l * w * h));
         System.out.println("x is " + ap.getValue("x"));
         System.out.println("w is " + ap.getValue("w"));
+        */
     }
 }
