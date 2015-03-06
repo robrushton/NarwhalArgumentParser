@@ -12,8 +12,8 @@ public class VolumeCalculator {
         ap.addArguments("Length", "int", "Length of the object");
         ap.addArguments("Width", "int", "Width of the object");
         ap.addArguments("Height", "int", "Height of the object");
-        ap.addOptionalArgument("Type", " ", "t");
-        ap.addOptionalArgument("Color");
+        ap.addNamedArgument("Type", " ", "t");
+        ap.addNamedArgument("Color");
         ap.addFlag("x");
         ap.addFlag("w");
         ap.setProgramDescription("Gets volume of last three numbers");

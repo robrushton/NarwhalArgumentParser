@@ -81,16 +81,16 @@ public class ArgumentParserTest {
     }
    
     @Test
-    public void testOptionalArgumentDefaultValue() {
+    public void testNamedArgumentDefaultValue() {
         ap.addArguments("thing", "float", "Length of the object");
-        ap.addOptionalArgument("stuff", "5");
+        ap.addNamedArgument("stuff", "5");
         assertEquals("5", (String) ap.getValue("stuff"));
     }
     
     @Test
-    public void testOptionalArgumentDefaultValueBeingChanged() {
+    public void testNamedArgumentDefaultValueBeingChanged() {
         ap.addArguments("thing", "float", "Length of the object");
-        ap.addOptionalArgument("stuff", "5");
+        ap.addNamedArgument("stuff", "5");
         String[] inp = {"--stuff", "10", "4.6"};
         ap.parse(inp);
         assertEquals("10", (String) ap.getValue("stuff"));
@@ -100,7 +100,7 @@ public class ArgumentParserTest {
     @Test
     public void testSingleArgumentNoDefaultValue() {
         ap.addArguments("thing", "float", "Length of the object");
-        ap.addOptionalArgument("stuff");
+        ap.addNamedArgument("stuff");
         String[] inp = {"--stuff", "5", "4.2"};
         ap.parse(inp);
         assertEquals("5", (String) ap.getValue("stuff"));
@@ -120,21 +120,21 @@ public class ArgumentParserTest {
     }
     
     @Test
-    public void testShortOptionalArgumentForLongName() {
+    public void testShortNamedArgumentForLongName() {
         ap.addArguments("Length", "int", "Length of the object");
-        ap.addOptionalArgument("type", " ", "t");
+        ap.addNamedArgument("type", " ", "t");
         String[] inp = {"-t", "circle", "5"};
         ap.parse(inp);
         assertEquals("circle", (String) ap.getValue("type")); 
     }
     
     @Test
-    public void testMultipleShortOptionalArgumentForLongName() {
+    public void testMultipleShortNamedArgumentForLongName() {
         ap.addArguments("Length", "int", "Length of the object");
         ap.addArguments("Width", "int", "Width of the object");
         ap.addArguments("Height", "int", "Height of the object");
-        ap.addOptionalArgument("type", " ", "t");
-        ap.addOptionalArgument("color", " ", "c");
+        ap.addNamedArgument("type", " ", "t");
+        ap.addNamedArgument("color", " ", "c");
         String[] inp = {"-t", "circle", "5", "-c", "red", "7", "10"};
         ap.parse(inp);
         assertEquals("circle", (String) ap.getValue("type")); 
@@ -142,12 +142,12 @@ public class ArgumentParserTest {
     }
     
     @Test
-    public void testOneShortOptionalArgumentForLongNameAndOneLong() {
+    public void testOneShortNamedArgumentForLongNameAndOneLong() {
         ap.addArguments("Length", "int", "Length of the object");
         ap.addArguments("Width", "int", "Width of the object");
         ap.addArguments("Height", "int", "Height of the object");
-        ap.addOptionalArgument("type", " ", "t");
-        ap.addOptionalArgument("color", " ", "c");
+        ap.addNamedArgument("type", " ", "t");
+        ap.addNamedArgument("color", " ", "c");
         String[] inp = {"-t", "circle", "5", "--color", "red", "7", "10"};
         ap.parse(inp);
         assertEquals("circle", (String) ap.getValue("type")); 
@@ -159,7 +159,7 @@ public class ArgumentParserTest {
         ap.addArguments("Arg 1", "boolean", "This should be true");
         ap.addArguments("Arg 2", "boolean", "This should be false");
         ap.addArguments("Arg 3", "boolean", "This should be true");
-        ap.addOptionalArgument("stuff", "5");
+        ap.addNamedArgument("stuff", "5");
         String[] inp = {"--stuff", "4", "true", "false", "true"};
         ap.parse(inp);
         assertEquals("4", (String) ap.getValue("stuff"));
@@ -170,7 +170,7 @@ public class ArgumentParserTest {
         ap.addArguments("Arg 1", "boolean", "This should be true");
         ap.addArguments("Arg 2", "boolean", "This should be false");
         ap.addArguments("Arg 3", "boolean", "This should be true");
-        ap.addOptionalArgument("stuff", "5");
+        ap.addNamedArgument("stuff", "5");
         String[] inp = { "true", "false", "--stuff", "4", "true"};
         ap.parse(inp);
         assertEquals("4", (String) ap.getValue("stuff"));
@@ -181,7 +181,7 @@ public class ArgumentParserTest {
         ap.addArguments("Arg 1", "boolean", "This should be true");
         ap.addArguments("Arg 2", "boolean", "This should be false");
         ap.addArguments("Arg 3", "boolean", "This should be true");
-        ap.addOptionalArgument("stuff", "5");
+        ap.addNamedArgument("stuff", "5");
         String[] inp = {"true", "false", "true", "--stuff", "4"};
         ap.parse(inp);
         assertEquals("4", (String) ap.getValue("stuff"));
@@ -315,25 +315,25 @@ public class ArgumentParserTest {
 	
     @Test
     public void testSetDefaultValue(){
-        ap.addOptionalArgument("int");
-        ap.addOptionalArgDefaultValue("int","20");
+        ap.addNamedArgument("int");
+        ap.addNamedArgDefaultValue("int","20");
         assertEquals("20", (String) ap.getValue("int"));
     }
     
     @Test
-    public void testOneRequiredOptionalArgument() {
+    public void testOneRequiredNamedArgument() {
         ap.addArguments("Length", "int");
-        ap.addOptionalArgument("Type", true);
+        ap.addNamedArgument("Type", true);
         String[] inp = {"7", "--Type", "sphere"};
         ap.parse(inp);
         assertEquals("sphere", ap.getValue("Type"));
     }
     
     @Test
-    public void testOneRequiredOptionalArgumentOneNotRequired() {
+    public void testOneRequiredNamedArgumentOneNotRequired() {
         ap.addArguments("Length", "int");
-        ap.addOptionalArgument("Type", true);
-        ap.addOptionalArgument("Color", false);
+        ap.addNamedArgument("Type", true);
+        ap.addNamedArgument("Color", false);
         String[] inp = {"7", "--Type", "sphere"};
         ap.parse(inp);
         assertEquals("sphere", ap.getValue("Type"));
@@ -389,23 +389,23 @@ public class ArgumentParserTest {
         ap.addArguments("Length", "type");
     }
     
-    @Test (expected = InvalidOptionalArgumentException.class)
+    @Test (expected = InvalidNamedArgumentException.class)
     public void testUserEnterInvalidLongArgument() {
-        ap.addOptionalArgument("type");
+        ap.addNamedArgument("type");
         String[] inp = {"--circle"};
         ap.parse(inp);
     }
     
-    @Test (expected = InvalidOptionalArgumentException.class)
+    @Test (expected = InvalidNamedArgumentException.class)
     public void testUserEnterInvalidShortArgument() {
-        ap.addOptionalArgument("type", "", "t");
+        ap.addNamedArgument("type", "", "t");
         String[] inp = {"-c"};
         ap.parse(inp);
     }
     
-    @Test (expected = RequiredOptionalArgumentNotGivenException.class)
-    public void testRequiredOptionalArgumentNotGiven() {
-        ap.addOptionalArgument("Type", "", "t", true);
+    @Test (expected = RequiredNamedArgumentNotGivenException.class)
+    public void testRequiredNamedArgumentNotGiven() {
+        ap.addNamedArgument("Type", "", "t", true);
         ap.addArguments("Length", "int");
         String[] inp = {"7"};
         ap.parse(inp);

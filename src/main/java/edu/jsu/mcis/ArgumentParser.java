@@ -4,7 +4,7 @@ import java.util.*;
 public class ArgumentParser { 
 	
     private Map<String, PositionalArgument> positionalArgs = new LinkedHashMap<>();
-    private Map<String, OptionalArgument> optionalArgs = new HashMap<>();
+    private Map<String, NamedArgument> namedArgs = new HashMap<>();
     private Map<String, Boolean> flagArgs = new HashMap<>();
     private Map<String, String> nicknames = new HashMap<>();
     private enum Datatype {STRING, FLOAT, INT, BOOLEAN};
@@ -18,18 +18,18 @@ public class ArgumentParser {
         int[] positionalPlaced = {0};
         while (!userInputQueue.isEmpty()) {
             String userInput = userInputQueue.poll();
-            if (isLongOptionalArgument(userInput)) {
-                parseLongOptionalArguments(userInput, userInputQueue);
+            if (isLongNamedArgument(userInput)) {
+                parseLongNamedArguments(userInput, userInputQueue);
             }
-            else if (isShortOptionalArgument(userInput)) {
-                parseShortOptionalArguments(userInput, userInputQueue);
+            else if (isShortNamedArgument(userInput)) {
+                parseShortNamedArguments(userInput, userInputQueue);
             }
             else {
                 parsePositionalArguments(userInput, userInputQueue, positionalPlaced);
             }
         }
         checkIfEnoughPositionalArgsGiven(positionalPlaced[0]);
-        checkIfAllRequiredOptionalArgumentsGiven();
+        checkIfAllRequiredNamedArgumentsGiven();
     }
     
     private void parsePositionalArguments(String userInput, Queue<String> userInputQueue, int[] positionalPlaced) {
@@ -63,19 +63,19 @@ public class ArgumentParser {
         }
     }
     
-    private void parseLongOptionalArguments(String userInput, Queue<String> userInputQueue) {
-        if (checkIfOptionalArgument(userInput)) {
-            setOptionalArgument(userInput, userInputQueue);
+    private void parseLongNamedArguments(String userInput, Queue<String> userInputQueue) {
+        if (checkIfNamedArgument(userInput)) {
+            setNamedArgument(userInput, userInputQueue);
         }
         else if (isHelpArgument(userInput)) {
             printHelpInfo();
         }
         else {
-            throw new InvalidOptionalArgumentException("\n " + userInput + " '--' value not defined.");
+            throw new InvalidNamedArgumentException("\n " + userInput + " '--' value not defined.");
         }
     }
     
-    private void parseShortOptionalArguments(String userInput, Queue<String> userInputQueue) {
+    private void parseShortNamedArguments(String userInput, Queue<String> userInputQueue) {
         if (isHelpArgument(userInput)) {
             printHelpInfo();
         } 
@@ -83,19 +83,19 @@ public class ArgumentParser {
             flipFlag(userInput.substring(1));
         } 
         else if (isItANickname(userInput.substring(1))) {
-            setOptionalArgument(userInput, userInputQueue);
+            setNamedArgument(userInput, userInputQueue);
         } 
         else {
-            throw new InvalidOptionalArgumentException("\n " + userInput + " '-' value not defined.");
+            throw new InvalidNamedArgumentException("\n " + userInput + " '-' value not defined.");
         }
     }
     
     
     
-    private void checkIfAllRequiredOptionalArgumentsGiven() {
-        for (String s : optionalArgs.keySet()) {
+    private void checkIfAllRequiredNamedArgumentsGiven() {
+        for (String s : namedArgs.keySet()) {
             if (isArgumentRequiredButNotGiven(s)) {
-                throw new RequiredOptionalArgumentNotGivenException("\n Optional Argument " + optionalArgs.get(s) + " is required");
+                throw new RequiredNamedArgumentNotGivenException("\n Named Argument " + namedArgs.get(s) + " is required");
             }
         }
     }
@@ -107,7 +107,7 @@ public class ArgumentParser {
     }
     
     private boolean isArgumentRequiredButNotGiven(String s) {
-        return optionalArgs.get(s).required && !optionalArgs.get(s).wasEntered;
+        return namedArgs.get(s).required && !namedArgs.get(s).wasEntered;
     }
     
     private boolean isItTooManyArgs(int given) {
@@ -134,8 +134,8 @@ public class ArgumentParser {
         userInputQueue.addAll(Arrays.asList(args));
     }
     
-    private boolean checkIfOptionalArgument(String s) {
-        return optionalArgs.containsKey(s.substring(2));
+    private boolean checkIfNamedArgument(String s) {
+        return namedArgs.containsKey(s.substring(2));
     }
     
     private boolean isItAValidBoolean(String userInput) {
@@ -143,11 +143,11 @@ public class ArgumentParser {
                 userInput.equals("True") || userInput.equals("False"));
     }
     
-    private boolean isLongOptionalArgument(String userInput) {
+    private boolean isLongNamedArgument(String userInput) {
         return (userInput.startsWith("--"));
     }
     
-    private boolean isShortOptionalArgument(String userInput) {
+    private boolean isShortNamedArgument(String userInput) {
         return (userInput.startsWith("-"));
     }
        
@@ -155,14 +155,14 @@ public class ArgumentParser {
         return positionalArgs.get((String) positionalArgs.keySet().toArray()[count]).dataType == dataType;
     }
     
-    private void setOptionalArgument(String userInput, Queue<String> userInputQueue) {
+    private void setNamedArgument(String userInput, Queue<String> userInputQueue) {
         if (nicknames.containsKey(userInput.substring(1))) {
-            optionalArgs.get(nicknames.get(userInput.substring(1))).value = userInputQueue.poll();
-            optionalArgs.get(nicknames.get(userInput.substring(1))).wasEntered = true;
+            namedArgs.get(nicknames.get(userInput.substring(1))).value = userInputQueue.poll();
+            namedArgs.get(nicknames.get(userInput.substring(1))).wasEntered = true;
         }
         else {
-            optionalArgs.get(userInput.substring(2)).value = userInputQueue.poll();
-            optionalArgs.get(userInput.substring(2)).wasEntered = true;
+            namedArgs.get(userInput.substring(2)).value = userInputQueue.poll();
+            namedArgs.get(userInput.substring(2)).wasEntered = true;
         }
     }
      
@@ -189,8 +189,8 @@ public class ArgumentParser {
                 return (T) new Boolean(Boolean.parseBoolean(positionalArgs.get(s).myValue));
             }
         } 
-        else if (isItAnOptional(s)) {
-            return (T) optionalArgs.get(s).value;
+        else if (isItAnNamed(s)) {
+            return (T) namedArgs.get(s).value;
         }
         else if (isItAFlag(s)) {
             return (T) flagArgs.get(s);
@@ -202,8 +202,8 @@ public class ArgumentParser {
         return positionalArgs.containsKey(s);
     }
     
-    private boolean isItAnOptional(String s) {
-        return optionalArgs.containsKey(s);
+    private boolean isItAnNamed(String s) {
+        return namedArgs.containsKey(s);
     }
     
     private boolean isItANickname(String userInput) {
@@ -214,53 +214,53 @@ public class ArgumentParser {
         return flagArgs.containsKey(userInput);
     }
 	
-    public void addOptionalArgDefaultValue(String name, String defaultValue){
-        optionalArgs.get(name).value = defaultValue;
+    public void addNamedArgDefaultValue(String name, String defaultValue){
+        namedArgs.get(name).value = defaultValue;
     }
     
-    public void addOptionalArgument(String name) {
-        OptionalArgument oa = new OptionalArgument();
-        optionalArgs.put(name, oa);
+    public void addNamedArgument(String name) {
+        NamedArgument oa = new NamedArgument();
+        namedArgs.put(name, oa);
     }
     
-    public void addOptionalArgument(String name, boolean required) {
-        addOptionalArgument(name);
+    public void addNamedArgument(String name, boolean required) {
+        addNamedArgument(name);
         setRequired(name, required);
     }
     
-    public void addOptionalArgument(String name, String defaultValue) {
-        addOptionalArgument(name);
-        OptionalArgument oa = getOptionalArgument(name);
+    public void addNamedArgument(String name, String defaultValue) {
+        addNamedArgument(name);
+        NamedArgument oa = getNamedArgument(name);
         oa.value = defaultValue;
     }
     
-    public void addOptionalArgument(String name, String defaultValue, boolean required) {
-        addOptionalArgument(name, defaultValue);
+    public void addNamedArgument(String name, String defaultValue, boolean required) {
+        addNamedArgument(name, defaultValue);
         setRequired(name, required);
     }
     
-    public void addOptionalArgument(String name, String defaultValue, String nickname) {
-        addOptionalArgument(name, defaultValue);
+    public void addNamedArgument(String name, String defaultValue, String nickname) {
+        addNamedArgument(name, defaultValue);
         nicknames.put(nickname, name);
         setNickname(name, nickname);
     }
     
-    public void addOptionalArgument(String name, String defaultValue, String nickname, boolean required) {
-        addOptionalArgument(name, defaultValue, nickname);
+    public void addNamedArgument(String name, String defaultValue, String nickname, boolean required) {
+        addNamedArgument(name, defaultValue, nickname);
         setRequired(name, required);
     }
     
     private void setRequired(String name, boolean required) {
-        OptionalArgument oa = getOptionalArgument(name);
+        NamedArgument oa = getNamedArgument(name);
         oa.required = required;
     }
     
-    private OptionalArgument getOptionalArgument(String key) {
-        return optionalArgs.get(key);
+    private NamedArgument getNamedArgument(String key) {
+        return namedArgs.get(key);
     }
     
     private void setNickname(String s, String n) {
-        optionalArgs.get(s).nickname = n;
+        namedArgs.get(s).nickname = n;
     }
     
     private void printHelpInfo() {
@@ -294,7 +294,7 @@ public class ArgumentParser {
         public Datatype dataType;
     }
     
-    private class OptionalArgument {
+    private class NamedArgument {
         public String nickname = "";
         public String value = "";
         public boolean required = false;

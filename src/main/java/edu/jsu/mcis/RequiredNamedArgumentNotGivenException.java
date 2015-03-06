@@ -1,8 +1,8 @@
 
 package edu.jsu.mcis;
 
-public class RequiredOptionalArgumentNotGivenException extends RuntimeException{
-    public RequiredOptionalArgumentNotGivenException(String msg){
+public class RequiredNamedArgumentNotGivenException extends RuntimeException{
+    public RequiredNamedArgumentNotGivenException(String msg){
         super(msg);
     }
 }
