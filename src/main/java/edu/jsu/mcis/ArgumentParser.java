@@ -20,9 +20,11 @@ public class ArgumentParser {
             String userInput = userInputQueue.poll();
             if (isLongOptionalArgument(userInput)) {
                 parseLongOptionalArguments(userInput, userInputQueue);
-            } else if (isShortOptionalArgument(userInput)) {
+            }
+            else if (isShortOptionalArgument(userInput)) {
                 parseShortOptionalArguments(userInput, userInputQueue);
-            } else {
+            }
+            else {
                 parsePositionalArguments(userInput, userInputQueue, positionalPlaced);
             }
         }
@@ -36,22 +38,27 @@ public class ArgumentParser {
             if (isDataTypeEqualTo(Datatype.INT, positionalPlaced[0])) {
                 try {
                     Integer.parseInt(userInput);
-                } catch (java.lang.NumberFormatException e) {
-                   throw new InvalidDataTypeException("\n " + userInput + ". Value is invalid data type. Expected int");
+                } 
+                catch (java.lang.NumberFormatException e) {
+                    throw new InvalidDataTypeException("\n " + userInput + ". Value is invalid data type. Expected int");
                 }
-            } else if (isDataTypeEqualTo(Datatype.FLOAT, positionalPlaced[0])) {
+            }
+            else if (isDataTypeEqualTo(Datatype.FLOAT, positionalPlaced[0])) {
                 try {
                     Float.parseFloat(userInput);
-                } catch (java.lang.NumberFormatException e) {
+                }
+                catch (java.lang.NumberFormatException e) {
                     throw new InvalidDataTypeException("\n " + userInput + ". Value is invalid data type. Expected float");
                 }
-            } else if (isDataTypeEqualTo(Datatype.BOOLEAN, positionalPlaced[0])) {
+            }
+            else if (isDataTypeEqualTo(Datatype.BOOLEAN, positionalPlaced[0])) {
                 if (!isItAValidBoolean(userInput)) {
                     throw new InvalidDataTypeException("\n " + userInput + ". Value is invalid data type. Expected boolean");
                 }
             }
             positionalPlaced[0]++;
-        } else {
+        } 
+        else {
             throw new PositionalArgumentException("\n " + userInput + ". Too many positional arguments.");
         }
     }
@@ -59,9 +66,11 @@ public class ArgumentParser {
     private void parseLongOptionalArguments(String userInput, Queue<String> userInputQueue) {
         if (checkIfOptionalArgument(userInput)) {
             setOptionalArgument(userInput, userInputQueue);
-        } else if (isHelpArgument(userInput)) {
+        }
+        else if (isHelpArgument(userInput)) {
             printHelpInfo();
-        } else {
+        }
+        else {
             throw new InvalidOptionalArgumentException("\n " + userInput + " '--' value not defined.");
         }
     }
@@ -69,11 +78,14 @@ public class ArgumentParser {
     private void parseShortOptionalArguments(String userInput, Queue<String> userInputQueue) {
         if (isHelpArgument(userInput)) {
             printHelpInfo();
-        } else if (isItAFlagLong(userInput.substring(1))) {
+        } 
+        else if (isItAFlagLong(userInput.substring(1))) {
             flipFlag(userInput.substring(1));
-        } else if (isItANickname(userInput.substring(1))) {
+        } 
+        else if (isItANickname(userInput.substring(1))) {
             setOptionalArgument(userInput, userInputQueue);
-        } else {
+        } 
+        else {
             throw new InvalidOptionalArgumentException("\n " + userInput + " '-' value not defined.");
         }
     }
@@ -147,7 +159,8 @@ public class ArgumentParser {
         if (nicknames.containsKey(userInput.substring(1))) {
             optionalArgs.get(nicknames.get(userInput.substring(1))).value = userInputQueue.poll();
             optionalArgs.get(nicknames.get(userInput.substring(1))).wasEntered = true;
-        } else {
+        }
+        else {
             optionalArgs.get(userInput.substring(2)).value = userInputQueue.poll();
             optionalArgs.get(userInput.substring(2)).wasEntered = true;
         }
@@ -165,16 +178,21 @@ public class ArgumentParser {
         if (isItAPositional(s)) {
             if (positionalArgs.get(s).dataType == Datatype.STRING) {
                 return (T) positionalArgs.get(s).myValue;
-            } else if (positionalArgs.get(s).dataType == Datatype.INT) {
+            } 
+            else if (positionalArgs.get(s).dataType == Datatype.INT) {
                 return (T) new Integer(Integer.parseInt(positionalArgs.get(s).myValue));
-            } else if (positionalArgs.get(s).dataType == Datatype.FLOAT) {
+            } 
+            else if (positionalArgs.get(s).dataType == Datatype.FLOAT) {
                 return (T) new Float(Float.parseFloat(positionalArgs.get(s).myValue));
-            } else if (positionalArgs.get(s).dataType == Datatype.BOOLEAN) {
+            } 
+            else if (positionalArgs.get(s).dataType == Datatype.BOOLEAN) {
                 return (T) new Boolean(Boolean.parseBoolean(positionalArgs.get(s).myValue));
             }
-        } else if (isItAnOptional(s)) {
+        } 
+        else if (isItAnOptional(s)) {
             return (T) optionalArgs.get(s).value;
-        } else if (isItAFlag(s)) {
+        }
+        else if (isItAFlag(s)) {
             return (T) flagArgs.get(s);
         }
         throw new NoArgCalledException("\n " + s + " is not a valid argument.");
@@ -288,13 +306,17 @@ public class ArgumentParser {
         positionalArgs.put(name, ao);
         if (dataType.equals("String")) {
             ao.dataType = Datatype.STRING;
-        } else if (dataType.equals("float")) {
+        } 
+        else if (dataType.equals("float")) {
             ao.dataType = Datatype.FLOAT;
-        } else if (dataType.equals("int")) {
+        } 
+        else if (dataType.equals("int")) {
             ao.dataType = Datatype.INT;
-        } else if (dataType.equals("boolean")) {
+        } 
+        else if (dataType.equals("boolean")) {
             ao.dataType = Datatype.BOOLEAN;
-        } else {
+        } 
+        else {
             throw new InvalidDataTypeException("\n " + dataType + ": is not an excepted data type.");
         }
         numPositionalArgs++;
