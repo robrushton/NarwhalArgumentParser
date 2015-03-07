@@ -20,8 +20,8 @@
     
     <argument type="positional">
         <name>bathrooms</name>
-        <datatype>int</datatype>
-        <description>How many bathrooms</description>
+        <datatype>float</datatype>
+        <description></description>
     </argument>
     
     <argument type="positional">

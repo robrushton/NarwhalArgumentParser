@@ -289,6 +289,9 @@ public class ArgumentParser {
                 if (!positionalArgs.get(s).myDescription.equals("")) {
                     System.out.println(s + ": " + positionalArgs.get(s).myDescription);
                 }
+                else {
+                    System.out.println(s + ": No Description Given");
+                }
             }
             printLoopCount++;
         }
@@ -373,6 +376,10 @@ public class ArgumentParser {
                     }
                     else if (e.getAttribute("type").equals("flag")) {
                         String eFlagname = e.getElementsByTagName("flagname").item(0).getTextContent();
+                        addFlag(eFlagname);
+                    }
+                    else {
+                        throw new MissingUsableArgumentException("No usable arguments found");
                     }
                 }
             }
