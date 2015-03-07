@@ -1,20 +1,66 @@
 <?xml version="1.0"?>
 <parser>
     <argument type="positional">
-        <name>length</name>
-        <datatype>int</datatype>
-        <description>length of the object</description>
+        <name>pet</name>
+        <datatype>String</datatype>
+        <description>Its a pet</description>
     </argument>
     
     <argument type="positional">
-        <name>width</name>
+        <name>number</name>
         <datatype>int</datatype>
-        <description>width of the object</description>
+        <description>Some number</description>
     </argument>
-
-    <argument type="optional">
-        <name>Type</name>
+    
+    <argument type="positional">
+        <name>rainy</name>
+        <datatype>boolean</datatype>
+        <description>Is it rainy</description>
+    </argument>
+    
+    <argument type="positional">
+        <name>bathrooms</name>
         <datatype>int</datatype>
-        <description></description>
+        <description>How many bathrooms</description>
+    </argument>
+    
+    <argument type="positional">
+        <name>Length</name>
+        <datatype>int</datatype>
+        <description>Length of the object</description>
+    </argument>
+    
+    <argument type="positional">
+        <name>Width</name>
+        <datatype>int</datatype>
+        <description>Width of the object</description>
+    </argument>
+    
+    <argument type="positional">
+        <name>Height</name>
+        <datatype>int</datatype>
+        <description>Height of the object</description>
+    </argument>
+    
+    <argument type="named">
+        <name>Type</name>
+        <default></default>
+        <nickname>t</nickname>
+        <required></required>
+    </argument>
+    
+    <argument type="named">
+        <name>Color</name>
+        <default></default>
+        <nickname></nickname>
+        <required></required>
+    </argument>
+    
+    <argument type="flag">
+        <flagname>x</flagname>
+    </argument>
+    
+    <argument type="flag">
+        <flagname>w</flagname>
     </argument>
 </parser>

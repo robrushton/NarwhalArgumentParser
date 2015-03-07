@@ -6,10 +6,6 @@ public class VolumeCalculator {
         ArgumentParser ap = new ArgumentParser();
         ap.loadXML("testXML.xml");
         ap.parse(args);
-        int l = ap.getValue("length");
-        int w = ap.getValue("width");
-        int h = ap.getValue("Type");
-        System.out.println(l + w + h);
         /*
         ap.addArguments("pet", "String", "Its a pet");
         ap.addArguments("number", "int", "some number");

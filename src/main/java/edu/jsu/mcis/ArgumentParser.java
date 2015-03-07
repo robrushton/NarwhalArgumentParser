@@ -358,15 +358,25 @@ public class ArgumentParser {
                 Node node = nodeList.item(i);
                 if (node.getNodeType() == Node.ELEMENT_NODE) {
                     Element e = (Element) node;
-                    String eType = e.getAttribute("type");
-                    String eName = e.getElementsByTagName("name").item(0).getTextContent();
-                    String eDatatype = e.getElementsByTagName("datatype").item(0).getTextContent();
-                    String eDescription = e.getElementsByTagName("description").item(0).getTextContent();
-                    addArguments(eName, eDatatype, eDescription);
+                    if (e.getAttribute("type").equals("positional")) {
+                        String eName = e.getElementsByTagName("name").item(0).getTextContent();
+                        String eDatatype = e.getElementsByTagName("datatype").item(0).getTextContent();
+                        String eDescription = e.getElementsByTagName("description").item(0).getTextContent();
+                        addArguments(eName, eDatatype, eDescription);
+                    }
+                    else if (e.getAttribute("type").equals("named")) {
+                        String eName = e.getElementsByTagName("name").item(0).getTextContent();
+                        String eDefault = e.getElementsByTagName("default").item(0).getTextContent();
+                        String eNickname = e.getElementsByTagName("nickname").item(0).getTextContent();
+                        String eRequired = e.getElementsByTagName("required").item(0).getTextContent();
+                        addNamedArgument( eName, eDefault, eNickname, Boolean.parseBoolean(eRequired));
+                    }
+                    else if (e.getAttribute("type").equals("flag")) {
+                        String eFlagname = e.getElementsByTagName("flagname").item(0).getTextContent();
+                    }
                 }
             }
         }catch (Exception e) {
-            System.out.println("penis");
             e.printStackTrace();
         }
     }
