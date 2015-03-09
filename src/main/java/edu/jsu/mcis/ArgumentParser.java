@@ -10,14 +10,24 @@ import java.io.File;
 
 public class ArgumentParser { 
 	
-    private Map<String, PositionalArgument> positionalArgs = new LinkedHashMap<>();
-    private Map<String, NamedArgument> namedArgs = new HashMap<>();
-    private Map<String, Boolean> flagArgs = new HashMap<>();
-    private Map<String, String> nicknames = new HashMap<>();
+    private Map<String, PositionalArgument> positionalArgs;
+    private Map<String, NamedArgument> namedArgs;
+    private Map<String, Boolean> flagArgs;
+    private Map<String, String> nicknames;
     public enum Datatype {STRING, FLOAT, INT, BOOLEAN};
-    private String programDescription = "";
-    private String programName = "";
+    private String programDescription;
+    private String programName;
     private int numPositionalArgs;
+    
+    public ArgumentParser() {
+        this.programName = "";
+        this.programDescription = "";
+        this.nicknames = new HashMap<>();
+        this.flagArgs = new HashMap<>();
+        this.namedArgs = new HashMap<>();
+        this.positionalArgs = new LinkedHashMap<>();
+        
+    }
     
     public void parse(String[] args) {
         Queue<String> userInputQueue = new LinkedList<String>();
@@ -286,8 +296,8 @@ public class ArgumentParser {
         printLoopCount = 0;
         for (String s : positionalArgs.keySet()) {
             if (printLoopCount < numPositionalArgs) {
-                if (!positionalArgs.get(s).myDescription.equals("")) {
-                    System.out.println(s + ": " + positionalArgs.get(s).myDescription);
+                if (!positionalArgs.get(s).description.equals("")) {
+                    System.out.println(s + ": " + positionalArgs.get(s).description);
                 }
                 else {
                     System.out.println(s + ": No Description Given");
@@ -322,7 +332,7 @@ public class ArgumentParser {
     
     public void addArguments(String name, String dataType, String description) {
         addArguments(name, dataType);
-        positionalArgs.get(name).myDescription = description;
+        positionalArgs.get(name).description = description;
     }
     
     public void setProgramDescription(String s) {
