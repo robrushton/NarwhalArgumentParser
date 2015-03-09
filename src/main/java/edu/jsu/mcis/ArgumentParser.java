@@ -14,7 +14,7 @@ public class ArgumentParser {
     private Map<String, NamedArgument> namedArgs = new HashMap<>();
     private Map<String, Boolean> flagArgs = new HashMap<>();
     private Map<String, String> nicknames = new HashMap<>();
-    private enum Datatype {STRING, FLOAT, INT, BOOLEAN};
+    public enum Datatype {STRING, FLOAT, INT, BOOLEAN};
     private String programDescription = "";
     private String programName = "";
     private int numPositionalArgs;
@@ -178,22 +178,22 @@ public class ArgumentParser {
     }
     
     private void setValue(String s, String n) {
-        positionalArgs.get(s).myValue = n;
+        positionalArgs.get(s).value = n;
     }
     
     public <T> T getValue(String s) {
         if (isItAPositional(s)) {
             if (positionalArgs.get(s).dataType == Datatype.STRING) {
-                return (T) positionalArgs.get(s).myValue;
+                return (T) positionalArgs.get(s).value;
             } 
             else if (positionalArgs.get(s).dataType == Datatype.INT) {
-                return (T) new Integer(Integer.parseInt(positionalArgs.get(s).myValue));
+                return (T) new Integer(Integer.parseInt(positionalArgs.get(s).value));
             } 
             else if (positionalArgs.get(s).dataType == Datatype.FLOAT) {
-                return (T) new Float(Float.parseFloat(positionalArgs.get(s).myValue));
+                return (T) new Float(Float.parseFloat(positionalArgs.get(s).value));
             } 
             else if (positionalArgs.get(s).dataType == Datatype.BOOLEAN) {
-                return (T) new Boolean(Boolean.parseBoolean(positionalArgs.get(s).myValue));
+                return (T) new Boolean(Boolean.parseBoolean(positionalArgs.get(s).value));
             }
         } 
         else if (isItAnNamed(s)) {
@@ -298,18 +298,6 @@ public class ArgumentParser {
         System.exit(0);
     }
     
-    private class PositionalArgument {
-        public String myDescription = "";
-        public String myValue = "";
-        public Datatype dataType;
-    }
-    
-    private class NamedArgument {
-        public String nickname = "";
-        public String value = "";
-        public boolean required = false;
-        public boolean wasEntered = false;
-    }
 	
     public void addArguments(String name, String dataType) {
         PositionalArgument ao = new PositionalArgument();
