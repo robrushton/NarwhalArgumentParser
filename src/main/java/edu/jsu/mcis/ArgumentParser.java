@@ -310,28 +310,14 @@ public class ArgumentParser {
     }
     
 	
-    public void addArguments(String name, String dataType) {
+    public void addArguments(String name, Datatype dataType) {
         PositionalArgument ao = new PositionalArgument();
         positionalArgs.put(name, ao);
-        if (dataType.equals("String")) {
-            ao.setDataType(Datatype.STRING);
-        } 
-        else if (dataType.equals("float")) {
-            ao.setDataType(Datatype.FLOAT);
-        } 
-        else if (dataType.equals("int")) {
-            ao.setDataType(Datatype.INT);
-        } 
-        else if (dataType.equals("boolean")) {
-            ao.setDataType(Datatype.BOOLEAN);
-        } 
-        else {
-            throw new InvalidDataTypeException("\n " + dataType + ": is not an excepted data type.");
-        }
+        ao.setDataType(dataType);
         numPositionalArgs++;
     }
     
-    public void addArguments(String name, String dataType, String description) {
+    public void addArguments(String name, Datatype dataType, String description) {
         addArguments(name, dataType);
         positionalArgs.get(name).setDescription(description);
     }
@@ -364,7 +350,7 @@ public class ArgumentParser {
                         String eName = e.getElementsByTagName("name").item(0).getTextContent();
                         String eDatatype = e.getElementsByTagName("datatype").item(0).getTextContent();
                         String eDescription = e.getElementsByTagName("description").item(0).getTextContent();
-                        addArguments(eName, eDatatype, eDescription);
+                        addArguments(eName, StringToDatatype(eDatatype), eDescription);
                     }
                     else if (e.getAttribute("type").equals("named")) {
                         String eName = e.getElementsByTagName("name").item(0).getTextContent();
@@ -384,6 +370,23 @@ public class ArgumentParser {
             }
         }catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+    
+    private Datatype StringToDatatype(String data) {
+        if (data.equals("String")) {
+            return Datatype.STRING;
+        } 
+        else if (data.equals("float")) {
+            return Datatype.FLOAT;
+        } 
+        else if (data.equals("int")) {
+            return Datatype.INT;
+        } 
+        else if (data.equals("boolean")) {
+            return Datatype.BOOLEAN;
+        }else {
+            throw new InvalidDataTypeException("\n " + data + ": is not an excepted data type.");
         }
     }
 }

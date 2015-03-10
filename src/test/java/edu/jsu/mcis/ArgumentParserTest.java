@@ -16,9 +16,9 @@ public class ArgumentParserTest {
         String one = "Test Name 1";
         String two = "Test Name 2";
         String three = "Test Name 3";
-        ap.addArguments(one, "String");
-        ap.addArguments(two, "int");
-        ap.addArguments(three, "boolean");
+        ap.addArguments(one, ArgumentParser.Datatype.STRING);
+        ap.addArguments(two, ArgumentParser.Datatype.INT);
+        ap.addArguments(three, ArgumentParser.Datatype.BOOLEAN);
         String[] inp = {"Hello","5","true"};
         ap.parse(inp);
         assertEquals("Hello", (String) ap.getValue(one));
@@ -31,9 +31,9 @@ public class ArgumentParserTest {
         String one = "Test Name 1";
         String two = "Test Name 2";
         String three = "Test Name 3";
-        ap.addArguments(one, "String", "It's a string thing");
-        ap.addArguments(two, "int", "It's an int!");
-        ap.addArguments(three, "boolean", "It is a bool");
+        ap.addArguments(one, ArgumentParser.Datatype.STRING, "It's a string thing");
+        ap.addArguments(two, ArgumentParser.Datatype.INT, "It's an int!");
+        ap.addArguments(three, ArgumentParser.Datatype.BOOLEAN, "It is a bool");
         String[] inp = {"Hello","5","True"};
         ap.parse(inp);
         assertEquals("Hello", (String) ap.getValue(one));
@@ -47,10 +47,10 @@ public class ArgumentParserTest {
         String two = "Width";
         String three = "Height";
         String four = "Name";
-        ap.addArguments(one, "float", "Length of the object");
-        ap.addArguments(two, "boolean", "Width of the object");
-        ap.addArguments(three, "int", "Height of the object");
-        ap.addArguments(four, "String", "Name of object");
+        ap.addArguments(one, ArgumentParser.Datatype.FLOAT, "Length of the object");
+        ap.addArguments(two, ArgumentParser.Datatype.BOOLEAN, "Width of the object");
+        ap.addArguments(three, ArgumentParser.Datatype.INT, "Height of the object");
+        ap.addArguments(four, ArgumentParser.Datatype.STRING, "Name of object");
         String[] inp = {"12.34", "False", "7", "Fred"};
         ap.parse(inp);
         assertEquals(12.34, (float) ap.getValue(one), 0.01);
@@ -65,10 +65,10 @@ public class ArgumentParserTest {
         String two = "Width";
         String three = "Height";
         String four = "Name";
-        ap.addArguments(one, "float", "Length of the object");
-        ap.addArguments(two, "boolean", "Width of the object");
-        ap.addArguments(three, "int", "Height of the object");
-        ap.addArguments(four, "String", "Name of object");
+        ap.addArguments(one, ArgumentParser.Datatype.FLOAT, "Length of the object");
+        ap.addArguments(two, ArgumentParser.Datatype.BOOLEAN, "Width of the object");
+        ap.addArguments(three, ArgumentParser.Datatype.INT, "Height of the object");
+        ap.addArguments(four, ArgumentParser.Datatype.STRING, "Name of object");
         ap.setProgramDescription("This program prints arguments");
         ap.setProgramName("ArgumentPrinter");
         String[] inp = {"12.34", "False", "7", "Fred"};
@@ -82,14 +82,14 @@ public class ArgumentParserTest {
    
     @Test
     public void testNamedArgumentDefaultValue() {
-        ap.addArguments("thing", "float", "Length of the object");
+        ap.addArguments("thing", ArgumentParser.Datatype.FLOAT, "Length of the object");
         ap.addNamedArgument("stuff", "5");
         assertEquals("5", (String) ap.getValue("stuff"));
     }
     
     @Test
     public void testNamedArgumentDefaultValueBeingChanged() {
-        ap.addArguments("thing", "float", "Length of the object");
+        ap.addArguments("thing", ArgumentParser.Datatype.FLOAT, "Length of the object");
         ap.addNamedArgument("stuff", "5");
         String[] inp = {"--stuff", "10", "4.6"};
         ap.parse(inp);
@@ -99,7 +99,7 @@ public class ArgumentParserTest {
     
     @Test
     public void testSingleArgumentNoDefaultValue() {
-        ap.addArguments("thing", "float", "Length of the object");
+        ap.addArguments("thing", ArgumentParser.Datatype.FLOAT, "Length of the object");
         ap.addNamedArgument("stuff");
         String[] inp = {"--stuff", "5", "4.2"};
         ap.parse(inp);
@@ -109,9 +109,9 @@ public class ArgumentParserTest {
     
     @Test
     public void testBooleanMultipleTimesTrueAndFalse() {
-        ap.addArguments("Arg 1", "boolean", "This should be true");
-        ap.addArguments("Arg 2", "boolean", "This should be false");
-        ap.addArguments("Arg 3", "boolean", "This should be true");
+        ap.addArguments("Arg 1", ArgumentParser.Datatype.BOOLEAN, "This should be true");
+        ap.addArguments("Arg 2", ArgumentParser.Datatype.BOOLEAN, "This should be false");
+        ap.addArguments("Arg 3", ArgumentParser.Datatype.BOOLEAN, "This should be true");
         String[] inp = {"true", "false", "true"};
         ap.parse(inp);
         assertEquals(true, (boolean) ap.getValue("Arg 1"));
@@ -121,7 +121,7 @@ public class ArgumentParserTest {
     
     @Test
     public void testShortNamedArgumentForLongName() {
-        ap.addArguments("Length", "int", "Length of the object");
+        ap.addArguments("Length", ArgumentParser.Datatype.INT, "Length of the object");
         ap.addNamedArgument("type", " ", "t");
         String[] inp = {"-t", "circle", "5"};
         ap.parse(inp);
@@ -130,9 +130,9 @@ public class ArgumentParserTest {
     
     @Test
     public void testMultipleShortNamedArgumentForLongName() {
-        ap.addArguments("Length", "int", "Length of the object");
-        ap.addArguments("Width", "int", "Width of the object");
-        ap.addArguments("Height", "int", "Height of the object");
+        ap.addArguments("Length", ArgumentParser.Datatype.INT, "Length of the object");
+        ap.addArguments("Width", ArgumentParser.Datatype.INT, "Width of the object");
+        ap.addArguments("Height", ArgumentParser.Datatype.INT, "Height of the object");
         ap.addNamedArgument("type", " ", "t");
         ap.addNamedArgument("color", " ", "c");
         String[] inp = {"-t", "circle", "5", "-c", "red", "7", "10"};
@@ -143,9 +143,9 @@ public class ArgumentParserTest {
     
     @Test
     public void testOneShortNamedArgumentForLongNameAndOneLong() {
-        ap.addArguments("Length", "int", "Length of the object");
-        ap.addArguments("Width", "int", "Width of the object");
-        ap.addArguments("Height", "int", "Height of the object");
+        ap.addArguments("Length", ArgumentParser.Datatype.INT, "Length of the object");
+        ap.addArguments("Width", ArgumentParser.Datatype.INT, "Width of the object");
+        ap.addArguments("Height", ArgumentParser.Datatype.INT, "Height of the object");
         ap.addNamedArgument("type", " ", "t");
         ap.addNamedArgument("color", " ", "c");
         String[] inp = {"-t", "circle", "5", "--color", "red", "7", "10"};
@@ -156,9 +156,9 @@ public class ArgumentParserTest {
     
     @Test
     public void testDashDashFront() {
-        ap.addArguments("Arg 1", "boolean", "This should be true");
-        ap.addArguments("Arg 2", "boolean", "This should be false");
-        ap.addArguments("Arg 3", "boolean", "This should be true");
+        ap.addArguments("Arg 1", ArgumentParser.Datatype.BOOLEAN, "This should be true");
+        ap.addArguments("Arg 2", ArgumentParser.Datatype.BOOLEAN, "This should be false");
+        ap.addArguments("Arg 3", ArgumentParser.Datatype.BOOLEAN, "This should be true");
         ap.addNamedArgument("stuff", "5");
         String[] inp = {"--stuff", "4", "true", "false", "true"};
         ap.parse(inp);
@@ -167,9 +167,9 @@ public class ArgumentParserTest {
     
     @Test
     public void testDashDashMiddle() {
-        ap.addArguments("Arg 1", "boolean", "This should be true");
-        ap.addArguments("Arg 2", "boolean", "This should be false");
-        ap.addArguments("Arg 3", "boolean", "This should be true");
+        ap.addArguments("Arg 1", ArgumentParser.Datatype.BOOLEAN, "This should be true");
+        ap.addArguments("Arg 2", ArgumentParser.Datatype.BOOLEAN, "This should be false");
+        ap.addArguments("Arg 3", ArgumentParser.Datatype.BOOLEAN, "This should be true");
         ap.addNamedArgument("stuff", "5");
         String[] inp = { "true", "false", "--stuff", "4", "true"};
         ap.parse(inp);
@@ -178,9 +178,9 @@ public class ArgumentParserTest {
     
     @Test
     public void testDashDashEnd() {
-        ap.addArguments("Arg 1", "boolean", "This should be true");
-        ap.addArguments("Arg 2", "boolean", "This should be false");
-        ap.addArguments("Arg 3", "boolean", "This should be true");
+        ap.addArguments("Arg 1", ArgumentParser.Datatype.BOOLEAN, "This should be true");
+        ap.addArguments("Arg 2", ArgumentParser.Datatype.BOOLEAN, "This should be false");
+        ap.addArguments("Arg 3", ArgumentParser.Datatype.BOOLEAN, "This should be true");
         ap.addNamedArgument("stuff", "5");
         String[] inp = {"true", "false", "true", "--stuff", "4"};
         ap.parse(inp);
@@ -189,7 +189,7 @@ public class ArgumentParserTest {
     
     @Test
     public void testFlagTrueBeginning() {
-        ap.addArguments("Arg 1", "boolean", "This should be true");
+        ap.addArguments("Arg 1", ArgumentParser.Datatype.BOOLEAN, "This should be true");
         ap.addFlag("t");
         String[] inp = {"-t", "false"};
         ap.parse(inp);
@@ -199,7 +199,7 @@ public class ArgumentParserTest {
     @Test
     public void testFlagFalseBeginning() {
         ap.addFlag("t");
-        ap.addArguments("Arg 1", "boolean", "This should be true");
+        ap.addArguments("Arg 1", ArgumentParser.Datatype.BOOLEAN, "This should be true");
         String[] inp = {"true"};
         ap.parse(inp);
         assertEquals(false, ap.getValue("t"));
@@ -207,8 +207,8 @@ public class ArgumentParserTest {
     
     @Test
     public void testFlagTrueMiddle() {
-        ap.addArguments("Arg 1", "boolean", "Test argument as well");
-        ap.addArguments("Arg 2", "boolean", "Test argument");
+        ap.addArguments("Arg 1", ArgumentParser.Datatype.BOOLEAN, "Test argument as well");
+        ap.addArguments("Arg 2", ArgumentParser.Datatype.BOOLEAN, "Test argument");
         ap.addFlag("t");
         String[] inp = {"true","-t","false"};
         ap.parse(inp);
@@ -217,8 +217,8 @@ public class ArgumentParserTest {
     
     @Test
     public void testMultipleFlagsSeperatedBothTrue() {
-        ap.addArguments("Arg 1", "boolean", "Test argument as well");
-        ap.addArguments("Arg 2", "boolean", "Test argument");
+        ap.addArguments("Arg 1", ArgumentParser.Datatype.BOOLEAN, "Test argument as well");
+        ap.addArguments("Arg 2", ArgumentParser.Datatype.BOOLEAN, "Test argument");
         ap.addFlag("t");
         ap.addFlag("r");
         String[] inp = {"true","-t","false", "-r"};
@@ -229,8 +229,8 @@ public class ArgumentParserTest {
     
     @Test
     public void testMultipleFlagsSeperatedOneTrueOtherFalse() {
-        ap.addArguments("Arg 1", "boolean", "Test argument as well");
-        ap.addArguments("Arg 2", "boolean", "Test argument");
+        ap.addArguments("Arg 1", ArgumentParser.Datatype.BOOLEAN, "Test argument as well");
+        ap.addArguments("Arg 2", ArgumentParser.Datatype.BOOLEAN, "Test argument");
         ap.addFlag("t");
         ap.addFlag("r");
         String[] inp = {"true","-t","false"};
@@ -241,8 +241,8 @@ public class ArgumentParserTest {
     
     @Test
     public void testTwoFlagsTogetherInMiddleBothTrue() {
-        ap.addArguments("Arg 1", "boolean", "Test argument as well");
-        ap.addArguments("Arg 2", "boolean", "Test argument");
+        ap.addArguments("Arg 1", ArgumentParser.Datatype.BOOLEAN, "Test argument as well");
+        ap.addArguments("Arg 2", ArgumentParser.Datatype.BOOLEAN, "Test argument");
         ap.addFlag("t");
         ap.addFlag("r");
         String[] inp = {"true","-tr","false"};
@@ -253,8 +253,8 @@ public class ArgumentParserTest {
     
     @Test
     public void testFourFlagsTwoTogetherTwoSeperateAllTrue() {
-        ap.addArguments("Arg 1", "boolean", "Test argument as well");
-        ap.addArguments("Arg 2", "boolean", "Test argument");
+        ap.addArguments("Arg 1", ArgumentParser.Datatype.BOOLEAN, "Test argument as well");
+        ap.addArguments("Arg 2", ArgumentParser.Datatype.BOOLEAN, "Test argument");
         ap.addFlag("k");
         ap.addFlag("a");
         ap.addFlag("n");
@@ -269,8 +269,8 @@ public class ArgumentParserTest {
     
     @Test
     public void testFourFlagsTwoTogetherOneSeperateThreeTrue() {
-        ap.addArguments("Arg 1", "boolean", "Test argument as well");
-        ap.addArguments("Arg 2", "boolean", "Test argument");
+        ap.addArguments("Arg 1", ArgumentParser.Datatype.BOOLEAN, "Test argument as well");
+        ap.addArguments("Arg 2", ArgumentParser.Datatype.BOOLEAN, "Test argument");
         ap.addFlag("k");
         ap.addFlag("a");
         ap.addFlag("n");
@@ -285,8 +285,8 @@ public class ArgumentParserTest {
     
     @Test
     public void testFourFlagsAllTogetherAllTrue() {
-        ap.addArguments("Arg 1", "boolean", "Test argument as well");
-        ap.addArguments("Arg 2", "boolean", "Test argument");
+        ap.addArguments("Arg 1", ArgumentParser.Datatype.BOOLEAN, "Test argument as well");
+        ap.addArguments("Arg 2", ArgumentParser.Datatype.BOOLEAN, "Test argument");
         ap.addFlag("k");
         ap.addFlag("a");
         ap.addFlag("n");
@@ -301,8 +301,8 @@ public class ArgumentParserTest {
     
     @Test
     public void testThreeFlagsTogetherOneFlaggedTwiceAllTrue() {
-        ap.addArguments("Arg 1", "boolean", "Test argument as well");
-        ap.addArguments("Arg 2", "boolean", "Test argument");
+        ap.addArguments("Arg 1", ArgumentParser.Datatype.BOOLEAN, "Test argument as well");
+        ap.addArguments("Arg 2", ArgumentParser.Datatype.BOOLEAN, "Test argument");
         ap.addFlag("k");
         ap.addFlag("a");
         ap.addFlag("n");
@@ -315,14 +315,14 @@ public class ArgumentParserTest {
 	
     @Test
     public void testSetDefaultValue(){
-        ap.addNamedArgument("int");
-        ap.addNamedArgDefaultValue("int","20");
-        assertEquals("20", (String) ap.getValue("int"));
+        ap.addNamedArgument("name");
+        ap.addNamedArgDefaultValue("name","20");
+        assertEquals("20", (String) ap.getValue("name"));
     }
     
     @Test
     public void testOneRequiredNamedArgument() {
-        ap.addArguments("Length", "int");
+        ap.addArguments("Length", ArgumentParser.Datatype.INT);
         ap.addNamedArgument("Type", true);
         String[] inp = {"7", "--Type", "sphere"};
         ap.parse(inp);
@@ -331,7 +331,7 @@ public class ArgumentParserTest {
     
     @Test
     public void testOneRequiredNamedArgumentOneNotRequired() {
-        ap.addArguments("Length", "int");
+        ap.addArguments("Length", ArgumentParser.Datatype.INT);
         ap.addNamedArgument("Type", true);
         ap.addNamedArgument("Color", false);
         String[] inp = {"7", "--Type", "sphere"};
@@ -341,52 +341,46 @@ public class ArgumentParserTest {
     
     @Test(expected = InvalidDataTypeException.class)
     public void testEnterFloatWhenShouldBeInt() {
-        ap.addArguments("Arg 1", "int");
+        ap.addArguments("Arg 1", ArgumentParser.Datatype.INT);
         String[] inp = {"1.5"};
         ap.parse(inp);
     }
     
     @Test(expected = InvalidDataTypeException.class)
     public void testEnterIntWhenShouldBeBoolean() {
-        ap.addArguments("Arg 1", "boolean");
+        ap.addArguments("Arg 1", ArgumentParser.Datatype.BOOLEAN);
         String[] inp = {"1"};
         ap.parse(inp);
     }
     
     @Test(expected = InvalidDataTypeException.class)
     public void testEnterStringWhenShouldBeFloat() {
-        ap.addArguments("Arg 1", "float");
+        ap.addArguments("Arg 1", ArgumentParser.Datatype.FLOAT);
         String[] inp = {"hello"};
         ap.parse(inp);
     }
     
     @Test(expected = PositionalArgumentException.class)
     public void testUserEntersTooManyPositionalArguments() {
-        ap.addArguments("Arg 1", "int");
+        ap.addArguments("Arg 1", ArgumentParser.Datatype.INT);
         String[] inp = {"1", "2"};
         ap.parse(inp);
     }
     
     @Test(expected = PositionalArgumentException.class)
     public void testNotEnoughPositionalArgsGiven() {
-        ap.addArguments("Arg 1", "int");
-        ap.addArguments("Arg2", "int");
+        ap.addArguments("Arg 1", ArgumentParser.Datatype.INT);
+        ap.addArguments("Arg2", ArgumentParser.Datatype.INT);
         String[] inp = {"1"};
         ap.parse(inp);
     }
     
     @Test(expected = NoArgCalledException.class)
     public void testProductOwnerCallsForValueThatIsNotAnArgument() {
-        ap.addArguments("Length", "int");
+        ap.addArguments("Length", ArgumentParser.Datatype.INT);
         String[] inp = {"5"};
         ap.parse(inp);         
         ap.getValue("Width");
-    }
-    
-    @Test(expected = InvalidDataTypeException.class)
-    public void testProductOwnerAddsArgumentWithInproperDataType() {
-        ap.addArguments("Length", "int"); 
-        ap.addArguments("Length", "type");
     }
     
     @Test (expected = InvalidNamedArgumentException.class)
@@ -406,7 +400,7 @@ public class ArgumentParserTest {
     @Test (expected = RequiredNamedArgumentNotGivenException.class)
     public void testRequiredNamedArgumentNotGiven() {
         ap.addNamedArgument("Type", "", "t", true);
-        ap.addArguments("Length", "int");
+        ap.addArguments("Length", ArgumentParser.Datatype.INT);
         String[] inp = {"7"};
         ap.parse(inp);
     }
