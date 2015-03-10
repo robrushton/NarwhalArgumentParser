@@ -1,11 +1,16 @@
 
 package edu.jsu.mcis;
 
-import edu.jsu.mcis.ArgumentParser.Datatype;
 
 public class PositionalArgument extends Argument{
-    public String description;
+    private String description;
     public PositionalArgument() {
         description = "";
+    }
+    public String getDescription() {
+        return description;
+    }
+    public void setDescription(String d) {
+        description = d;
     }
 }

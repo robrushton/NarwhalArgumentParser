@@ -32,7 +32,7 @@ public class ArgumentParser {
     public void parse(String[] args) {
         Queue<String> userInputQueue = new LinkedList<String>();
         convertArrayToQueue(args, userInputQueue);
-        int[] positionalPlaced = {0};
+        int positionalPlaced = 0;
         while (!userInputQueue.isEmpty()) {
             String userInput = userInputQueue.poll();
             if (isLongNamedArgument(userInput)) {
@@ -42,17 +42,17 @@ public class ArgumentParser {
                 parseShortNamedArguments(userInput, userInputQueue);
             }
             else {
-                parsePositionalArguments(userInput, userInputQueue, positionalPlaced);
+                positionalPlaced = parsePositionalArguments(userInput, userInputQueue, positionalPlaced);
             }
         }
-        checkIfEnoughPositionalArgsGiven(positionalPlaced[0]);
+        checkIfEnoughPositionalArgsGiven(positionalPlaced);
         checkIfAllRequiredNamedArgumentsGiven();
     }
     
-    private void parsePositionalArguments(String userInput, Queue<String> userInputQueue, int[] positionalPlaced) {
-        if (isItTooManyArgs(positionalPlaced[0])) {
-            setValue((String) positionalArgs.keySet().toArray()[positionalPlaced[0]], userInput);
-            if (isDataTypeEqualTo(Datatype.INT, positionalPlaced[0])) {
+    private int parsePositionalArguments(String userInput, Queue<String> userInputQueue, int positionalPlaced) {
+        if (isItTooManyArgs(positionalPlaced)) {
+            setValue((String) positionalArgs.keySet().toArray()[positionalPlaced], userInput);
+            if (isDataTypeEqualTo(Datatype.INT, positionalPlaced)) {
                 try {
                     Integer.parseInt(userInput);
                 } 
@@ -60,7 +60,7 @@ public class ArgumentParser {
                     throw new InvalidDataTypeException("\n " + userInput + ". Value is invalid data type. Expected int");
                 }
             }
-            else if (isDataTypeEqualTo(Datatype.FLOAT, positionalPlaced[0])) {
+            else if (isDataTypeEqualTo(Datatype.FLOAT, positionalPlaced)) {
                 try {
                     Float.parseFloat(userInput);
                 }
@@ -68,16 +68,17 @@ public class ArgumentParser {
                     throw new InvalidDataTypeException("\n " + userInput + ". Value is invalid data type. Expected float");
                 }
             }
-            else if (isDataTypeEqualTo(Datatype.BOOLEAN, positionalPlaced[0])) {
+            else if (isDataTypeEqualTo(Datatype.BOOLEAN, positionalPlaced)) {
                 if (!isItAValidBoolean(userInput)) {
                     throw new InvalidDataTypeException("\n " + userInput + ". Value is invalid data type. Expected boolean");
                 }
             }
-            positionalPlaced[0]++;
+            positionalPlaced++;
         } 
         else {
             throw new PositionalArgumentException("\n " + userInput + ". Too many positional arguments.");
         }
+        return positionalPlaced;
     }
     
     private void parseLongNamedArguments(String userInput, Queue<String> userInputQueue) {
@@ -124,7 +125,7 @@ public class ArgumentParser {
     }
     
     private boolean isArgumentRequiredButNotGiven(String s) {
-        return namedArgs.get(s).required && !namedArgs.get(s).wasEntered;
+        return namedArgs.get(s).getRequired() && !namedArgs.get(s).getWasEntered();
     }
     
     private boolean isItTooManyArgs(int given) {
@@ -169,17 +170,17 @@ public class ArgumentParser {
     }
        
     private boolean isDataTypeEqualTo(Datatype dataType, int count) {
-        return positionalArgs.get((String) positionalArgs.keySet().toArray()[count]).dataType == dataType;
+        return positionalArgs.get((String) positionalArgs.keySet().toArray()[count]).getDataType() == dataType;
     }
     
     private void setNamedArgument(String userInput, Queue<String> userInputQueue) {
         if (nicknames.containsKey(userInput.substring(1))) {
-            namedArgs.get(nicknames.get(userInput.substring(1))).value = userInputQueue.poll();
-            namedArgs.get(nicknames.get(userInput.substring(1))).wasEntered = true;
+            namedArgs.get(nicknames.get(userInput.substring(1))).setValue(userInputQueue.poll());
+            namedArgs.get(nicknames.get(userInput.substring(1))).setWasEntered(true);
         }
         else {
-            namedArgs.get(userInput.substring(2)).value = userInputQueue.poll();
-            namedArgs.get(userInput.substring(2)).wasEntered = true;
+            namedArgs.get(userInput.substring(2)).setValue(userInputQueue.poll());
+            namedArgs.get(userInput.substring(2)).setWasEntered(true);
         }
     }
      
@@ -188,26 +189,26 @@ public class ArgumentParser {
     }
     
     private void setValue(String s, String n) {
-        positionalArgs.get(s).value = n;
+        positionalArgs.get(s).setValue(n);
     }
     
     public <T> T getValue(String s) {
         if (isItAPositional(s)) {
-            if (positionalArgs.get(s).dataType == Datatype.STRING) {
-                return (T) positionalArgs.get(s).value;
+            if (positionalArgs.get(s).getDataType() == Datatype.STRING) {
+                return (T) positionalArgs.get(s).getValue();
             } 
-            else if (positionalArgs.get(s).dataType == Datatype.INT) {
-                return (T) new Integer(Integer.parseInt(positionalArgs.get(s).value));
+            else if (positionalArgs.get(s).getDataType() == Datatype.INT) {
+                return (T) new Integer(Integer.parseInt(positionalArgs.get(s).getValue()));
             } 
-            else if (positionalArgs.get(s).dataType == Datatype.FLOAT) {
-                return (T) new Float(Float.parseFloat(positionalArgs.get(s).value));
+            else if (positionalArgs.get(s).getDataType() == Datatype.FLOAT) {
+                return (T) new Float(Float.parseFloat(positionalArgs.get(s).getValue()));
             } 
-            else if (positionalArgs.get(s).dataType == Datatype.BOOLEAN) {
-                return (T) new Boolean(Boolean.parseBoolean(positionalArgs.get(s).value));
+            else if (positionalArgs.get(s).getDataType() == Datatype.BOOLEAN) {
+                return (T) new Boolean(Boolean.parseBoolean(positionalArgs.get(s).getValue()));
             }
         } 
         else if (isItAnNamed(s)) {
-            return (T) namedArgs.get(s).value;
+            return (T) namedArgs.get(s).getValue();
         }
         else if (isItAFlag(s)) {
             return (T) flagArgs.get(s);
@@ -232,7 +233,7 @@ public class ArgumentParser {
     }
 	
     public void addNamedArgDefaultValue(String name, String defaultValue){
-        namedArgs.get(name).value = defaultValue;
+        namedArgs.get(name).setValue(defaultValue);
     }
     
     public void addNamedArgument(String name) {
@@ -248,7 +249,7 @@ public class ArgumentParser {
     public void addNamedArgument(String name, String defaultValue) {
         addNamedArgument(name);
         NamedArgument oa = getNamedArgument(name);
-        oa.value = defaultValue;
+        oa.setValue(defaultValue);
     }
     
     public void addNamedArgument(String name, String defaultValue, boolean required) {
@@ -269,7 +270,7 @@ public class ArgumentParser {
     
     private void setRequired(String name, boolean required) {
         NamedArgument oa = getNamedArgument(name);
-        oa.required = required;
+        oa.setRequired(required);
     }
     
     private NamedArgument getNamedArgument(String key) {
@@ -277,7 +278,7 @@ public class ArgumentParser {
     }
     
     private void setNickname(String s, String n) {
-        namedArgs.get(s).nickname = n;
+        namedArgs.get(s).setNickname(n);
     }
     
     private void printHelpInfo() {
@@ -296,8 +297,8 @@ public class ArgumentParser {
         printLoopCount = 0;
         for (String s : positionalArgs.keySet()) {
             if (printLoopCount < numPositionalArgs) {
-                if (!positionalArgs.get(s).description.equals("")) {
-                    System.out.println(s + ": " + positionalArgs.get(s).description);
+                if (!positionalArgs.get(s).getDescription().equals("")) {
+                    System.out.println(s + ": " + positionalArgs.get(s).getDescription());
                 }
                 else {
                     System.out.println(s + ": No Description Given");
@@ -313,16 +314,16 @@ public class ArgumentParser {
         PositionalArgument ao = new PositionalArgument();
         positionalArgs.put(name, ao);
         if (dataType.equals("String")) {
-            ao.dataType = Datatype.STRING;
+            ao.setDataType(Datatype.STRING);
         } 
         else if (dataType.equals("float")) {
-            ao.dataType = Datatype.FLOAT;
+            ao.setDataType(Datatype.FLOAT);
         } 
         else if (dataType.equals("int")) {
-            ao.dataType = Datatype.INT;
+            ao.setDataType(Datatype.INT);
         } 
         else if (dataType.equals("boolean")) {
-            ao.dataType = Datatype.BOOLEAN;
+            ao.setDataType(Datatype.BOOLEAN);
         } 
         else {
             throw new InvalidDataTypeException("\n " + dataType + ": is not an excepted data type.");
@@ -332,7 +333,7 @@ public class ArgumentParser {
     
     public void addArguments(String name, String dataType, String description) {
         addArguments(name, dataType);
-        positionalArgs.get(name).description = description;
+        positionalArgs.get(name).setDescription(description);
     }
     
     public void setProgramDescription(String s) {
