@@ -11,6 +11,7 @@ public class Argument {
     protected List<Argument> argument;
     protected String value;
     protected Datatype dataType;
+    protected List<String> restrictions = new ArrayList<String>();
     
     public Argument(){
     	value = "";
@@ -20,19 +21,20 @@ public class Argument {
     public void setArgument(List<Argument> myArgs) {
         this.argument = myArgs;
     }
-
-    public List<Object> restrictions = new ArrayList<Object>();
-	
-	
-    public boolean checkRestrictions(){
-        for (int i = 0; i < restrictions.size(); i++){
-            if (restrictions.get(i) == value){
-                    return true;
+    
+    public boolean checkRestrictions(String checkValue){
+        for (String s : restrictions) {
+            if (s.equals(checkValue)) {
+                return true;
             }
         }
-        this.value = "";
         return false;	
     }
+    
+    public List<String> getRestrictions() {
+        return restrictions;
+    }
+            
     public List<Argument> getArguments(){
     	return argument;
     }

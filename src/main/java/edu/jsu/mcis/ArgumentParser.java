@@ -53,34 +53,48 @@ public class ArgumentParser {
     
     private int parsePositionalArguments(String userInput, Queue<String> userInputQueue, int positionalPlaced) {
         if (isItTooManyArgs(positionalPlaced)) {
-            setValue((String) positionalArgs.keySet().toArray()[positionalPlaced], userInput);
-            if (isDataTypeEqualTo(Datatype.INT, positionalPlaced)) {
-                try {
-                    Integer.parseInt(userInput);
-                } 
-                catch (java.lang.NumberFormatException e) {
-                    throw new InvalidDataTypeException("\n " + userInput + ". Value is invalid data type. Expected int");
+            if (isItsRestrictionValid(userInput, positionalPlaced)) {
+                setValue((String) positionalArgs.keySet().toArray()[positionalPlaced], userInput);
+                if (isDataTypeEqualTo(Datatype.INT, positionalPlaced)) {
+                    try {
+                        Integer.parseInt(userInput);
+                    } 
+                    catch (java.lang.NumberFormatException e) {
+                        throw new InvalidDataTypeException("\n " + userInput + ". Value is invalid data type. Expected int");
+                    }
                 }
+                else if (isDataTypeEqualTo(Datatype.FLOAT, positionalPlaced)) {
+                    try {
+                        Float.parseFloat(userInput);
+                    }
+                    catch (java.lang.NumberFormatException e) {
+                        throw new InvalidDataTypeException("\n " + userInput + ". Value is invalid data type. Expected float");
+                    }
+                }
+                else if (isDataTypeEqualTo(Datatype.BOOLEAN, positionalPlaced)) {
+                    if (!isItAValidBoolean(userInput)) {
+                        throw new InvalidDataTypeException("\n " + userInput + ". Value is invalid data type. Expected boolean");
+                    }
+                }
+                positionalPlaced++;
             }
-            else if (isDataTypeEqualTo(Datatype.FLOAT, positionalPlaced)) {
-                try {
-                    Float.parseFloat(userInput);
-                }
-                catch (java.lang.NumberFormatException e) {
-                    throw new InvalidDataTypeException("\n " + userInput + ". Value is invalid data type. Expected float");
-                }
+            else {
+                //throws exception saying userInput is not in set of restrictions with key  -> (String) positionalArgs.keySet().toArray()[positionalPlaced]
             }
-            else if (isDataTypeEqualTo(Datatype.BOOLEAN, positionalPlaced)) {
-                if (!isItAValidBoolean(userInput)) {
-                    throw new InvalidDataTypeException("\n " + userInput + ". Value is invalid data type. Expected boolean");
-                }
-            }
-            positionalPlaced++;
         } 
         else {
             throw new PositionalArgumentException("\n " + userInput + ". Too many positional arguments.");
         }
         return positionalPlaced;
+    }
+    
+    private boolean isItsRestrictionValid(String userInput, int positionalPlaced) {
+        PositionalArgument arg = positionalArgs.get((String) positionalArgs.keySet().toArray()[positionalPlaced]);
+        List<String> keyRestrictions = arg.getRestrictions();
+        if (keyRestrictions.isEmpty()) {
+            return true;
+        }
+        return arg.checkRestrictions(userInput);
     }
     
     private void parseLongNamedArguments(String userInput, Queue<String> userInputQueue) {
@@ -109,7 +123,6 @@ public class ArgumentParser {
             throw new InvalidNamedArgumentException("\n " + userInput + " '-' value not defined.");
         }
     }
-    
     
     
     private void checkIfAllRequiredNamedArgumentsGiven() {
@@ -177,12 +190,23 @@ public class ArgumentParser {
     
     private void setNamedArgument(String userInput, Queue<String> userInputQueue) {
         if (nicknames.containsKey(userInput.substring(1))) {
-            namedArgs.get(nicknames.get(userInput.substring(1))).setValue(userInputQueue.poll());
-            namedArgs.get(nicknames.get(userInput.substring(1))).setWasEntered(true);
+            NamedArgument arg = namedArgs.get(nicknames.get(userInput.substring(1)));
+            if (arg.getRestrictions().isEmpty() || arg.getRestrictions().isEmpty()) {
+                arg.setValue(userInputQueue.poll());
+                arg.setWasEntered(true);
+            }
+            else {
+                //throw exception saying userInputQueue.peek() is not in restrictions of arg.getName()
+            }
         }
         else {
-            namedArgs.get(userInput.substring(2)).setValue(userInputQueue.poll());
-            namedArgs.get(userInput.substring(2)).setWasEntered(true);
+            NamedArgument arg = namedArgs.get(userInput.substring(2));
+            if (arg.getRestrictions().isEmpty() || arg.checkRestrictions(userInputQueue.peek())) {
+                namedArgs.get(userInput.substring(2)).setValue(userInputQueue.poll());
+                namedArgs.get(userInput.substring(2)).setWasEntered(true);
+            } else {
+                //throw exception saying userInputQueue.peek() is not in restrictions of arg.getName()
+            }
         }
     }
      
@@ -419,40 +443,23 @@ public class ArgumentParser {
             throw new InvalidDataTypeException("\n " + data + ": is not an excepted data type.");
         }
     }
-    public void setRestrictions(String name, Object[] o){
+    public void setRestrictions(String name, String[] o){
         String key;
         for (Map.Entry<String, PositionalArgument> p : positionalArgs.entrySet()){
             key = p.getKey();
             if (key == name){
-                    for (Object ob : o)
-                    positionalArgs.get(name).restrictions.add(ob);
+                    for (String ob : o) {
+                        positionalArgs.get(name).getRestrictions().add(ob);
+                    }
             }
         }
         for (Map.Entry<String, NamedArgument> n : namedArgs.entrySet()){
             key = n.getKey();
-            if (key == name){
-                    for (Object ob : o){
-                            namedArgs.get(name).restrictions.add(ob);
+            if (key.equals(name)){
+                    for (String ob : o){
+                            namedArgs.get(name).getRestrictions().add(ob);
                     }
             }
         }
     }
-	
-	public List<Object> getRestrictions(String name){
-		String key;
-		for (Map.Entry<String, PositionalArgument> p : positionalArgs.entrySet()){
-			key = p.getKey();
-			if (key == name){
-				
-				return positionalArgs.get(name).restrictions;
-			}
-		}
-		for (Map.Entry<String, NamedArgument> n : namedArgs.entrySet()){
-			key = n.getKey();
-			if (key == name){
-				return namedArgs.get(name).restrictions;
-			}
-		}
-		return positionalArgs.get(name).restrictions;
-	}
 }

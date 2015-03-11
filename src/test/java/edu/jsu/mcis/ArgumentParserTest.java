@@ -347,6 +347,75 @@ public class ArgumentParserTest {
         ap.parse(inp);
         assertEquals("sphere", ap.getValue("Type"));
     }
+    
+    @Test
+    public void testAddingThreeRestrictionsForPositionalAndUsingThemCorrectly() {
+        ap.addArguments("Length", ArgumentParser.Datatype.INT);
+        ap.addArguments("Width", ArgumentParser.Datatype.INT);
+        ap.addArguments("Height", ArgumentParser.Datatype.INT);
+        String[] restrict = {"1", "2", "3"};
+        ap.setRestrictions("Length", restrict);
+        ap.setRestrictions("Width", restrict);
+        ap.setRestrictions("Height", restrict);
+        String[] inp = {"1", "2", "3"};
+        ap.parse(inp);
+        assertEquals(1, ap.getValue("Length"));
+        assertEquals(2, ap.getValue("Width"));
+        assertEquals(3, ap.getValue("Height"));
+    }
+    
+    @Test
+    public void testAddingTwoRestrictionsForPositionalAndUsingThemCorrectly() {
+        ap.addArguments("Length", ArgumentParser.Datatype.INT);
+        ap.addArguments("Width", ArgumentParser.Datatype.INT);
+        ap.addArguments("Height", ArgumentParser.Datatype.INT);
+        String[] restrict = {"1", "2", "3"};
+        ap.setRestrictions("Length", restrict);
+        ap.setRestrictions("Width", restrict);
+        String[] inp = {"1", "2", "6"};
+        ap.parse(inp);
+        assertEquals(1, ap.getValue("Length"));
+        assertEquals(2, ap.getValue("Width"));
+        assertEquals(6, ap.getValue("Height"));
+    }
+    
+    @Test
+    public void testAddingOneRestrictionsForNamedAndUsingThemCorrectly() {
+        ap.addArguments("Length", ArgumentParser.Datatype.INT);
+        ap.addArguments("Width", ArgumentParser.Datatype.INT);
+        ap.addArguments("Height", ArgumentParser.Datatype.INT);
+        ap.addNamedArgument("Color", "black");
+        String[] restrict = {"red", "yellow", "blue"};
+        ap.setRestrictions("Color", restrict);
+        String[] inp = {"1", "2", "6", "--Color", "red"};
+        ap.parse(inp);
+        assertEquals(1, ap.getValue("Length"));
+        assertEquals(2, ap.getValue("Width"));
+        assertEquals(6, ap.getValue("Height"));
+        assertEquals("red", ap.getValue("Color"));
+    }
+    
+    @Test
+    public void testAddingTwoRestrictionsForNamedAndUsingThemCorrectly() {
+        ap.addArguments("Length", ArgumentParser.Datatype.INT);
+        ap.addArguments("Width", ArgumentParser.Datatype.INT);
+        ap.addArguments("Height", ArgumentParser.Datatype.INT);
+        ap.addNamedArgument("Color", "black");
+        ap.addNamedArgument("Type", true);
+        String[] restrictColor = {"red", "yellow", "blue"};
+        String[] restrictType = {"sphere", "square"};
+        ap.setRestrictions("Color", restrictColor);
+        ap.setRestrictions("Type", restrictType);
+        String[] inp = {"1", "--Type", "square", "2", "6", "--Color", "red"};
+        ap.parse(inp);
+        assertEquals(1, ap.getValue("Length"));
+        assertEquals(2, ap.getValue("Width"));
+        assertEquals(6, ap.getValue("Height"));
+        assertEquals("red", ap.getValue("Color"));
+        assertEquals("square", ap.getValue("Type"));
+    }
+    
+    
     /*
     @Test
     public void testLoadXMLGetPositionalArgumentValue() {
