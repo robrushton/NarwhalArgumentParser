@@ -338,6 +338,64 @@ public class ArgumentParserTest {
         ap.parse(inp);
         assertEquals("sphere", ap.getValue("Type"));
     }
+    /*
+    @Test
+    public void testLoadXMLGetPositionalArgumentValue() {
+        ap.loadXML("C:\\Users\\Kane\\narwhal\\Demos\\testXML.xml");
+        String[] inp = {"Dog", "8", "true", "3.4", "2", "1", "3"};
+        ap.parse(inp);
+        assertEquals("Dog", ap.getValue("pet"));
+        assertEquals(8, ap.getValue("number"));
+        assertEquals(true, ap.getValue("rainy"));
+        assertEquals(ap.getValue("bathrooms"), 3.4f);
+        assertEquals(2, ap.getValue("Length"));
+        assertEquals(1, ap.getValue("Width"));
+        assertEquals(3, ap.getValue("Height"));
+    }
+    
+    @Test
+    public void testLoadXMLGetNamedArgumentValue() {
+        ap.loadXML("C:\\Users\\Kane\\narwhal\\Demos\\testXML.xml");
+        String[] inp = {"Dog", "8", "true", "3.4", "--Type", "sphere", "2", "1", "3"};
+        ap.parse(inp);
+        assertEquals("sphere", ap.getValue("Type"));
+    }
+    
+    @Test
+    public void testLoadXMLGetNamedArgumentUsingNicknameValue() {
+        ap.loadXML("C:\\Users\\Kane\\narwhal\\Demos\\testXML.xml");
+        String[] inp = {"Dog", "8", "true", "3.4", "-t", "sphere", "2", "1", "3"};
+        ap.parse(inp);
+        assertEquals("sphere", ap.getValue("Type"));
+    }
+    
+    @Test
+    public void testLoadXMLGetTwoNamedArgumentValue() {
+        ap.loadXML("C:\\Users\\Kane\\narwhal\\Demos\\testXML.xml");
+        String[] inp = {"Dog", "8", "true", "3.4", "-t", "sphere", "--Color", "red", "2", "1", "3"};
+        ap.parse(inp);
+        assertEquals("sphere", ap.getValue("Type"));
+        assertEquals("red", ap.getValue("Color"));
+    }
+    
+    @Test
+    public void testLoadXMLGetFlagValue() {
+        ap.loadXML("C:\\Users\\Kane\\narwhal\\Demos\\testXML.xml");
+        String[] inp = {"Dog", "8", "true", "3.4", "-x", "2", "1", "3"};
+        ap.parse(inp);
+        assertEquals(true, ap.getValue("x"));
+        assertEquals(false, ap.getValue("w"));
+    }
+    
+    @Test
+    public void testLoadXMLGetTwoFlagValue() {
+        ap.loadXML("C:\\Users\\Kane\\narwhal\\Demos\\testXML.xml");
+        String[] inp = {"Dog", "8", "true", "3.4", "-x", "-w", "2", "1", "3"};
+        ap.parse(inp);
+        assertEquals(true, ap.getValue("x"));
+        assertEquals(true, ap.getValue("w"));
+    }
+    */
     
     @Test(expected = InvalidDataTypeException.class)
     public void testEnterFloatWhenShouldBeInt() {
