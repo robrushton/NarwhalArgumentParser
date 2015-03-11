@@ -15,6 +15,7 @@ public class ArgumentParser {
     private Map<String, NamedArgument> namedArgs;
     private Map<String, Boolean> flagArgs;
     private Map<String, String> nicknames;
+    public static List<Argument> myArgs;
     public enum Datatype {STRING, FLOAT, INT, BOOLEAN};
     private String programDescription;
     private String programName;
