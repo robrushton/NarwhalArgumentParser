@@ -359,7 +359,8 @@ public class ArgumentParser {
                 e.printStackTrace();
             }
         }
-        Argument mine = new Argument(myArgs);
+        Argument mine = new Argument();
+        mine.setArgument(myArgs);
         m.marshal(mine, System.out);
     }
     

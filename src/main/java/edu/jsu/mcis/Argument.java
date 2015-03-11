@@ -7,9 +7,8 @@ import edu.jsu.mcis.ArgumentParser.Datatype;
 
 @XmlRootElement(name = "arguments")
 public class Argument {
-    private String name;
-    public List<Argument> argument;
-	
+    protected String name;
+    protected List<Argument> argument;
     protected String value;
     protected Datatype dataType;
     
@@ -17,25 +16,25 @@ public class Argument {
     	value = "";
         name = "";
     }
+    
+    public void setArgument(List<Argument> myArgs) {
+        this.argument = myArgs;
+    }
 
     public List<Object> restrictions = new ArrayList<Object>();
 	
 	
     public boolean checkRestrictions(){
         for (int i = 0; i < restrictions.size(); i++){
-                if (restrictions.get(i) == value){
-                        return true;
-                }
+            if (restrictions.get(i) == value){
+                    return true;
+            }
         }
         this.value = "";
         return false;	
     }
     public List<Argument> getArguments(){
     	return argument;
-    }
-    
-    public Argument(List<Argument> myArgs) {
-        this.argument = myArgs;
     }
 
     public String getValue() {
