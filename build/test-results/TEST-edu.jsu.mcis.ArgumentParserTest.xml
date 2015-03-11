@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="edu.jsu.mcis.ArgumentParserTest" tests="36" skipped="0" failures="0" errors="0" timestamp="2015-03-11T16:21:22" hostname="WINDOWS-LJ5NMKH" time="0.083">
+  <properties/>
+  <testcase name="testNamedArgumentDefaultValue" classname="edu.jsu.mcis.ArgumentParserTest" time="0.017"/>
+  <testcase name="testNamedArgumentDefaultValueBeingChanged" classname="edu.jsu.mcis.ArgumentParserTest" time="0.001"/>
+  <testcase name="testNotEnoughPositionalArgsGiven" classname="edu.jsu.mcis.ArgumentParserTest" time="0.002"/>
+  <testcase name="testEnterFloatWhenShouldBeInt" classname="edu.jsu.mcis.ArgumentParserTest" time="0.001"/>
+  <testcase name="testOneShortNamedArgumentForLongNameAndOneLong" classname="edu.jsu.mcis.ArgumentParserTest" time="0.001"/>
+  <testcase name="testParseValuesNotDashH" classname="edu.jsu.mcis.ArgumentParserTest" time="0.001"/>
+  <testcase name="testProductOwnerCallsForValueThatIsNotAnArgument" classname="edu.jsu.mcis.ArgumentParserTest" time="0.001"/>
+  <testcase name="testShortNamedArgumentForLongName" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testAddArgumentsWithDescription" classname="edu.jsu.mcis.ArgumentParserTest" time="0.001"/>
+  <testcase name="testMultipleFlagsSeperatedBothTrue" classname="edu.jsu.mcis.ArgumentParserTest" time="0.001"/>
+  <testcase name="testUserEnterInvalidLongArgument" classname="edu.jsu.mcis.ArgumentParserTest" time="0.001"/>
+  <testcase name="testUserEntersTooManyPositionalArguments" classname="edu.jsu.mcis.ArgumentParserTest" time="0.001"/>
+  <testcase name="testFourFlagsTwoTogetherTwoSeperateAllTrue" classname="edu.jsu.mcis.ArgumentParserTest" time="0.001"/>
+  <testcase name="testDashDashFront" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testAddArgumentsNoDescription" classname="edu.jsu.mcis.ArgumentParserTest" time="0.001"/>
+  <testcase name="testEnterIntWhenShouldBeBoolean" classname="edu.jsu.mcis.ArgumentParserTest" time="0.003"/>
+  <testcase name="testDashDashMiddle" classname="edu.jsu.mcis.ArgumentParserTest" time="0.001"/>
+  <testcase name="testFlagTrueBeginning" classname="edu.jsu.mcis.ArgumentParserTest" time="0.002"/>
+  <testcase name="testTwoFlagsTogetherInMiddleBothTrue" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testRequiredNamedArgumentNotGiven" classname="edu.jsu.mcis.ArgumentParserTest" time="0.001"/>
+  <testcase name="testOneRequiredNamedArgumentOneNotRequired" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testFourFlagsAllTogetherAllTrue" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testFourFlagsTwoTogetherOneSeperateThreeTrue" classname="edu.jsu.mcis.ArgumentParserTest" time="0.001"/>
+  <testcase name="testThreeFlagsTogetherOneFlaggedTwiceAllTrue" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testDashDashEnd" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testMultipleShortNamedArgumentForLongName" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testFlagTrueMiddle" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testAddingProgramDescriptionAndName" classname="edu.jsu.mcis.ArgumentParserTest" time="0.002"/>
+  <testcase name="testOneRequiredNamedArgument" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testSingleArgumentNoDefaultValue" classname="edu.jsu.mcis.ArgumentParserTest" time="0.001"/>
+  <testcase name="testSetDefaultValue" classname="edu.jsu.mcis.ArgumentParserTest" time="0.002"/>
+  <testcase name="testBooleanMultipleTimesTrueAndFalse" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testFlagFalseBeginning" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testUserEnterInvalidShortArgument" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testEnterStringWhenShouldBeFloat" classname="edu.jsu.mcis.ArgumentParserTest" time="0.001"/>
+  <testcase name="testMultipleFlagsSeperatedOneTrueOtherFalse" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

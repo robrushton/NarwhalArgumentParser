@@ -1,0 +1,23 @@
+*** Settings ***
+Library      VolumeCalculateKeywords
+
+*** Test Cases ***
+First Test With dog 2 true 3.5
+   Initialize First Test
+   ${pet}=            Get Pet
+   Should Be Equal    dog   ${pet}
+   ${number}=         Get Number
+   Should Be Equal    2   ${number}
+   ${rainy}=          Get Rainy
+   Should Be Equal    true   ${rainy}
+   ${bathrooms}=      Get Bathrooms
+   Should Be Equal    3.5   ${bathrooms}
+
+Second Test With 7 5 2
+   Initialize Second Test
+   ${length}=         Get Lengths
+   Should Be Equal    7   ${length}
+   ${width}=          Get Widths
+   Should Be Equal    5   ${width}
+   ${height}=         Get Heights
+   Should Be Equal    2   ${height}
