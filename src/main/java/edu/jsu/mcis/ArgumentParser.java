@@ -346,7 +346,7 @@ public class ArgumentParser {
             try {
                 myArgs.add(positionalArgs.get(name));
             } catch (Exception e) {
-            // TODO Auto-generated catch block
+                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
@@ -355,14 +355,13 @@ public class ArgumentParser {
             try {
                 myArgs.add(namedArgs.get(name));
             } catch  (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
         }
         Argument mine = new Argument(myArgs);
-            
         m.marshal(mine, System.out);
-    	}
+    }
     
     public void loadXML(String s) {
         try {
@@ -419,4 +418,40 @@ public class ArgumentParser {
             throw new InvalidDataTypeException("\n " + data + ": is not an excepted data type.");
         }
     }
+    public void setRestrictions(String name, Object[] o){
+        String key;
+        for (Map.Entry<String, PositionalArgument> p : positionalArgs.entrySet()){
+            key = p.getKey();
+            if (key == name){
+                    for (Object ob : o)
+                    positionalArgs.get(name).restrictions.add(ob);
+            }
+        }
+        for (Map.Entry<String, NamedArgument> n : namedArgs.entrySet()){
+            key = n.getKey();
+            if (key == name){
+                    for (Object ob : o){
+                            namedArgs.get(name).restrictions.add(ob);
+                    }
+            }
+        }
+    }
+	
+	public List<Object> getRestrictions(String name){
+		String key;
+		for (Map.Entry<String, PositionalArgument> p : positionalArgs.entrySet()){
+			key = p.getKey();
+			if (key == name){
+				
+				return positionalArgs.get(name).restrictions;
+			}
+		}
+		for (Map.Entry<String, NamedArgument> n : namedArgs.entrySet()){
+			key = n.getKey();
+			if (key == name){
+				return namedArgs.get(name).restrictions;
+			}
+		}
+		return positionalArgs.get(name).restrictions;
+	}
 }

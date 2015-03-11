@@ -1,13 +1,13 @@
 package edu.jsu.mcis;
 
-import java.util.List;
+
+import java.util.*;
 import javax.xml.bind.annotation.*;
 import edu.jsu.mcis.ArgumentParser.Datatype;
 
 @XmlRootElement(name = "arguments")
 public class Argument {
     private String name;
-    //private Arguments as;
     public List<Argument> argument;
 	
     protected String value;
@@ -17,14 +17,27 @@ public class Argument {
     	value = "";
         name = "";
     }
-    
-    //public Arguments getArguments(){
-    //	return as;
-    //}
+
+    public List<Object> restrictions = new ArrayList<Object>();
+	
+	
+    public boolean checkRestrictions(){
+        for (int i = 0; i < restrictions.size(); i++){
+                if (restrictions.get(i) == value){
+                        return true;
+                }
+        }
+        this.value = "";
+        return false;	
+    }
+    public List<Argument> getArguments(){
+    	return argument;
+    }
     
     public Argument(List<Argument> myArgs) {
         this.argument = myArgs;
     }
+
     public String getValue() {
         return value;
     }
@@ -41,4 +54,3 @@ public class Argument {
         dataType = d;
     }
 }
-
