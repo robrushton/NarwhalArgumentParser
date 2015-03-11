@@ -54,7 +54,9 @@ public class ArgumentParser {
     private int parsePositionalArguments(String userInput, Queue<String> userInputQueue, int positionalPlaced) {
         if (isItTooManyArgs(positionalPlaced)) {
             if (isItsRestrictionValid(userInput, positionalPlaced)) {
-                setValue((String) positionalArgs.keySet().toArray()[positionalPlaced], userInput);
+                String name = (String) positionalArgs.keySet().toArray()[positionalPlaced];
+                setValue(name, userInput);
+                positionalArgs.get(name).setName(name);
                 if (isDataTypeEqualTo(Datatype.INT, positionalPlaced)) {
                     try {
                         Integer.parseInt(userInput);
@@ -190,9 +192,11 @@ public class ArgumentParser {
     
     private void setNamedArgument(String userInput, Queue<String> userInputQueue) {
         if (nicknames.containsKey(userInput.substring(1))) {
-            NamedArgument arg = namedArgs.get(nicknames.get(userInput.substring(1)));
+            String name = nicknames.get(userInput.substring(1));
+            NamedArgument arg = namedArgs.get(name);
             if (arg.getRestrictions().isEmpty() || arg.getRestrictions().isEmpty()) {
                 arg.setValue(userInputQueue.poll());
+                arg.setName(name);
                 arg.setWasEntered(true);
             }
             else {
@@ -200,10 +204,12 @@ public class ArgumentParser {
             }
         }
         else {
-            NamedArgument arg = namedArgs.get(userInput.substring(2));
+            String name = userInput.substring(2);
+            NamedArgument arg = namedArgs.get(name);
             if (arg.getRestrictions().isEmpty() || arg.checkRestrictions(userInputQueue.peek())) {
-                namedArgs.get(userInput.substring(2)).setValue(userInputQueue.poll());
-                namedArgs.get(userInput.substring(2)).setWasEntered(true);
+                arg.setValue(userInputQueue.poll());
+                arg.setName(name);
+                arg.setWasEntered(true);
             } else {
                 //throw exception saying userInputQueue.peek() is not in restrictions of arg.getName()
             }
