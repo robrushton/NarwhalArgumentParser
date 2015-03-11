@@ -334,6 +334,34 @@ public class ArgumentParser {
         flagArgs.put(s, Boolean.FALSE);
     }
     
+    public void createXML() throws JAXBException{
+    		 myArgs = new ArrayList<Argument>();
+    		JAXBContext context = JAXBContext.newInstance(Argument.class, PositionalArgument.class, NamedArgument.class);
+    		Marshaller m = context.createMarshaller();
+    		m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            for (Map.Entry<String, PositionalArgument> p : positionalArgs.entrySet()){
+            	String name = p.getKey();
+            	try {
+            		myArgs.add(positionalArgs.get(name));
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+            }
+            for (Map.Entry<String, NamedArgument> n : namedArgs.entrySet()){
+            	String name = n.getKey();
+            	try {
+            		myArgs.add(namedArgs.get(name));
+				} catch  (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+            }
+            Argument mine = new Argument(myArgs);
+            
+            m.marshal(mine, System.out);
+    	}
+    
     public void loadXML(String s) {
         try {
             File xmlFile = new File(s);
