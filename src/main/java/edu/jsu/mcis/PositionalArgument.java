@@ -1,7 +1,9 @@
 
 package edu.jsu.mcis;
 
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
 public class PositionalArgument extends Argument{
     private String description;
     public PositionalArgument() {
