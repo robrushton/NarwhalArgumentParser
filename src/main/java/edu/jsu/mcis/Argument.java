@@ -1,6 +1,8 @@
+package edu.jsu.mcis;
+
 import java.util.List;
 import javax.xml.bind.annotation.*;
-import createXML.ArgumentParser.Datatype;
+import edu.jsu.mcis.ArgumentParser.Datatype;
 
 @XmlRootElement(name = "arguments")
 public class Argument {
@@ -38,3 +40,4 @@ public class Argument {
         dataType = d;
     }
 }
+
