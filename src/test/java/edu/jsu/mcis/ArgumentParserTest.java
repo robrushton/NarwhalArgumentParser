@@ -128,6 +128,15 @@ public class ArgumentParserTest {
         assertEquals("circle", (String) ap.getValue("type")); 
     }
     
+     @Test
+    public void testAddNameArgumentWithBooleanRequired() {
+        ap.addArguments("Length", ArgumentParser.Datatype.INT, "Length of the object");
+        ap.addNamedArgument("type", " ", true);
+        String[] inp = {"--type", "circle", "5"};
+        ap.parse(inp);
+        assertEquals("circle", (String) ap.getValue("type")); 
+    }
+
     @Test
     public void testMultipleShortNamedArgumentForLongName() {
         ap.addArguments("Length", ArgumentParser.Datatype.INT, "Length of the object");
