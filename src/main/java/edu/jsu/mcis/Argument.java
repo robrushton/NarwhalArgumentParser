@@ -6,20 +6,21 @@ import edu.jsu.mcis.ArgumentParser.Datatype;
 
 @XmlRootElement(name = "arguments")
 public class Argument {
-	int name = 0;
-	private Arguments as;
-	public List<Argument> argument;
+    private String name;
+    //private Arguments as;
+    public List<Argument> argument;
 	
     protected String value;
     protected Datatype dataType;
     
     public Argument(){
     	value = "";
+        name = "";
     }
     
-    public Arguments getArguments(){
-    	return as;
-    }
+    //public Arguments getArguments(){
+    //	return as;
+    //}
     
     public Argument(List<Argument> myArgs) {
         this.argument = myArgs;
