@@ -81,7 +81,7 @@ public class ArgumentParser {
                 positionalPlaced++;
             }
             else {
-                //throws exception saying userInput is not in set of restrictions with key  -> (String) positionalArgs.keySet().toArray()[positionalPlaced]
+                throw new RestrictedValueException(userInput + " is not in set of restrictions");
             }
         } 
         else {
@@ -194,13 +194,13 @@ public class ArgumentParser {
         if (nicknames.containsKey(userInput.substring(1))) {
             String name = nicknames.get(userInput.substring(1));
             NamedArgument arg = namedArgs.get(name);
-            if (arg.getRestrictions().isEmpty() || arg.getRestrictions().isEmpty()) {
+            if (arg.getRestrictions().isEmpty() || arg.checkRestrictions(userInputQueue.peek())) {
                 arg.setValue(userInputQueue.poll());
                 arg.setName(name);
                 arg.setWasEntered(true);
             }
             else {
-                //throw exception saying userInputQueue.peek() is not in restrictions of arg.getName()
+                throw new RestrictedValueException(userInputQueue.poll() + " is not in set of restrictions");
             }
         }
         else {
@@ -211,7 +211,7 @@ public class ArgumentParser {
                 arg.setName(name);
                 arg.setWasEntered(true);
             } else {
-                //throw exception saying userInputQueue.peek() is not in restrictions of arg.getName()
+                throw new RestrictedValueException(userInputQueue.poll() + " is not in set of restrictions");
             }
         }
     }
@@ -403,7 +403,12 @@ public class ArgumentParser {
                         String eName = e.getElementsByTagName("name").item(0).getTextContent();
                         String eDatatype = e.getElementsByTagName("datatype").item(0).getTextContent();
                         String eDescription = e.getElementsByTagName("description").item(0).getTextContent();
+                        String eRestrictions = e.getElementsByTagName("restrictions").item(0).getTextContent();
+                        String[] restrictArray = eRestrictions.split(" ");
                         addArguments(eName, StringToDatatype(eDatatype), eDescription);
+                        if (!isItEmpty(restrictArray)) {
+                            setRestrictions(eName, restrictArray);
+                        }
                     }
                     else if (e.getAttribute("type").equals("named")) {
                         String eName = e.getElementsByTagName("name").item(0).getTextContent();
@@ -411,7 +416,12 @@ public class ArgumentParser {
                         String eDatatype = e.getElementsByTagName("datatype").item(0).getTextContent();
                         String eNickname = e.getElementsByTagName("nickname").item(0).getTextContent();
                         String eRequired = e.getElementsByTagName("required").item(0).getTextContent();
+                        String eRestrictions = e.getElementsByTagName("restrictions").item(0).getTextContent();
+                        String[] restrictArray = eRestrictions.split(" ");
                         addNamedArgument( eName, eDefault, StringToDatatype(eDatatype), eNickname, Boolean.parseBoolean(eRequired));
+                        if (!isItEmpty(restrictArray)) {
+                            setRestrictions(eName, restrictArray);
+                        }
                     }
                     else if (e.getAttribute("type").equals("flag")) {
                         String eFlagname = e.getElementsByTagName("flagname").item(0).getTextContent();
@@ -424,6 +434,14 @@ public class ArgumentParser {
             }
         }catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+    
+    private boolean isItEmpty(String[] input) {
+        if (input.length == 1 && input[0].equals("")) {
+            return true;
+        } else {
+            return false;
         }
     }
     
@@ -461,5 +479,10 @@ public class ArgumentParser {
                 }
             }
         }
+    }
+    
+    public String[] getRestrictions(String s) {
+        String[] array = positionalArgs.get(s).getRestrictions().toArray(new String[positionalArgs.get(s).getRestrictions().size()]);
+        return array;
     }
 }

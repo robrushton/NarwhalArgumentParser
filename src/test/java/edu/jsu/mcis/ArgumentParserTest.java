@@ -420,9 +420,9 @@ public class ArgumentParserTest {
     @Test
     public void testLoadXMLGetPositionalArgumentValue() {
         ap.loadXML(".\\Demos\\testXML.xml");
-        String[] inp = {"Dog", "8", "true", "3.4", "2", "1", "3"};
+        String[] inp = {"dog", "8", "true", "3.4", "2", "1", "3"};
         ap.parse(inp);
-        assertEquals("Dog", ap.getValue("pet"));
+        assertEquals("dog", ap.getValue("pet"));
         assertEquals(8, ap.getValue("number"));
         assertEquals(true, ap.getValue("rainy"));
         assertEquals(ap.getValue("bathrooms"), 3.4f);
@@ -434,15 +434,16 @@ public class ArgumentParserTest {
     @Test
     public void testLoadXMLGetNamedArgumentValue() {
         ap.loadXML(".\\Demos\\testXML.xml");
-        String[] inp = {"Dog", "8", "true", "3.4", "--Type", "sphere", "2", "1", "3"};
+        String[] inp = {"dog", "8", "true", "3.4", "--Type", "sphere", "2", "1", "3"};
         ap.parse(inp);
+        assertEquals("dog", ap.getValue("pet"));
         assertEquals("sphere", ap.getValue("Type"));
     }
     
     @Test
     public void testLoadXMLGetNamedArgumentUsingNicknameValue() {
         ap.loadXML(".\\Demos\\testXML.xml");
-        String[] inp = {"Dog", "8", "true", "3.4", "-t", "sphere", "2", "1", "3"};
+        String[] inp = {"dog", "8", "true", "3.4", "-t", "sphere", "2", "1", "3"};
         ap.parse(inp);
         assertEquals("sphere", ap.getValue("Type"));
     }
@@ -450,7 +451,7 @@ public class ArgumentParserTest {
     @Test
     public void testLoadXMLGetTwoNamedArgumentValue() {
         ap.loadXML(".\\Demos\\testXML.xml");
-        String[] inp = {"Dog", "8", "true", "3.4", "-t", "sphere", "--Color", "red", "2", "1", "3"};
+        String[] inp = {"dog", "8", "true", "3.4", "-t", "sphere", "--Color", "red", "2", "1", "3"};
         ap.parse(inp);
         assertEquals("sphere", ap.getValue("Type"));
         assertEquals("red", ap.getValue("Color"));
@@ -459,7 +460,7 @@ public class ArgumentParserTest {
     @Test
     public void testLoadXMLGetFlagValue() {
         ap.loadXML(".\\Demos\\testXML.xml");
-        String[] inp = {"Dog", "8", "true", "3.4", "-x", "2", "1", "3"};
+        String[] inp = {"dog", "8", "true", "3.4", "-x", "2", "1", "3"};
         ap.parse(inp);
         assertEquals(true, ap.getValue("x"));
         assertEquals(false, ap.getValue("w"));
@@ -468,7 +469,7 @@ public class ArgumentParserTest {
     @Test
     public void testLoadXMLGetTwoFlagValue() {
         ap.loadXML(".\\Demos\\testXML.xml");
-        String[] inp = {"Dog", "8", "true", "3.4", "-x", "-w", "2", "1", "3"};
+        String[] inp = {"dog", "8", "true", "3.4", "-x", "-w", "2", "1", "3"};
         ap.parse(inp);
         assertEquals(true, ap.getValue("x"));
         assertEquals(true, ap.getValue("w"));
@@ -539,6 +540,64 @@ public class ArgumentParserTest {
         ap.addArguments("Length", ArgumentParser.Datatype.INT);
         String[] inp = {"7"};
         ap.parse(inp);
+    }
+    
+    @Test (expected = RestrictedValueException.class)
+    public void testRestrictionPositionalException() {
+        ap.addArguments("Color", ArgumentParser.Datatype.STRING);
+        String[] restrict = {"red", "green", "blue"};
+        ap.setRestrictions("Color", restrict);
+        String[] inp = {"yellow"};
+        ap.parse(inp);
+    }
+
+    
+    @Test (expected = RestrictedValueException.class)
+    public void testRestrictionLongNamedException() {
+        ap.addArguments("Length", ArgumentParser.Datatype.INT);
+        ap.addNamedArgument("Color", true);
+        String[] restrict = {"red", "green", "blue"};
+        ap.setRestrictions("Color", restrict);
+        String[] inp = {"1", "--Color", "yellow"};
+        ap.parse(inp);
+    }
+    
+    @Test (expected = RestrictedValueException.class)
+    public void testRestrictionShortNamedException() {
+        ap.addArguments("Length", ArgumentParser.Datatype.INT);
+        ap.addNamedArgument("Color", "", ArgumentParser.Datatype.STRING, "c", true);
+        String[] restrict = {"red", "green", "blue"};
+        ap.setRestrictions("Color", restrict);
+        String[] inp = {"1", "-c", "yellow"};
+        ap.parse(inp);
+    }
+    
+    @Test (expected = RestrictedValueException.class)
+    public void testLoadXMLCheckPositionalRestrictions() {
+        ap.loadXML(".\\Demos\\testXML.xml");
+        String[] inp = {"monkey", "8", "true", "3.4", "2", "1", "3"};
+        ap.parse(inp);
+        assertEquals("monkey", ap.getValue("pet"));
+        assertEquals(8, ap.getValue("number"));
+        assertEquals(true, ap.getValue("rainy"));
+        assertEquals(ap.getValue("bathrooms"), 3.4f);
+        assertEquals(2, ap.getValue("Length"));
+        assertEquals(1, ap.getValue("Width"));
+        assertEquals(3, ap.getValue("Height"));
+    }
+    
+    @Test (expected = RestrictedValueException.class)
+    public void testLoadXMLCheckNamedRestrictions() {
+        ap.loadXML(".\\Demos\\testXML.xml");
+        String[] inp = {"dog", "8", "true", "3.4", "--Color", "yellow", "2", "1", "3"};
+        ap.parse(inp);
+        assertEquals("dog", ap.getValue("pet"));
+        assertEquals(8, ap.getValue("number"));
+        assertEquals(true, ap.getValue("rainy"));
+        assertEquals(ap.getValue("bathrooms"), 3.4f);
+        assertEquals(2, ap.getValue("Length"));
+        assertEquals(1, ap.getValue("Width"));
+        assertEquals(3, ap.getValue("Height"));
     }
     
 }

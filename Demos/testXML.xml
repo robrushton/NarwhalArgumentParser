@@ -4,42 +4,49 @@
         <name>pet</name>
         <datatype>String</datatype>
         <description>Its a pet</description>
+        <restrictions>dog cat pig</restrictions>
     </argument>
     
     <argument type="positional">
         <name>number</name>
         <datatype>int</datatype>
         <description>Some number</description>
+        <restrictions></restrictions>
     </argument>
     
     <argument type="positional">
         <name>rainy</name>
         <datatype>boolean</datatype>
         <description>Is it rainy</description>
+        <restrictions></restrictions>
     </argument>
     
     <argument type="positional">
         <name>bathrooms</name>
         <datatype>float</datatype>
         <description></description>
+        <restrictions></restrictions>
     </argument>
     
     <argument type="positional">
         <name>Length</name>
         <datatype>int</datatype>
         <description>Length of the object</description>
+        <restrictions></restrictions>
     </argument>
     
     <argument type="positional">
         <name>Width</name>
         <datatype>int</datatype>
         <description>Width of the object</description>
+        <restrictions></restrictions>
     </argument>
     
     <argument type="positional">
         <name>Height</name>
         <datatype>int</datatype>
         <description>Height of the object</description>
+        <restrictions></restrictions>
     </argument>
     
     <argument type="named">
@@ -48,6 +55,7 @@
         <datatype>String</datatype>
         <nickname>t</nickname>
         <required></required>
+        <restrictions></restrictions>
     </argument>
     
     <argument type="named">
@@ -56,6 +64,7 @@
         <datatype>String</datatype>
         <nickname></nickname>
         <required></required>
+        <restrictions>red green blue</restrictions>
     </argument>
     
     <argument type="flag">
