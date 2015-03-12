@@ -399,7 +399,7 @@ public class ArgumentParser {
             File xmlFile = new File(s);
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = dbFactory.newDocumentBuilder();
-            Document xmlDoc = docBuilder.parse(s);
+            Document xmlDoc = docBuilder.parse(xmlFile);
             xmlDoc.getDocumentElement().normalize();
             NodeList nodeList = xmlDoc.getElementsByTagName("argument");
             for (int i = 0; i < nodeList.getLength(); i++) {
@@ -454,17 +454,17 @@ public class ArgumentParser {
         for (Map.Entry<String, PositionalArgument> p : positionalArgs.entrySet()){
             key = p.getKey();
             if (key == name){
-                    for (String ob : o) {
-                        positionalArgs.get(name).getRestrictions().add(ob);
-                    }
+                for (String ob : o) {
+                    positionalArgs.get(name).getRestrictions().add(ob);
+                }
             }
         }
         for (Map.Entry<String, NamedArgument> n : namedArgs.entrySet()){
             key = n.getKey();
             if (key.equals(name)){
-                    for (String ob : o){
-                            namedArgs.get(name).getRestrictions().add(ob);
-                    }
+                for (String ob : o){
+                        namedArgs.get(name).getRestrictions().add(ob);
+                }
             }
         }
     }

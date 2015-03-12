@@ -16,10 +16,6 @@ public class NamedArgument extends Argument{
         dataType = Datatype.STRING;
     }
 
-    public String getNickname() {
-        return nickname;
-    }
-
     public void setNickname(String n) {
         nickname = n;
     }
