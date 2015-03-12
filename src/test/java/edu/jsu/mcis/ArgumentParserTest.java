@@ -83,14 +83,14 @@ public class ArgumentParserTest {
     @Test
     public void testNamedArgumentDefaultValue() {
         ap.addArguments("thing", ArgumentParser.Datatype.FLOAT, "Length of the object");
-        ap.addNamedArgument("stuff", "5");
+        ap.addNamedArgument("stuff", "5", false);
         assertEquals("5", (String) ap.getValue("stuff"));
     }
     
     @Test
     public void testNamedArgumentDefaultValueBeingChanged() {
         ap.addArguments("thing", ArgumentParser.Datatype.FLOAT, "Length of the object");
-        ap.addNamedArgument("stuff", "5");
+        ap.addNamedArgument("stuff", "5", false);
         String[] inp = {"--stuff", "10", "4.6"};
         ap.parse(inp);
         assertEquals("10", (String) ap.getValue("stuff"));
@@ -100,7 +100,7 @@ public class ArgumentParserTest {
     @Test
     public void testSingleArgumentNoDefaultValue() {
         ap.addArguments("thing", ArgumentParser.Datatype.FLOAT, "Length of the object");
-        ap.addNamedArgument("stuff");
+        ap.addNamedArgument("stuff", true);
         String[] inp = {"--stuff", "5", "4.2"};
         ap.parse(inp);
         assertEquals("5", (String) ap.getValue("stuff"));
@@ -122,7 +122,7 @@ public class ArgumentParserTest {
     @Test
     public void testShortNamedArgumentForLongName() {
         ap.addArguments("Length", ArgumentParser.Datatype.INT, "Length of the object");
-        ap.addNamedArgument("type", " ", "t");
+        ap.addNamedArgument("type", " ", ArgumentParser.Datatype.STRING, "t", true);
         String[] inp = {"-t", "circle", "5"};
         ap.parse(inp);
         assertEquals("circle", (String) ap.getValue("type")); 
@@ -142,8 +142,8 @@ public class ArgumentParserTest {
         ap.addArguments("Length", ArgumentParser.Datatype.INT, "Length of the object");
         ap.addArguments("Width", ArgumentParser.Datatype.INT, "Width of the object");
         ap.addArguments("Height", ArgumentParser.Datatype.INT, "Height of the object");
-        ap.addNamedArgument("type", " ", "t");
-        ap.addNamedArgument("color", " ", "c");
+        ap.addNamedArgument("type", " ",ArgumentParser.Datatype.STRING,"t", false);
+        ap.addNamedArgument("color", " ", ArgumentParser.Datatype.STRING, "c", false);
         String[] inp = {"-t", "circle", "5", "-c", "red", "7", "10"};
         ap.parse(inp);
         assertEquals("circle", (String) ap.getValue("type")); 
@@ -155,8 +155,8 @@ public class ArgumentParserTest {
         ap.addArguments("Length", ArgumentParser.Datatype.INT, "Length of the object");
         ap.addArguments("Width", ArgumentParser.Datatype.INT, "Width of the object");
         ap.addArguments("Height", ArgumentParser.Datatype.INT, "Height of the object");
-        ap.addNamedArgument("type", " ", "t");
-        ap.addNamedArgument("color", " ", "c");
+        ap.addNamedArgument("type", " ", ArgumentParser.Datatype.STRING,"t", true);
+        ap.addNamedArgument("color", " ",ArgumentParser.Datatype.STRING, "c", false);
         String[] inp = {"-t", "circle", "5", "--color", "red", "7", "10"};
         ap.parse(inp);
         assertEquals("circle", (String) ap.getValue("type")); 
@@ -168,7 +168,7 @@ public class ArgumentParserTest {
         ap.addArguments("Arg 1", ArgumentParser.Datatype.BOOLEAN, "This should be true");
         ap.addArguments("Arg 2", ArgumentParser.Datatype.BOOLEAN, "This should be false");
         ap.addArguments("Arg 3", ArgumentParser.Datatype.BOOLEAN, "This should be true");
-        ap.addNamedArgument("stuff", "5");
+        ap.addNamedArgument("stuff", "5", true);
         String[] inp = {"--stuff", "4", "true", "false", "true"};
         ap.parse(inp);
         assertEquals("4", (String) ap.getValue("stuff"));
@@ -179,7 +179,7 @@ public class ArgumentParserTest {
         ap.addArguments("Arg 1", ArgumentParser.Datatype.BOOLEAN, "This should be true");
         ap.addArguments("Arg 2", ArgumentParser.Datatype.BOOLEAN, "This should be false");
         ap.addArguments("Arg 3", ArgumentParser.Datatype.BOOLEAN, "This should be true");
-        ap.addNamedArgument("stuff", "5");
+        ap.addNamedArgument("stuff", "5", false);
         String[] inp = { "true", "false", "--stuff", "4", "true"};
         ap.parse(inp);
         assertEquals("4", (String) ap.getValue("stuff"));
@@ -190,7 +190,7 @@ public class ArgumentParserTest {
         ap.addArguments("Arg 1", ArgumentParser.Datatype.BOOLEAN, "This should be true");
         ap.addArguments("Arg 2", ArgumentParser.Datatype.BOOLEAN, "This should be false");
         ap.addArguments("Arg 3", ArgumentParser.Datatype.BOOLEAN, "This should be true");
-        ap.addNamedArgument("stuff", "5");
+        ap.addNamedArgument("stuff", "5", true);
         String[] inp = {"true", "false", "true", "--stuff", "4"};
         ap.parse(inp);
         assertEquals("4", (String) ap.getValue("stuff"));
@@ -324,7 +324,7 @@ public class ArgumentParserTest {
 	
     @Test
     public void testSetDefaultValue(){
-        ap.addNamedArgument("name");
+        ap.addNamedArgument("name", true);
         ap.addNamedArgDefaultValue("name","20");
         assertEquals("20", (String) ap.getValue("name"));
     }
@@ -384,7 +384,7 @@ public class ArgumentParserTest {
         ap.addArguments("Length", ArgumentParser.Datatype.INT);
         ap.addArguments("Width", ArgumentParser.Datatype.INT);
         ap.addArguments("Height", ArgumentParser.Datatype.INT);
-        ap.addNamedArgument("Color", "black");
+        ap.addNamedArgument("Color", "black", false);
         String[] restrict = {"red", "yellow", "blue"};
         ap.setRestrictions("Color", restrict);
         String[] inp = {"1", "2", "6", "--Color", "red"};
@@ -400,7 +400,7 @@ public class ArgumentParserTest {
         ap.addArguments("Length", ArgumentParser.Datatype.INT);
         ap.addArguments("Width", ArgumentParser.Datatype.INT);
         ap.addArguments("Height", ArgumentParser.Datatype.INT);
-        ap.addNamedArgument("Color", "black");
+        ap.addNamedArgument("Color", "black", false);
         ap.addNamedArgument("Type", true);
         String[] restrictColor = {"red", "yellow", "blue"};
         String[] restrictType = {"sphere", "square"};
@@ -521,21 +521,21 @@ public class ArgumentParserTest {
     
     @Test (expected = InvalidNamedArgumentException.class)
     public void testUserEnterInvalidLongArgument() {
-        ap.addNamedArgument("type");
+        ap.addNamedArgument("type", false);
         String[] inp = {"--circle"};
         ap.parse(inp);
     }
     
     @Test (expected = InvalidNamedArgumentException.class)
     public void testUserEnterInvalidShortArgument() {
-        ap.addNamedArgument("type", "", "t");
+        ap.addNamedArgument("type", "",ArgumentParser.Datatype.STRING, "t", false);
         String[] inp = {"-c"};
         ap.parse(inp);
     }
     
     @Test (expected = RequiredNamedArgumentNotGivenException.class)
     public void testRequiredNamedArgumentNotGiven() {
-        ap.addNamedArgument("Type", "", "t", true);
+        ap.addNamedArgument("Type", "", ArgumentParser.Datatype.STRING, "t", true);
         ap.addArguments("Length", ArgumentParser.Datatype.INT);
         String[] inp = {"7"};
         ap.parse(inp);

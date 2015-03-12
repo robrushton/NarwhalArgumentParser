@@ -268,36 +268,29 @@ public class ArgumentParser {
         namedArgs.get(name).setValue(defaultValue);
     }
     
-    public void addNamedArgument(String name) {
+    public void addNamedArgument(String name, boolean required) {
         NamedArgument oa = new NamedArgument();
         namedArgs.put(name, oa);
-    }
-    
-    public void addNamedArgument(String name, boolean required) {
-        addNamedArgument(name);
         setRequired(name, required);
     }
     
-    public void addNamedArgument(String name, String defaultValue) {
-        addNamedArgument(name);
+    
+    public void addNamedArgument(String name, String defaultValue, boolean required) {
+        addNamedArgument(name, required);
         NamedArgument oa = getNamedArgument(name);
         oa.setValue(defaultValue);
     }
     
-    public void addNamedArgument(String name, String defaultValue, boolean required) {
-        addNamedArgument(name, defaultValue);
-        setRequired(name, required);
+    public void addNamedArgument(String name, String defaultValue, Datatype datatype, boolean required) {
+        addNamedArgument(name, defaultValue, required);
+        NamedArgument oa = getNamedArgument(name);
+        oa.setDataType(datatype);
     }
     
-    public void addNamedArgument(String name, String defaultValue, String nickname) {
-        addNamedArgument(name, defaultValue);
+    public void addNamedArgument(String name, String defaultValue, Datatype datatype, String nickname, boolean required) {
+        addNamedArgument(name, defaultValue, datatype, required);
         nicknames.put(nickname, name);
         setNickname(name, nickname);
-    }
-    
-    public void addNamedArgument(String name, String defaultValue, String nickname, boolean required) {
-        addNamedArgument(name, defaultValue, nickname);
-        setRequired(name, required);
     }
     
     private void setRequired(String name, boolean required) {
@@ -415,9 +408,10 @@ public class ArgumentParser {
                     else if (e.getAttribute("type").equals("named")) {
                         String eName = e.getElementsByTagName("name").item(0).getTextContent();
                         String eDefault = e.getElementsByTagName("default").item(0).getTextContent();
+                        String eDatatype = e.getElementsByTagName("datatype").item(0).getTextContent();
                         String eNickname = e.getElementsByTagName("nickname").item(0).getTextContent();
                         String eRequired = e.getElementsByTagName("required").item(0).getTextContent();
-                        addNamedArgument( eName, eDefault, eNickname, Boolean.parseBoolean(eRequired));
+                        addNamedArgument( eName, eDefault, StringToDatatype(eDatatype), eNickname, Boolean.parseBoolean(eRequired));
                     }
                     else if (e.getAttribute("type").equals("flag")) {
                         String eFlagname = e.getElementsByTagName("flagname").item(0).getTextContent();

@@ -45,6 +45,7 @@
     <argument type="named">
         <name>Type</name>
         <default></default>
+        <datatype>String</datatype>
         <nickname>t</nickname>
         <required></required>
     </argument>
@@ -52,6 +53,7 @@
     <argument type="named">
         <name>Color</name>
         <default></default>
+        <datatype>String</datatype>
         <nickname></nickname>
         <required></required>
     </argument>
