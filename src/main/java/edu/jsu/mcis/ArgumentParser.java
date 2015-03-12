@@ -461,6 +461,7 @@ public class ArgumentParser {
             throw new InvalidDataTypeException("\n " + data + ": is not an excepted data type.");
         }
     }
+    
     public void setRestrictions(String name, String[] o){
         String key;
         for (Map.Entry<String, PositionalArgument> p : positionalArgs.entrySet()){
@@ -479,10 +480,5 @@ public class ArgumentParser {
                 }
             }
         }
-    }
-    
-    public String[] getRestrictions(String s) {
-        String[] array = positionalArgs.get(s).getRestrictions().toArray(new String[positionalArgs.get(s).getRestrictions().size()]);
-        return array;
     }
 }
