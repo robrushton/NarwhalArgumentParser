@@ -416,10 +416,10 @@ public class ArgumentParserTest {
     }
     
     
-    /*
+    
     @Test
     public void testLoadXMLGetPositionalArgumentValue() {
-        ap.loadXML("C:\\Users\\Kane\\narwhal\\Demos\\testXML.xml");
+        ap.loadXML(".\\Demos\\testXML.xml");
         String[] inp = {"Dog", "8", "true", "3.4", "2", "1", "3"};
         ap.parse(inp);
         assertEquals("Dog", ap.getValue("pet"));
@@ -433,7 +433,7 @@ public class ArgumentParserTest {
     
     @Test
     public void testLoadXMLGetNamedArgumentValue() {
-        ap.loadXML("C:\\Users\\Kane\\narwhal\\Demos\\testXML.xml");
+        ap.loadXML(".\\Demos\\testXML.xml");
         String[] inp = {"Dog", "8", "true", "3.4", "--Type", "sphere", "2", "1", "3"};
         ap.parse(inp);
         assertEquals("sphere", ap.getValue("Type"));
@@ -441,7 +441,7 @@ public class ArgumentParserTest {
     
     @Test
     public void testLoadXMLGetNamedArgumentUsingNicknameValue() {
-        ap.loadXML("C:\\Users\\Kane\\narwhal\\Demos\\testXML.xml");
+        ap.loadXML(".\\Demos\\testXML.xml");
         String[] inp = {"Dog", "8", "true", "3.4", "-t", "sphere", "2", "1", "3"};
         ap.parse(inp);
         assertEquals("sphere", ap.getValue("Type"));
@@ -449,7 +449,7 @@ public class ArgumentParserTest {
     
     @Test
     public void testLoadXMLGetTwoNamedArgumentValue() {
-        ap.loadXML("C:\\Users\\Kane\\narwhal\\Demos\\testXML.xml");
+        ap.loadXML(".\\Demos\\testXML.xml");
         String[] inp = {"Dog", "8", "true", "3.4", "-t", "sphere", "--Color", "red", "2", "1", "3"};
         ap.parse(inp);
         assertEquals("sphere", ap.getValue("Type"));
@@ -458,7 +458,7 @@ public class ArgumentParserTest {
     
     @Test
     public void testLoadXMLGetFlagValue() {
-        ap.loadXML("C:\\Users\\Kane\\narwhal\\Demos\\testXML.xml");
+        ap.loadXML(".\\Demos\\testXML.xml");
         String[] inp = {"Dog", "8", "true", "3.4", "-x", "2", "1", "3"};
         ap.parse(inp);
         assertEquals(true, ap.getValue("x"));
@@ -467,13 +467,13 @@ public class ArgumentParserTest {
     
     @Test
     public void testLoadXMLGetTwoFlagValue() {
-        ap.loadXML("C:\\Users\\Kane\\narwhal\\Demos\\testXML.xml");
+        ap.loadXML(".\\Demos\\testXML.xml");
         String[] inp = {"Dog", "8", "true", "3.4", "-x", "-w", "2", "1", "3"};
         ap.parse(inp);
         assertEquals(true, ap.getValue("x"));
         assertEquals(true, ap.getValue("w"));
     }
-    */
+    
     
     @Test(expected = InvalidDataTypeException.class)
     public void testEnterFloatWhenShouldBeInt() {
