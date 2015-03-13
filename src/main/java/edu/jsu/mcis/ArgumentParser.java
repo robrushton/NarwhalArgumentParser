@@ -323,10 +323,10 @@ public class ArgumentParser {
         for (String s : positionalArgs.keySet()) {
             if (printLoopCount < numPositionalArgs) {
                 if (!positionalArgs.get(s).getDescription().equals("")) {
-                    System.out.println(s + ": " + positionalArgs.get(s).getDescription());
+                    System.out.println(s + ": " + positionalArgs.get(s).getDescription() + "   Type: " + positionalArgs.get(s).getDataType());
                 }
                 else {
-                    System.out.println(s + ": No Description Given");
+                    System.out.println(s + ": No Description Given   Type: " + positionalArgs.get(s).getDataType());
                 }
             }
             printLoopCount++;
