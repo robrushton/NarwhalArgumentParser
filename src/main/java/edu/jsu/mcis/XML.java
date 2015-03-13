@@ -12,13 +12,9 @@ import javax.xml.bind.*;
 
 public class XML extends ArgumentParser {
     
-    private ArgumentParser p;
     
-    public XML(ArgumentParser a) {
-        p = a;
-    }
-    
-    public void loadXML(String fileName) {
+    public static ArgumentParser loadXML(String fileName) {
+        ArgumentParser ap = new ArgumentParser();
         try {
             File xmlFile = new File(fileName);
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -36,9 +32,9 @@ public class XML extends ArgumentParser {
                         String eDescription = e.getElementsByTagName("description").item(0).getTextContent();
                         String eRestrictions = e.getElementsByTagName("restrictions").item(0).getTextContent();
                         String[] restrictArray = eRestrictions.split(" ");
-                        p.addArguments(eName, p.StringToDatatype(eDatatype), eDescription);
-                        if (!p.isItEmpty(restrictArray)) {
-                            p.setRestrictions(eName, restrictArray);
+                        ap.addArguments(eName, ap.StringToDatatype(eDatatype), eDescription);
+                        if (!ap.isItEmpty(restrictArray)) {
+                            ap.setRestrictions(eName, restrictArray);
                         }
                     }
                     else if (e.getAttribute("type").equals("named")) {
@@ -49,14 +45,14 @@ public class XML extends ArgumentParser {
                         String eRequired = e.getElementsByTagName("required").item(0).getTextContent();
                         String eRestrictions = e.getElementsByTagName("restrictions").item(0).getTextContent();
                         String[] restrictArray = eRestrictions.split(" ");
-                        p.addNamedArgument(eName, eDefault, p.StringToDatatype(eDatatype), eNickname, Boolean.parseBoolean(eRequired));
-                        if (!p.isItEmpty(restrictArray)) {
-                            p.setRestrictions(eName, restrictArray);
+                        ap.addNamedArgument(eName, eDefault, ap.StringToDatatype(eDatatype), eNickname, Boolean.parseBoolean(eRequired));
+                        if (!ap.isItEmpty(restrictArray)) {
+                            ap.setRestrictions(eName, restrictArray);
                         }
                     }
                     else if (e.getAttribute("type").equals("flag")) {
                         String eFlagname = e.getElementsByTagName("flagname").item(0).getTextContent();
-                        p.addFlag(eFlagname);
+                        ap.addFlag(eFlagname);
                     }
                     else {
                         throw new MissingUsableArgumentException("No usable arguments found");
@@ -66,6 +62,7 @@ public class XML extends ArgumentParser {
         }catch (Exception e) {
             e.printStackTrace();
         }
+        return ap;
     }
     
     public void saveXML(String fileName) {

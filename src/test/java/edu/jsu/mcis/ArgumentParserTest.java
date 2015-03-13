@@ -419,7 +419,7 @@ public class ArgumentParserTest {
     
     @Test
     public void testLoadXMLGetPositionalArgumentValue() {
-        ap.loadXML(".\\Demos\\testXML.xml");
+        ap = XML.loadXML(".\\Demos\\testXML.xml");
         String[] inp = {"dog", "8", "true", "3.4", "2", "1", "3"};
         ap.parse(inp);
         assertEquals("dog", ap.getValue("pet"));
@@ -433,7 +433,7 @@ public class ArgumentParserTest {
     
     @Test
     public void testLoadXMLGetNamedArgumentValue() {
-        ap.loadXML(".\\Demos\\testXML.xml");
+        ap = XML.loadXML(".\\Demos\\testXML.xml");
         String[] inp = {"dog", "8", "true", "3.4", "--Type", "sphere", "2", "1", "3"};
         ap.parse(inp);
         assertEquals("dog", ap.getValue("pet"));
@@ -442,7 +442,7 @@ public class ArgumentParserTest {
     
     @Test
     public void testLoadXMLGetNamedArgumentUsingNicknameValue() {
-        ap.loadXML(".\\Demos\\testXML.xml");
+        ap = XML.loadXML(".\\Demos\\testXML.xml");
         String[] inp = {"dog", "8", "true", "3.4", "-t", "sphere", "2", "1", "3"};
         ap.parse(inp);
         assertEquals("sphere", ap.getValue("Type"));
@@ -450,7 +450,7 @@ public class ArgumentParserTest {
     
     @Test
     public void testLoadXMLGetTwoNamedArgumentValue() {
-        ap.loadXML(".\\Demos\\testXML.xml");
+        ap = XML.loadXML(".\\Demos\\testXML.xml");
         String[] inp = {"dog", "8", "true", "3.4", "-t", "sphere", "--Color", "red", "2", "1", "3"};
         ap.parse(inp);
         assertEquals("sphere", ap.getValue("Type"));
@@ -459,7 +459,7 @@ public class ArgumentParserTest {
     
     @Test
     public void testLoadXMLGetFlagValue() {
-        ap.loadXML(".\\Demos\\testXML.xml");
+        ap = XML.loadXML(".\\Demos\\testXML.xml");
         String[] inp = {"dog", "8", "true", "3.4", "-x", "2", "1", "3"};
         ap.parse(inp);
         assertEquals(true, ap.getValue("x"));
@@ -468,7 +468,7 @@ public class ArgumentParserTest {
     
     @Test
     public void testLoadXMLGetTwoFlagValue() {
-        ap.loadXML(".\\Demos\\testXML.xml");
+        ap = XML.loadXML(".\\Demos\\testXML.xml");
         String[] inp = {"dog", "8", "true", "3.4", "-x", "-w", "2", "1", "3"};
         ap.parse(inp);
         assertEquals(true, ap.getValue("x"));
@@ -574,7 +574,7 @@ public class ArgumentParserTest {
     
     @Test (expected = RestrictedValueException.class)
     public void testLoadXMLCheckPositionalRestrictions() {
-        ap.loadXML(".\\Demos\\testXML.xml");
+        ap = XML.loadXML(".\\Demos\\testXML.xml");
         String[] inp = {"monkey", "8", "true", "3.4", "2", "1", "3"};
         ap.parse(inp);
         assertEquals("monkey", ap.getValue("pet"));
@@ -588,7 +588,7 @@ public class ArgumentParserTest {
     
     @Test (expected = RestrictedValueException.class)
     public void testLoadXMLCheckNamedRestrictions() {
-        ap.loadXML(".\\Demos\\testXML.xml");
+        ap = XML.loadXML(".\\Demos\\testXML.xml");
         String[] inp = {"dog", "8", "true", "3.4", "--Color", "yellow", "2", "1", "3"};
         ap.parse(inp);
         assertEquals("dog", ap.getValue("pet"));
