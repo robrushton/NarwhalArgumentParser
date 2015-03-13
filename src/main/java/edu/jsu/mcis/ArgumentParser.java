@@ -31,6 +31,10 @@ public class ArgumentParser {
         
     }
     
+    public Map<String, PositionalArgument> getPosArgs() {
+        return positionalArgs;
+    }
+    
     public void parse(String[] args) {
         Queue<String> userInputQueue = new LinkedList<String>();
         convertArrayToQueue(args, userInputQueue);
@@ -437,7 +441,7 @@ public class ArgumentParser {
         }
     }
     
-    private boolean isItEmpty(String[] input) {
+    protected boolean isItEmpty(String[] input) {
         if (input.length == 1 && input[0].equals("")) {
             return true;
         } else {
@@ -445,7 +449,7 @@ public class ArgumentParser {
         }
     }
     
-    private Datatype StringToDatatype(String data) {
+    protected Datatype StringToDatatype(String data) {
         if (data.equals("String")) {
             return Datatype.STRING;
         } 

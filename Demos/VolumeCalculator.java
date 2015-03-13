@@ -1,10 +1,12 @@
 import edu.jsu.mcis.*;
+import java.util.*;
 
 public class VolumeCalculator {
     
     public static void main(String[] args) {
         ArgumentParser ap = new ArgumentParser();
-        ap.loadXML("testXML.xml");
+        XML xml = new XML(ap);
+        xml.loadXML("testXML.xml");
         ap.parse(args);
         /*
         ap.addArguments("pet", "String", "Its a pet");
