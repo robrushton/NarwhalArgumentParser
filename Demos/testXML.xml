@@ -4,7 +4,11 @@
         <name>pet</name>
         <datatype>String</datatype>
         <description>Its a pet</description>
-        <restrictions>dog cat pig</restrictions>
+        <restrictions>
+            <restrict>dog</restrict>
+            <restrict>cat</restrict>
+            <restrict>pig</restrict>
+        </restrictions>
     </argument>
     
     <argument type="positional">
@@ -64,7 +68,11 @@
         <datatype>String</datatype>
         <nickname></nickname>
         <required></required>
-        <restrictions>red green blue</restrictions>
+        <restrictions>
+            <restrict>red</restrict>
+            <restrict>green</restrict>
+            <restrict>blue</restrict>
+        </restrictions>
     </argument>
     
     <argument type="flag">

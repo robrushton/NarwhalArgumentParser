@@ -30,8 +30,12 @@ public class XML extends ArgumentParser {
                         String eName = e.getElementsByTagName("name").item(0).getTextContent();
                         String eDatatype = e.getElementsByTagName("datatype").item(0).getTextContent();
                         String eDescription = e.getElementsByTagName("description").item(0).getTextContent();
-                        String eRestrictions = e.getElementsByTagName("restrictions").item(0).getTextContent();
-                        String[] restrictArray = eRestrictions.split(" ");
+                        ArrayList<String> restrictList = new ArrayList<String>();
+                        NodeList restrict = e.getElementsByTagName("restrict");
+                        for (int k = 0; k < restrict.getLength(); k++) {
+                            restrictList.add(restrict.item(k).getTextContent());
+                        }
+                        String[] restrictArray = restrictList.toArray(new String[restrictList.size()]);
                         ap.addArguments(eName, ap.StringToDatatype(eDatatype), eDescription);
                         if (!ap.isItEmpty(restrictArray)) {
                             ap.setRestrictions(eName, restrictArray);
@@ -43,8 +47,12 @@ public class XML extends ArgumentParser {
                         String eDatatype = e.getElementsByTagName("datatype").item(0).getTextContent();
                         String eNickname = e.getElementsByTagName("nickname").item(0).getTextContent();
                         String eRequired = e.getElementsByTagName("required").item(0).getTextContent();
-                        String eRestrictions = e.getElementsByTagName("restrictions").item(0).getTextContent();
-                        String[] restrictArray = eRestrictions.split(" ");
+                        ArrayList<String> restrictList = new ArrayList<String>();
+                        NodeList restrict = e.getElementsByTagName("restrict");
+                        for (int k = 0; k < restrict.getLength(); k++) {
+                            restrictList.add(restrict.item(k).getTextContent());
+                        }
+                        String[] restrictArray = restrictList.toArray(new String[restrictList.size()]);
                         ap.addNamedArgument(eName, eDefault, ap.StringToDatatype(eDatatype), eNickname, Boolean.parseBoolean(eRequired));
                         if (!ap.isItEmpty(restrictArray)) {
                             ap.setRestrictions(eName, restrictArray);
