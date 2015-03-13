@@ -2,6 +2,7 @@ package edu.jsu.mcis;
 
 import org.junit.*;
 import static org.junit.Assert.*;
+import java.util.*;
 
 public class ArgumentParserTest {
     private ArgumentParser ap;
@@ -353,7 +354,7 @@ public class ArgumentParserTest {
         ap.addArguments("Length", ArgumentParser.Datatype.INT);
         ap.addArguments("Width", ArgumentParser.Datatype.INT);
         ap.addArguments("Height", ArgumentParser.Datatype.INT);
-        String[] restrict = {"1", "2", "3"};
+        List<String> restrict = Arrays.asList("1", "2", "3");
         ap.setRestrictions("Length", restrict);
         ap.setRestrictions("Width", restrict);
         ap.setRestrictions("Height", restrict);
@@ -369,7 +370,7 @@ public class ArgumentParserTest {
         ap.addArguments("Length", ArgumentParser.Datatype.INT);
         ap.addArguments("Width", ArgumentParser.Datatype.INT);
         ap.addArguments("Height", ArgumentParser.Datatype.INT);
-        String[] restrict = {"1", "2", "3"};
+        List<String> restrict = Arrays.asList("1", "2", "3");
         ap.setRestrictions("Length", restrict);
         ap.setRestrictions("Width", restrict);
         String[] inp = {"1", "2", "6"};
@@ -385,8 +386,8 @@ public class ArgumentParserTest {
         ap.addArguments("Width", ArgumentParser.Datatype.INT);
         ap.addArguments("Height", ArgumentParser.Datatype.INT);
         ap.addNamedArgument("Color", "black", false);
-        String[] restrict = {"red", "yellow", "blue"};
-        ap.setRestrictions("Color", restrict);
+        List<String> restrictColor = Arrays.asList("red", "yellow", "blue");
+        ap.setRestrictions("Color", restrictColor);
         String[] inp = {"1", "2", "6", "--Color", "red"};
         ap.parse(inp);
         assertEquals(1, ap.getValue("Length"));
@@ -402,8 +403,8 @@ public class ArgumentParserTest {
         ap.addArguments("Height", ArgumentParser.Datatype.INT);
         ap.addNamedArgument("Color", "black", false);
         ap.addNamedArgument("Type", true);
-        String[] restrictColor = {"red", "yellow", "blue"};
-        String[] restrictType = {"sphere", "square"};
+        List<String> restrictColor = Arrays.asList("red", "yellow", "blue");
+        List<String> restrictType = Arrays.asList("sphere", "square");
         ap.setRestrictions("Color", restrictColor);
         ap.setRestrictions("Type", restrictType);
         String[] inp = {"1", "--Type", "square", "2", "6", "--Color", "red"};
@@ -545,8 +546,8 @@ public class ArgumentParserTest {
     @Test (expected = RestrictedValueException.class)
     public void testRestrictionPositionalException() {
         ap.addArguments("Color", ArgumentParser.Datatype.STRING);
-        String[] restrict = {"red", "green", "blue"};
-        ap.setRestrictions("Color", restrict);
+        List<String> restrictColor = Arrays.asList("red", "green", "blue");
+        ap.setRestrictions("Color", restrictColor);
         String[] inp = {"yellow"};
         ap.parse(inp);
     }
@@ -556,8 +557,8 @@ public class ArgumentParserTest {
     public void testRestrictionLongNamedException() {
         ap.addArguments("Length", ArgumentParser.Datatype.INT);
         ap.addNamedArgument("Color", true);
-        String[] restrict = {"red", "green", "blue"};
-        ap.setRestrictions("Color", restrict);
+        List<String> restrictColor = Arrays.asList("red", "green", "blue");
+        ap.setRestrictions("Color", restrictColor);
         String[] inp = {"1", "--Color", "yellow"};
         ap.parse(inp);
     }
@@ -566,8 +567,8 @@ public class ArgumentParserTest {
     public void testRestrictionShortNamedException() {
         ap.addArguments("Length", ArgumentParser.Datatype.INT);
         ap.addNamedArgument("Color", "", ArgumentParser.Datatype.STRING, "c", true);
-        String[] restrict = {"red", "green", "blue"};
-        ap.setRestrictions("Color", restrict);
+        List<String> restrictColor = Arrays.asList("red", "green", "blue");
+        ap.setRestrictions("Color", restrictColor);
         String[] inp = {"1", "-c", "yellow"};
         ap.parse(inp);
     }

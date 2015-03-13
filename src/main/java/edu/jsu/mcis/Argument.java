@@ -6,12 +6,12 @@ import javax.xml.bind.annotation.*;
 import edu.jsu.mcis.ArgumentParser.Datatype;
 
 @XmlRootElement(name = "arguments")
-public class Argument {
+public class Argument <T>{
     protected String name;
     protected List<Argument> argument;
     protected String value;
     protected Datatype dataType;
-    protected List<String> restrictions = new ArrayList<String>();
+    protected List<T> restrictions = new ArrayList<T>();
     
     public Argument(){
     	value = "";
@@ -22,21 +22,22 @@ public class Argument {
         this.argument = myArgs;
     }
     
+    public List<Argument> getArguments(){
+    	return argument;
+    }
+    
     public boolean checkRestrictions(String checkValue){
-        for (String s : restrictions) {
-            if (s.equals(checkValue)) {
+        for (T s : restrictions) {
+            String str = s.toString();
+            if (str.equals(checkValue)) {
                 return true;
             }
         }
         return false;	
     }
     
-    public List<String> getRestrictions() {
+    public List<T> getRestrictions() {
         return restrictions;
-    }
-            
-    public List<Argument> getArguments(){
-    	return argument;
     }
     
     public void setName(String n) {

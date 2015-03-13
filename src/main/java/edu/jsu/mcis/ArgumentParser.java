@@ -388,8 +388,8 @@ public class ArgumentParser {
     }
     
     
-    protected boolean isItEmpty(String[] input) {
-        if (input.length == 1 && input[0].equals("")) {
+    protected boolean isItEmpty(List<String> input) {
+        if (input.size() == 1 && input.get(0).equals("")) {
             return true;
         } else {
             return false;
@@ -413,21 +413,23 @@ public class ArgumentParser {
         }
     }
     
-    public void setRestrictions(String name, String[] o){
+    public <T> void setRestrictions(String name, List<T> o){
         String key;
         for (Map.Entry<String, PositionalArgument> p : positionalArgs.entrySet()){
             key = p.getKey();
             if (key == name){
-                for (String ob : o) {
-                    positionalArgs.get(name).getRestrictions().add(ob);
+                for (T ob : o) {
+                    String str = ob.toString();
+                    positionalArgs.get(name).getRestrictions().add(str);
                 }
             }
         }
         for (Map.Entry<String, NamedArgument> n : namedArgs.entrySet()){
             key = n.getKey();
             if (key.equals(name)){
-                for (String ob : o){
-                        namedArgs.get(name).getRestrictions().add(ob);
+                for (T ob : o){
+                    String str = ob.toString();
+                    namedArgs.get(name).getRestrictions().add(str);
                 }
             }
         }

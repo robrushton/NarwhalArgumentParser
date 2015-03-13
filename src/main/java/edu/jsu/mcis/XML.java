@@ -35,10 +35,9 @@ public class XML extends ArgumentParser {
                         for (int k = 0; k < restrict.getLength(); k++) {
                             restrictList.add(restrict.item(k).getTextContent());
                         }
-                        String[] restrictArray = restrictList.toArray(new String[restrictList.size()]);
                         ap.addArguments(eName, ap.StringToDatatype(eDatatype), eDescription);
-                        if (!ap.isItEmpty(restrictArray)) {
-                            ap.setRestrictions(eName, restrictArray);
+                        if (!ap.isItEmpty(restrictList)) {
+                            ap.setRestrictions(eName, restrictList);
                         }
                     }
                     else if (e.getAttribute("type").equals("named")) {
@@ -52,10 +51,9 @@ public class XML extends ArgumentParser {
                         for (int k = 0; k < restrict.getLength(); k++) {
                             restrictList.add(restrict.item(k).getTextContent());
                         }
-                        String[] restrictArray = restrictList.toArray(new String[restrictList.size()]);
                         ap.addNamedArgument(eName, eDefault, ap.StringToDatatype(eDatatype), eNickname, Boolean.parseBoolean(eRequired));
-                        if (!ap.isItEmpty(restrictArray)) {
-                            ap.setRestrictions(eName, restrictArray);
+                        if (!ap.isItEmpty(restrictList)) {
+                            ap.setRestrictions(eName, restrictList);
                         }
                     }
                     else if (e.getAttribute("type").equals("flag")) {
