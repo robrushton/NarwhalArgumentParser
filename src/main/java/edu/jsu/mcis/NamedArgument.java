@@ -6,6 +6,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class NamedArgument extends Argument{
+    private String defaultValue;
     private String nickname;
     private boolean required;
     private boolean wasEntered;
@@ -15,9 +16,21 @@ public class NamedArgument extends Argument{
         wasEntered = false;
         dataType = Datatype.STRING;
     }
-
+    
+    public void setDefaultValue(String d) {
+        defaultValue = d;
+    }
+    
+    public String getDefaultValue() {
+        return defaultValue;
+    }
+    
     public void setNickname(String n) {
         nickname = n;
+    }
+    
+    public String getNickname() {
+        return nickname;
     }
 
     public boolean getRequired() {

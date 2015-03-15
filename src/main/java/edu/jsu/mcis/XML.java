@@ -7,7 +7,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
-import java.io.File;
+import java.io.*;
 import javax.xml.bind.*;
 
 public class XML extends ArgumentParser {
@@ -71,7 +71,68 @@ public class XML extends ArgumentParser {
         return ap;
     }
     
-    public void saveXML(String fileName) {
-        //
+    public static void saveXML(String fileName, ArgumentParser a) {
+        ArgumentParser ap = a;
+        File newXML = new File(fileName);
+        try {
+            PrintWriter printer = new PrintWriter(newXML);
+            
+            printer.println("<?xml version=\"1.0\"?>");
+            printer.println("<parser>");
+            
+            for (Map.Entry<String, PositionalArgument> entry : ap.positionalArgs.entrySet()) {
+                String key = entry.getKey();
+
+                printer.println("\t<argument type=\"positional\">");
+                printer.println("\t\t<name>" + ap.positionalArgs.get(key).getName() + "</name>");
+                printer.println("\t\t<datatype>" + ap.positionalArgs.get(key).getDataType() + "</datatype>");
+                printer.println("\t\t<description>" + ap.positionalArgs.get(key).getDescription() + "</description>");
+                if (!ap.isItEmpty(ap.positionalArgs.get(key).getRestrictions())) {
+                    printer.println("\t\t<restrictions>");
+                    for (Iterator<String> i = ap.positionalArgs.get(key).getRestrictions().iterator(); i.hasNext();) {
+                        printer.println("\t\t\t<restrict>" + i.next() + "</restrict>");
+                    }
+                    printer.println("\t\t</restrictions>");
+                }
+                else {
+                    printer.println("\t\t<restrictions></restrictions>");
+                }
+                printer.println("\t</argument>");
+                
+            }
+            
+            for (Map.Entry<String, NamedArgument> entry : ap.namedArgs.entrySet()) {
+                String key = entry.getKey();
+                
+                printer.println("\t<argument type=\"named\">");
+                printer.println("\t\t<name>" + ap.namedArgs.get(key).getName() + "</named>" );
+                printer.println("\t\t<default>" + ap.namedArgs.get(key).getDefaultValue() + "</default>" );
+                printer.println("\t\t<datatype>" + ap.namedArgs.get(key).getDataType() + "</datatype>" );
+                printer.println("\t\t<nickname>" + ap.namedArgs.get(key).getNickname() + "</nickname>" );
+                printer.println("\t\t<required>" + ap.namedArgs.get(key).getRequired() + "</required>" );
+                if (!ap.isItEmpty(ap.namedArgs.get(key).getRestrictions())) {
+                    printer.println("\t\t<restrictions>");
+                    for (Iterator<String> i = ap.namedArgs.get(key).getRestrictions().iterator(); i.hasNext();) {
+                        printer.println("\t\t\t<restrict>" + i.next() + "</restrict>");
+                    }
+                    printer.println("\t\t</restrictions>");
+                }
+                else {
+                    printer.println("\t\t<restrictions></restrictions>");
+                }
+                printer.println("\t</argument>");
+            }
+            
+            for (Map.Entry<String, Boolean> entry : ap.flagArgs.entrySet()) {
+                String key = entry.getKey();
+                
+                printer.println("\t<argument type=\"flag\">");
+                printer.println("\t\t<flagname>" + key + "</flagname>");
+                printer.println("\t</argument>");
+            }
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 }

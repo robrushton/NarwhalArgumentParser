@@ -6,14 +6,14 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
-import java.io.File;
+import java.io.*;
 import javax.xml.bind.*;
 
 public class ArgumentParser { 
 	
-    private Map<String, PositionalArgument> positionalArgs;
-    private Map<String, NamedArgument> namedArgs;
-    private Map<String, Boolean> flagArgs;
+    protected Map<String, PositionalArgument> positionalArgs;
+    protected Map<String, NamedArgument> namedArgs;
+    protected Map<String, Boolean> flagArgs;
     private Map<String, String> nicknames;
     public static List<Argument> myArgs;
     public enum Datatype {STRING, FLOAT, INT, BOOLEAN};
@@ -263,11 +263,7 @@ public class ArgumentParser {
     private boolean isItAFlag(String userInput) {
         return flagArgs.containsKey(userInput);
     }
-	
-    public void addNamedArgDefaultValue(String name, String defaultValue){
-        namedArgs.get(name).setValue(defaultValue);
-    }
-    
+	    
     public void addNamedArgument(String name, boolean required) {
         NamedArgument oa = new NamedArgument();
         namedArgs.put(name, oa);
@@ -279,6 +275,7 @@ public class ArgumentParser {
         addNamedArgument(name, required);
         NamedArgument oa = getNamedArgument(name);
         oa.setValue(defaultValue);
+        oa.setDefaultValue(defaultValue);
     }
     
     public void addNamedArgument(String name, String defaultValue, Datatype datatype, boolean required) {

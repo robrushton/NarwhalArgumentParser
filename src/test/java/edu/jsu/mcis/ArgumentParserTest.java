@@ -322,13 +322,6 @@ public class ArgumentParserTest {
         assertEquals(true, ap.getValue("a"));
         assertEquals(true, ap.getValue("n"));
     }
-	
-    @Test
-    public void testSetDefaultValue(){
-        ap.addNamedArgument("name", true);
-        ap.addNamedArgDefaultValue("name","20");
-        assertEquals("20", (String) ap.getValue("name"));
-    }
     
     @Test
     public void testOneRequiredNamedArgument() {
