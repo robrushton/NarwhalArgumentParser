@@ -85,7 +85,7 @@ public class XML extends ArgumentParser {
 
                 printer.println("\t<argument type=\"positional\">");
                 printer.println("\t\t<name>" + ap.positionalArgs.get(key).getName() + "</name>");
-                printer.println("\t\t<datatype>" + ap.positionalArgs.get(key).getDataType() + "</datatype>");
+                printer.println("\t\t<datatype>" + ap.datatypeToString(ap.positionalArgs.get(key).getDataType()) + "</datatype>");
                 printer.println("\t\t<description>" + ap.positionalArgs.get(key).getDescription() + "</description>");
                 if (!ap.isItEmpty(ap.positionalArgs.get(key).getRestrictions())) {
                     printer.println("\t\t<restrictions>");
@@ -107,7 +107,7 @@ public class XML extends ArgumentParser {
                 printer.println("\t<argument type=\"named\">");
                 printer.println("\t\t<name>" + ap.namedArgs.get(key).getName() + "</named>" );
                 printer.println("\t\t<default>" + ap.namedArgs.get(key).getDefaultValue() + "</default>" );
-                printer.println("\t\t<datatype>" + ap.namedArgs.get(key).getDataType() + "</datatype>" );
+                printer.println("\t\t<datatype>" + ap.datatypeToString(ap.namedArgs.get(key).getDataType()) + "</datatype>" );
                 printer.println("\t\t<nickname>" + ap.namedArgs.get(key).getNickname() + "</nickname>" );
                 printer.println("\t\t<required>" + ap.namedArgs.get(key).getRequired() + "</required>" );
                 if (!ap.isItEmpty(ap.namedArgs.get(key).getRestrictions())) {
@@ -130,6 +130,7 @@ public class XML extends ArgumentParser {
                 printer.println("\t\t<flagname>" + key + "</flagname>");
                 printer.println("\t</argument>");
             }
+            printer.close();
         }
         catch(Exception e) {
             e.printStackTrace();

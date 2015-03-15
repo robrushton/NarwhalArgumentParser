@@ -410,6 +410,24 @@ public class ArgumentParser {
         }
     }
     
+    protected String datatypeToString(Datatype data) {
+        if (data == Datatype.STRING) {
+            return "string";
+        }
+        else if (data == Datatype.INT) {
+            return "int";
+        }
+        else if (data == Datatype.BOOLEAN) {
+            return "boolean";
+        }
+        else if (data == Datatype.FLOAT) {
+            return "float";
+        }
+        else {
+            throw new InvalidDataTypeException("\n " + data + ": is not an excepted data type.");
+        }
+    }
+    
     public <T> void setRestrictions(String name, List<T> o){
         String key;
         for (Map.Entry<String, PositionalArgument> p : positionalArgs.entrySet()){
