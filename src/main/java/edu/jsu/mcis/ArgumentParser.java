@@ -386,7 +386,7 @@ public class ArgumentParser {
     
     
     protected boolean isItEmpty(List<String> input) {
-        if (input.size() == 1 && input.get(0).equals("")) {
+        if (input.size() == 0 || (input.size() == 1 && input.get(0).equals(""))) {
             return true;
         } else {
             return false;

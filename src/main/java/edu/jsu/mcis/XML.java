@@ -110,15 +110,15 @@ public class XML extends ArgumentParser {
                 printer.println("\t\t<datatype>" + ap.datatypeToString(ap.namedArgs.get(key).getDataType()) + "</datatype>" );
                 printer.println("\t\t<nickname>" + ap.namedArgs.get(key).getNickname() + "</nickname>" );
                 printer.println("\t\t<required>" + ap.namedArgs.get(key).getRequired() + "</required>" );
-                if (!ap.isItEmpty(ap.namedArgs.get(key).getRestrictions())) {
+                if (ap.isItEmpty(ap.namedArgs.get(key).getRestrictions())) {
+                    printer.println("\t\t<restrictions></restrictions>");
+                }
+                else {
                     printer.println("\t\t<restrictions>");
                     for (Iterator<String> i = ap.namedArgs.get(key).getRestrictions().iterator(); i.hasNext();) {
                         printer.println("\t\t\t<restrict>" + i.next() + "</restrict>");
                     }
                     printer.println("\t\t</restrictions>");
-                }
-                else {
-                    printer.println("\t\t<restrictions></restrictions>");
                 }
                 printer.println("\t</argument>");
             }
