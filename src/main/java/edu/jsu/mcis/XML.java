@@ -66,7 +66,7 @@ public class XML extends ArgumentParser {
                 }
             }
         }catch (Exception e) {
-            e.printStackTrace();
+            throw new FileErrorException("File Not Found.");
         }
         return ap;
     }
@@ -105,7 +105,7 @@ public class XML extends ArgumentParser {
                 String key = entry.getKey();
                 
                 printer.println("\t<argument type=\"named\">");
-                printer.println("\t\t<name>" + ap.namedArgs.get(key).getName() + "</named>" );
+                printer.println("\t\t<name>" + ap.namedArgs.get(key).getName() + "</name>" );
                 printer.println("\t\t<default>" + ap.namedArgs.get(key).getDefaultValue() + "</default>" );
                 printer.println("\t\t<datatype>" + ap.datatypeToString(ap.namedArgs.get(key).getDataType()) + "</datatype>" );
                 printer.println("\t\t<nickname>" + ap.namedArgs.get(key).getNickname() + "</nickname>" );
@@ -130,10 +130,11 @@ public class XML extends ArgumentParser {
                 printer.println("\t\t<flagname>" + key + "</flagname>");
                 printer.println("\t</argument>");
             }
+            printer.print("</parser>");
             printer.close();
         }
         catch(Exception e) {
-            e.printStackTrace();
+            throw new FileErrorException("Something Went Wrong.");
         }
     }
 }
