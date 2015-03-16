@@ -4,7 +4,7 @@ package edu.jsu.mcis;
 import edu.jsu.mcis.ArgumentParser.Datatype;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
+
 public class NamedArgument extends Argument{
     private String defaultValue;
     private String nickname;

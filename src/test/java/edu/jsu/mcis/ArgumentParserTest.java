@@ -3,6 +3,18 @@ package edu.jsu.mcis;
 import org.junit.*;
 import static org.junit.Assert.*;
 import java.util.*;
+import java.io.*;
+
+import javax.xml.transform.stream.StreamSource;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.Text;
+
+import javax.xml.parsers.*;
+
+import org.custommonkey.xmlunit.*;
 
 public class ArgumentParserTest {
     private ArgumentParser ap;
@@ -592,6 +604,50 @@ public class ArgumentParserTest {
         assertEquals(2, ap.getValue("Length"));
         assertEquals(1, ap.getValue("Width"));
         assertEquals(3, ap.getValue("Height"));
+    }
+    
+     public void setUp() throws Exception {
+        XMLUnit.setControlParser(
+            "org.apache.xerces.jaxp.DocumentBuilderFactoryImpl");
+        XMLUnit.setTestParser(
+            "org.apache.xerces.jaxp.DocumentBuilderFactoryImpl");
+
+        XMLUnit.setSAXParserFactory(
+            "org.apache.xerces.jaxp.SAXParserFactoryImpl");
+        XMLUnit.setTransformerFactory(
+            "org.apache.xalan.processor.TransformerFactoryImpl");
+    }
+
+    @Test
+    public void testCreatingNewXML() throws Exception{
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder docBuilder = dbFactory.newDocumentBuilder();
+        ap.addArguments("month", ArgumentParser.Datatype.INT, "Month of the year");
+        ap.addArguments("year", ArgumentParser.Datatype.FLOAT, "The year");
+        List<String> restrictYear = Arrays.asList("2015");
+        ap.setRestrictions("year", restrictYear);
+        ap.addNamedArgument("Type", "", ArgumentParser.Datatype.STRING, "t", true);
+        List<String> restrictType = Arrays.asList("sphere", "box", "other");
+        ap.setRestrictions("Type", restrictType);
+        ap.addNamedArgument("Size", "", ArgumentParser.Datatype.BOOLEAN, "s", true);
+        ap.addFlag("x");
+        String testfile = new String(".\\Demos\\saveXMLControl.xml");
+        String newfile = new String(".\\Demos\\saveXMLTest.xml");
+        XML.saveXML(newfile, ap);
+        Document control = docBuilder.parse(testfile);
+        Document test = docBuilder.parse(newfile);
+        
+        XMLAssert.assertXMLEqual(control, test);
+    }
+    
+    @Test (expected =  FileErrorException.class)
+    public void testFileNotFoundXML(){
+        XML.loadXML(".\\Demos\\fakeXML.xml");
+    }
+    
+    @Test (expected =  FileErrorException.class)
+    public void testFailToWriteToFileXML(){
+        XML.saveXML(".\\Demos\\readOnlyXML.xml", ap);
     }
     
 }

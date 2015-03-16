@@ -267,6 +267,7 @@ public class ArgumentParser {
     public void addNamedArgument(String name, boolean required) {
         NamedArgument oa = new NamedArgument();
         namedArgs.put(name, oa);
+        oa.setName(name);
         setRequired(name, required);
     }
     
@@ -355,7 +356,7 @@ public class ArgumentParser {
     
     public void addFlag(String s) {
         flagArgs.put(s, Boolean.FALSE);
-    }    
+    }
     
     protected boolean isItEmpty(List<String> input) {
         if (input.size() == 0 || (input.size() == 1 && input.get(0).equals(""))) {
@@ -384,7 +385,7 @@ public class ArgumentParser {
     
     protected String datatypeToString(Datatype data) {
         if (data == Datatype.STRING) {
-            return "string";
+            return "String";
         }
         else if (data == Datatype.INT) {
             return "int";

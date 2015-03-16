@@ -5,7 +5,6 @@ import java.util.*;
 import javax.xml.bind.annotation.*;
 import edu.jsu.mcis.ArgumentParser.Datatype;
 
-@XmlRootElement(name = "arguments")
 public class Argument <T>{
     protected String name;
     protected List<Argument> argument;
