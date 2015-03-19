@@ -422,4 +422,14 @@ public class ArgumentParser {
             }
         }
     }
+    
+    public void addNamedGroups(List<List<String>> list) {
+        int count = 1;
+        for (List<String> namedLists : list) {
+            for (String named : namedLists) {
+                namedArgs.get(named).setGroup(count);
+            }
+            count++;
+        }
+    }
 }

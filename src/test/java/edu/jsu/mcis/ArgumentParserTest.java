@@ -481,6 +481,24 @@ public class ArgumentParserTest {
         assertEquals(true, ap.getValue("w"));
     }
     
+    @Test
+    public void testCreateTwoGroupsWithTwoNamedArguments() {
+        String[] inp = {"--Color", "red", "--Type", "sphere"};
+        ap.addNamedArgument("Color", false);
+        ap.addNamedArgument("Type", false);
+        List<String> namedArgs1 = new ArrayList<>();
+        List<String> namedArgs2 = new ArrayList<>();
+        namedArgs1.add("Color");
+        namedArgs2.add("Type");
+        List<List<String>> listOfNamed= new ArrayList<>();
+        listOfNamed.add(namedArgs1);
+        listOfNamed.add(namedArgs2);
+        ap.addNamedGroups(listOfNamed);
+        ap.parse(inp);
+        assertEquals("red", ap.getValue("Color"));
+        assertEquals("sphere", ap.getValue("Type"));
+    }
+    
     
     @Test(expected = InvalidDataTypeException.class)
     public void testEnterFloatWhenShouldBeInt() {
