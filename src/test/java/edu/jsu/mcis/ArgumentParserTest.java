@@ -486,10 +486,12 @@ public class ArgumentParserTest {
         String[] inp = {"--Color", "red", "--Type", "sphere"};
         ap.addNamedArgument("Color", false);
         ap.addNamedArgument("Type", false);
+        ap.addNamedArgument("Size", false);
         List<String> namedArgs1 = new ArrayList<>();
         List<String> namedArgs2 = new ArrayList<>();
         namedArgs1.add("Color");
-        namedArgs2.add("Type");
+        namedArgs1.add("Type");
+        namedArgs2.add("Size");
         List<List<String>> listOfNamed= new ArrayList<>();
         listOfNamed.add(namedArgs1);
         listOfNamed.add(namedArgs2);
