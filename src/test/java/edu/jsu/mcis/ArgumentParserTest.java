@@ -501,6 +501,24 @@ public class ArgumentParserTest {
         assertEquals("sphere", ap.getValue("Type"));
     }
     
+    @Test (expected = mutualExclusionException.class)
+    public void testCreateTwoGroupsWithTwoNamedArgumentsThrowException() {
+        String[] inp = {"--Color", "red", "--Size", "sphere"};
+        ap.addNamedArgument("Color", false);
+        ap.addNamedArgument("Type", false);
+        ap.addNamedArgument("Size", false);
+        List<String> namedArgs1 = new ArrayList<>();
+        List<String> namedArgs2 = new ArrayList<>();
+        namedArgs1.add("Color");
+        namedArgs1.add("Type");
+        namedArgs2.add("Size");
+        List<List<String>> listOfNamed= new ArrayList<>();
+        listOfNamed.add(namedArgs1);
+        listOfNamed.add(namedArgs2);
+        ap.addNamedGroups(listOfNamed);
+        ap.parse(inp);
+    }
+    
     @Test
     public void testMultipleValuesForOnePositional() {
         String[] inp = {"5", "6", "7"};
@@ -510,7 +528,6 @@ public class ArgumentParserTest {
         assertEquals(6, ap.getValue("Dimensions", 1));
         assertEquals(7, ap.getValue("Dimensions", 2));
     }
-    
     
     @Test(expected = InvalidDataTypeException.class)
     public void testEnterFloatWhenShouldBeInt() {

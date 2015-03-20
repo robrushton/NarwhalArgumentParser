@@ -19,7 +19,6 @@ public class NamedArgument extends Argument{
         dataType = Datatype.STRING;
         group = 0;
         defaultValue = "";
-        
     }
     
     public void setValue(String v) {

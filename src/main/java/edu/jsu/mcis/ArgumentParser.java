@@ -21,6 +21,7 @@ public class ArgumentParser {
     private String programDescription;
     private String programName;
     private int numPositionalArgs;
+    private int currentGroup;
     
     public ArgumentParser() {
         this.programName = "";
@@ -29,6 +30,7 @@ public class ArgumentParser {
         this.flagArgs = new HashMap<>();
         this.namedArgs = new HashMap<>();
         this.positionalArgs = new LinkedHashMap<>();
+        currentGroup = 0;
         
     }
     
@@ -38,36 +40,45 @@ public class ArgumentParser {
         while(!userInputQueue.isEmpty()) {
             String value = userInputQueue.poll();
             String nextValue = userInputQueue.peek();
-            if (value.startsWith("--")) {
+            if (value.equals("-h") || value.equals("--Help")) {
+                printHelpInfo();
+            }else if (value.startsWith("--")) {
                 value = value.substring(2);
                 if (namedArgs.containsKey(value)) {
                     NamedArgument namedArg = namedArgs.get(value);
-                    //Check if other group has been used
-                    //Create a currentGroup int start at 0
-                    //if (currentGroup != namedArg.group && currentGroup != 0)
-                    if (valueInRestrictions(namedArg, nextValue)) {
-                        namedArg.setValue(userInputQueue.poll());
-                        namedArg.setWasEntered(true);
-                        //Set group to namedArg group if its not 0
+                    if (currentGroup == 0 || currentGroup == namedArg.getGroup()) {
+                        if (valueInRestrictions(namedArg, nextValue)) {
+                            namedArg.setValue(userInputQueue.poll());
+                            namedArg.setWasEntered(true);
+                            if (namedArg.getGroup() != 0) {
+                                currentGroup = namedArg.getGroup();
+                            }
+                        } else {
+                            throw new RestrictedValueException(value + " is not in set of restrictions");
+                        }
                     } else {
-                        throw new RestrictedValueException(value + " is not in set of restrictions");
+                        throw new mutualExclusionException("illegal use of mutually exlusive groups");
                     }
                 } else {
                     throw new InvalidNamedArgumentException("\n " + value + " '--' value not defined.");
                 }
-            } else if (value.equals("-h") || value.equals("--Help")) {
-                printHelpInfo();
             } else if (value.startsWith("-")) {
                 value = value.substring(1);
                 if (nicknames.containsKey(value)) {
                     String name = nicknames.get(value);
                     NamedArgument namedArg = namedArgs.get(name);
-                    //Check if other group has been used
-                    if (valueInRestrictions(namedArg, nextValue)) {
-                        namedArg.setValue(userInputQueue.poll());
-                        namedArg.setWasEntered(true);
+                    if (currentGroup == 0 || currentGroup == namedArg.getGroup()) {
+                        if (valueInRestrictions(namedArg, nextValue)) {
+                            namedArg.setValue(userInputQueue.poll());
+                            namedArg.setWasEntered(true);
+                            if (namedArg.getGroup() != 0) {
+                                currentGroup = namedArg.getGroup();
+                            }
+                        } else {
+                            throw new RestrictedValueException(value + " is not in set of restrictions");
+                        }
                     } else {
-                        throw new RestrictedValueException(value + " is not in set of restrictions");
+                        throw new mutualExclusionException("illegal use of mutually exlusive groups");
                     }
                 } else if (isItAFlag(value)) {
                     flipFlag(value);
@@ -92,8 +103,6 @@ public class ArgumentParser {
                             value = userInputQueue.poll();
                         }
                     }
-                    //check if posArg.value.size == numberPosValues
-                    //Throw exception for not enough pos args
                 } else {
                     throw new PositionalArgumentException("\n Too many positional arguments.");
                 }
@@ -186,32 +195,6 @@ public class ArgumentParser {
     private void flipFlag(String userInput) {
         for (int i = 0; i < userInput.length(); i++) {
             flagArgs.put(userInput.substring(i, i+1), Boolean.TRUE);
-        }
-    }
-    
-    private void setNamedArgument(String userInput, Queue<String> userInputQueue) {
-        if (nicknames.containsKey(userInput.substring(1))) {
-            String name = nicknames.get(userInput.substring(1));
-            NamedArgument arg = namedArgs.get(name);
-            if (arg.getRestrictions().isEmpty() || arg.checkRestrictions(userInputQueue.peek())) {
-                arg.setValue(userInputQueue.poll());
-                arg.setName(name);
-                arg.setWasEntered(true);
-            }
-            else {
-                throw new RestrictedValueException(userInputQueue.poll() + " is not in set of restrictions");
-            }
-        }
-        else {
-            String name = userInput.substring(2);
-            NamedArgument arg = namedArgs.get(name);
-            if (arg.getRestrictions().isEmpty() || arg.checkRestrictions(userInputQueue.peek())) {
-                arg.setValue(userInputQueue.poll());
-                arg.setName(name);
-                arg.setWasEntered(true);
-            } else {
-                throw new RestrictedValueException(userInputQueue.poll() + " is not in set of restrictions");
-            }
         }
     }
     
