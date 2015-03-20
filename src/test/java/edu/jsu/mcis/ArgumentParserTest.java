@@ -420,5 +420,40 @@ public class ArgumentParserTest {
         assertEquals("red", ap.getValue("Color"));
         assertEquals("square", ap.getValue("Type"));
     }
-       
+
+    
+   
+    @Test
+    public void testCreateTwoGroupsWithTwoNamedArguments() {
+        String[] inp = {"--Color", "red", "--Type", "sphere"};
+        ap.addNamedArgument("Color", false);
+        ap.addNamedArgument("Type", false);
+        ap.addNamedArgument("Size", false);
+        List<String> namedArgs1 = new ArrayList<>();
+        List<String> namedArgs2 = new ArrayList<>();
+        namedArgs1.add("Color");
+        namedArgs1.add("Type");
+        namedArgs2.add("Size");
+        List<List<String>> listOfNamed= new ArrayList<>();
+        listOfNamed.add(namedArgs1);
+        listOfNamed.add(namedArgs2);
+        ap.addNamedGroups(listOfNamed);
+        ap.parse(inp);
+        assertEquals("red", ap.getValue("Color"));
+        assertEquals("sphere", ap.getValue("Type"));
+    }
+    
+    @Test
+    public void testMultipleValuesForOnePositional() {
+        String[] inp = {"5", "6", "7"};
+        ap.addArguments("Dimensions", ArgumentParser.Datatype.INT, "Cube size", 3);
+        ap.parse(inp);
+        assertEquals(5, ap.getValue("Dimensions", 0));
+        assertEquals(6, ap.getValue("Dimensions", 1));
+        assertEquals(7, ap.getValue("Dimensions", 2));
+    }
+    
 }
+ 
+  
+

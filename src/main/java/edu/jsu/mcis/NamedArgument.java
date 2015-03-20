@@ -4,17 +4,30 @@ package edu.jsu.mcis;
 import edu.jsu.mcis.ArgumentParser.Datatype;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
+
 public class NamedArgument extends Argument{
     private String defaultValue;
     private String nickname;
     private boolean required;
     private boolean wasEntered;
+    private int group;
+    private String value;
     public NamedArgument() {
         nickname = "";
         required = false;
         wasEntered = false;
         dataType = Datatype.STRING;
+        group = 0;
+        defaultValue = "";
+        
+    }
+    
+    public void setValue(String v) {
+        value = v;
+    }
+    
+    public String getValue() {
+        return value;
     }
     
     public void setDefaultValue(String d) {
@@ -47,5 +60,13 @@ public class NamedArgument extends Argument{
 
     public void setWasEntered(boolean w) {
         wasEntered = w;
+    }
+    
+    public void setGroup(int n) {
+        group = n;
+    }
+    
+    public int getGroup() {
+        return group;
     }
 }

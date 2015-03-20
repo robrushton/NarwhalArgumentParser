@@ -5,38 +5,25 @@ public class VolumeCalculator {
     
     public static void main(String[] args) {
         ArgumentParser ap = new ArgumentParser();
-        ap = XML.loadXML("testXML.xml");
-        XML.saveXML("testSaveXML.xml", ap);
-        ap.parse(args);
-        /*
-        ap.addArguments("pet", "String", "Its a pet");
-        ap.addArguments("number", "int", "some number");
-        ap.addArguments("rainy", "boolean", "is it rainy");
-        ap.addArguments("bathrooms", "float", "Other thing");
-        ap.addArguments("Length", "int", "Length of the object");
-        ap.addArguments("Width", "int", "Width of the object");
-        ap.addArguments("Height", "int", "Height of the object");
-        ap.addNamedArgument("Type", " ", "t");
-        ap.addNamedArgument("Color");
+        
+        ap.addArguments("pet", ArgumentParser.Datatype.STRING, "Its a pet");
+        ap.addArguments("number", ArgumentParser.Datatype.INT, "some number");
+        ap.addArguments("rainy", ArgumentParser.Datatype.BOOLEAN, "is it rainy");
+        ap.addArguments("bathrooms", ArgumentParser.Datatype.FLOAT, "Other thing");
+        ap.addArguments("Length", ArgumentParser.Datatype.INT, "Length of the object");
+        ap.addArguments("Width", ArgumentParser.Datatype.INT, "Width of the object");
+        ap.addArguments("Height", ArgumentParser.Datatype.INT, "Height of the object");
+        List<String> petRestrict = Arrays.asList("dog", "cat", "bird");
+        ap.setRestrictions("pet", petRestrict);
+        ap.addNamedArgument("Type", " ", ArgumentParser.Datatype.STRING, "t", true);
+        ap.addNamedArgument("Color", true);
         ap.addFlag("x");
         ap.addFlag("w");
-        ap.setProgramDescription("Gets volume of last three numbers");
+        ap.setProgramDescription("This description can be edited");
         ap.setProgramName("VolumeCalculator");
+        System.out.print("1");
+        XML.saveXML("demoSaveXML.xml", ap);
+        System.out.print("1");
         ap.parse(args);
-        String optionalValue = "";
-        String one = ap.getValue("pet");
-        int two = ap.getValue("number");
-        boolean three = ap.getValue("rainy");
-        float four = ap.getValue("bathrooms");
-        optionalValue = ap.getValue("Type");
-        int l = ap.getValue("Length");
-        int w = ap.getValue("Width");
-        int h = ap.getValue("Height");
-        
-        System.out.println(one + " " + two +  " " + three + " " + four + " " + optionalValue);
-        System.out.println("Volume of object is: " + (l * w * h));
-        System.out.println("x is " + ap.getValue("x"));
-        System.out.println("w is " + ap.getValue("w"));
-        */
     }
 }

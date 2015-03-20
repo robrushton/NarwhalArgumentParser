@@ -5,17 +5,16 @@ import java.util.*;
 import javax.xml.bind.annotation.*;
 import edu.jsu.mcis.ArgumentParser.Datatype;
 
-@XmlRootElement(name = "arguments")
 public class Argument <T>{
     protected String name;
     protected List<Argument> argument;
-    protected String value;
     protected Datatype dataType;
-    protected List<T> restrictions = new ArrayList<T>();
+    protected List<String> restrictions = new ArrayList<String>();
+    protected String defaultValue;
     
     public Argument(){
-    	value = "";
         name = "";
+        defaultValue = "";
     }
     
     public void setArgument(List<Argument> myArgs) {
@@ -27,16 +26,15 @@ public class Argument <T>{
     }
     
     public boolean checkRestrictions(String checkValue){
-        for (T s : restrictions) {
-            String str = s.toString();
-            if (str.equals(checkValue)) {
+        for (String s : restrictions) {
+            if (s.equals(checkValue)) {
                 return true;
             }
         }
         return false;	
     }
     
-    public List<T> getRestrictions() {
+    public List<String> getRestrictions() {
         return restrictions;
     }
     
@@ -46,14 +44,6 @@ public class Argument <T>{
     
     public String getName() {
         return name;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String v) {
-        value = v;
     }
     
     public Datatype getDataType() {
