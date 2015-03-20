@@ -7,6 +7,7 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 import java.io.*;
+import java.util.Map.Entry;
 import javax.xml.bind.*;
 
 public class ArgumentParser { 
@@ -32,127 +33,150 @@ public class ArgumentParser {
     }
     
     public void parse(String[] args) {
-        Queue<String> userInputQueue = new LinkedList<String>();
-        convertArrayToQueue(args, userInputQueue);
-        int positionalPlaced = 0;
-        while (!userInputQueue.isEmpty()) {
-            String userInput = userInputQueue.poll();
-            if (isLongNamedArgument(userInput)) {
-                parseLongNamedArguments(userInput, userInputQueue);
-            }
-            else if (isShortNamedArgument(userInput)) {
-                parseShortNamedArguments(userInput, userInputQueue);
-            }
-            else {
-                positionalPlaced = parsePositionalArguments(userInput, userInputQueue, positionalPlaced);
-            }
-        }
-        checkIfEnoughPositionalArgsGiven(positionalPlaced);
-        checkIfAllRequiredNamedArgumentsGiven();
-    }
-    
-    private int parsePositionalArguments(String userInput, Queue<String> userInputQueue, int positionalPlaced) {
-        if (isItTooManyArgs(positionalPlaced)) {
-            if (isItsRestrictionValid(userInput, positionalPlaced)) {
-                String name = (String) positionalArgs.keySet().toArray()[positionalPlaced];
-                setValue(name, userInput);
-                positionalArgs.get(name).setName(name);
-                if (isDataTypeEqualTo(Datatype.INT, positionalPlaced)) {
-                    try {
-                        Integer.parseInt(userInput);
-                    } 
-                    catch (java.lang.NumberFormatException e) {
-                        throw new InvalidDataTypeException("\n " + userInput + ". Value is invalid data type. Expected int");
+        Queue<String> userInputQueue = arrayToQueue(args);
+        Queue<PositionalArgument> positionalArgQueue = positionalArgsToQueue();
+        while(!userInputQueue.isEmpty()) {
+            String value = userInputQueue.poll();
+            String nextValue = userInputQueue.peek();
+            if (value.startsWith("--")) {
+                value = value.substring(2);
+                if (namedArgs.containsKey(value)) {
+                    NamedArgument namedArg = namedArgs.get(value);
+                    //Check if other group has been used
+                    //Create a currentGroup int start at 0
+                    //if (currentGroup != namedArg.group && currentGroup != 0)
+                    if (valueInRestrictions(namedArg, nextValue)) {
+                        namedArg.setValue(userInputQueue.poll());
+                        namedArg.setWasEntered(true);
+                        //Set group to namedArg group if its not 0
+                    } else {
+                        throw new RestrictedValueException(value + " is not in set of restrictions");
                     }
+                } else {
+                    throw new InvalidNamedArgumentException("\n " + value + " '--' value not defined.");
                 }
-                else if (isDataTypeEqualTo(Datatype.FLOAT, positionalPlaced)) {
-                    try {
-                        Float.parseFloat(userInput);
+            } else if (value.equals("-h") || value.equals("--Help")) {
+                printHelpInfo();
+            } else if (value.startsWith("-")) {
+                value = value.substring(1);
+                if (nicknames.containsKey(value)) {
+                    String name = nicknames.get(value);
+                    NamedArgument namedArg = namedArgs.get(name);
+                    //Check if other group has been used
+                    if (valueInRestrictions(namedArg, nextValue)) {
+                        namedArg.setValue(userInputQueue.poll());
+                        namedArg.setWasEntered(true);
+                    } else {
+                        throw new RestrictedValueException(value + " is not in set of restrictions");
                     }
-                    catch (java.lang.NumberFormatException e) {
-                        throw new InvalidDataTypeException("\n " + userInput + ". Value is invalid data type. Expected float");
-                    }
+                } else if (isItAFlag(value)) {
+                    flipFlag(value);
+                } else {
+                    throw new InvalidNamedArgumentException("\n " + value + " '-' value not defined.");
                 }
-                else if (isDataTypeEqualTo(Datatype.BOOLEAN, positionalPlaced)) {
-                    if (!isItAValidBoolean(userInput)) {
-                        throw new InvalidDataTypeException("\n " + userInput + ". Value is invalid data type. Expected boolean");
+            } else {
+                if (!positionalArgQueue.isEmpty()) {
+                    PositionalArgument posArg = positionalArgQueue.poll();
+                    int numberPosValues = posArg.getNumberOfValues();
+                    for (int i=1; i<=numberPosValues; i++) {
+                        if (datatypeIsValid(posArg, value)) {
+                            if (valueInRestrictions(posArg, value)) {
+                                posArg.setValue(value);
+                            } else {
+                                throw new RestrictedValueException(value + " is not in set of restrictions");
+                            }
+                        } else {
+                            throw new InvalidDataTypeException("\n " + value + ". Value is invalid data type.");
+                        }
+                        if (i < numberPosValues) {
+                            value = userInputQueue.poll();
+                        }
                     }
+                    //check if posArg.value.size == numberPosValues
+                    //Throw exception for not enough pos args
+                } else {
+                    throw new PositionalArgumentException("\n Too many positional arguments.");
                 }
-                positionalPlaced++;
-            }
-            else {
-                throw new RestrictedValueException(userInput + " is not in set of restrictions");
-            }
-        } 
-        else {
-            throw new PositionalArgumentException("\n " + userInput + ". Too many positional arguments.");
-        }
-        return positionalPlaced;
-    }
-    
-    private boolean isItsRestrictionValid(String userInput, int positionalPlaced) {
-        PositionalArgument arg = positionalArgs.get((String) positionalArgs.keySet().toArray()[positionalPlaced]);
-        List<String> keyRestrictions = arg.getRestrictions();
-        if (keyRestrictions.isEmpty()) {
-            return true;
-        }
-        return arg.checkRestrictions(userInput);
-    }
-    
-    private void parseLongNamedArguments(String userInput, Queue<String> userInputQueue) {
-        if (checkIfNamedArgument(userInput)) {
-            setNamedArgument(userInput, userInputQueue);
-        }
-        else if (isHelpArgument(userInput)) {
-            printHelpInfo();
-        }
-        else {
-            throw new InvalidNamedArgumentException("\n " + userInput + " '--' value not defined.");
-        }
-    }
-    
-    private void parseShortNamedArguments(String userInput, Queue<String> userInputQueue) {
-        if (isHelpArgument(userInput)) {
-            printHelpInfo();
-        } 
-        else if (isItAFlagLong(userInput.substring(1))) {
-            flipFlag(userInput.substring(1));
-        } 
-        else if (isItANickname(userInput.substring(1))) {
-            setNamedArgument(userInput, userInputQueue);
-        } 
-        else {
-            throw new InvalidNamedArgumentException("\n " + userInput + " '-' value not defined.");
-        }
-    }
-    
-    
-    private void checkIfAllRequiredNamedArgumentsGiven() {
-        for (String s : namedArgs.keySet()) {
-            if (isArgumentRequiredButNotGiven(s)) {
-                throw new RequiredNamedArgumentNotGivenException("\n Named Argument " + namedArgs.get(s) + " is required");
             }
         }
-    }
-    
-    private void checkIfEnoughPositionalArgsGiven(int given) {
-        if (positionalArgs.size() != given) {
+        if (!positionalArgQueue.isEmpty()) {
             throw new PositionalArgumentException("\n Not enough positional arguments.");
         }
+        if (!checkIfAllRequiredNamedArgumentsGiven()) {
+            throw new RequiredNamedArgumentNotGivenException("\n required Named Argument not given");
+        }
+    }
+    
+    private boolean valueInRestrictions(Argument arg, String value) {
+        if (arg.restrictions.size() == 0) {
+            return true;
+        }else if (arg.restrictions.contains(value)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    private Queue<String> arrayToQueue(String[] array) {
+        Queue<String> output = new LinkedList<String>();
+        output.addAll(Arrays.asList(array));
+        return output;
+    }
+    
+    private Queue<PositionalArgument> positionalArgsToQueue() {
+        Queue<PositionalArgument> output = new LinkedList<PositionalArgument>();
+        for (Entry<String, PositionalArgument> entry : positionalArgs.entrySet()) {
+            output.add(entry.getValue());
+        }
+        return output;
+    }
+    
+    private boolean datatypeIsValid(PositionalArgument posArg, String value) {
+        if (posArg.dataType == Datatype.STRING) {
+            return true;
+        } else if (posArg.dataType == Datatype.INT) {
+            try {
+                Integer.parseInt(value);
+            } 
+            catch (java.lang.NumberFormatException e) {
+                return false;
+            }
+        } else if (posArg.dataType == Datatype.FLOAT) {
+            try {
+                Float.parseFloat(value);
+            } 
+            catch (java.lang.NumberFormatException e) {
+                return false;
+            }
+        } else {
+            if (value.equals("True") || value.equals("true") || value.equals("False") || value.equals("false")) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    
+    
+    private boolean checkIfAllRequiredNamedArgumentsGiven() {
+        for (String s : namedArgs.keySet()) {
+            if (isArgumentRequiredButNotGiven(s)) {
+                return false;
+            }
+        }
+        return true;
     }
     
     private boolean isArgumentRequiredButNotGiven(String s) {
         return namedArgs.get(s).getRequired() && !namedArgs.get(s).getWasEntered();
     }
     
-    private boolean isItTooManyArgs(int given) {
-        return positionalArgs.size() > given;
-    }
-    
-    private boolean isItAFlagLong(String userInput) {
+    private boolean isItAFlag(String userInput) {
         for (int i = 0; i < userInput.length(); i++){
             String singleFlag = userInput.substring(i, i+1);
-            if (!isItAFlag(singleFlag)) {
+            if (!flagArgs.containsKey(singleFlag)) {
                 return false;
             }
         }
@@ -163,31 +187,6 @@ public class ArgumentParser {
         for (int i = 0; i < userInput.length(); i++) {
             flagArgs.put(userInput.substring(i, i+1), Boolean.TRUE);
         }
-    }
-    
-    private void convertArrayToQueue(String[] args, Queue<String> userInputQueue) {
-        userInputQueue.addAll(Arrays.asList(args));
-    }
-    
-    private boolean checkIfNamedArgument(String s) {
-        return namedArgs.containsKey(s.substring(2));
-    }
-    
-    private boolean isItAValidBoolean(String userInput) {
-        return (userInput.equals("false") || userInput.equals("true") ||
-                userInput.equals("True") || userInput.equals("False"));
-    }
-    
-    private boolean isLongNamedArgument(String userInput) {
-        return (userInput.startsWith("--"));
-    }
-    
-    private boolean isShortNamedArgument(String userInput) {
-        return (userInput.startsWith("-"));
-    }
-       
-    private boolean isDataTypeEqualTo(Datatype dataType, int count) {
-        return positionalArgs.get((String) positionalArgs.keySet().toArray()[count]).getDataType() == dataType;
     }
     
     private void setNamedArgument(String userInput, Queue<String> userInputQueue) {
@@ -215,28 +214,44 @@ public class ArgumentParser {
             }
         }
     }
-     
-    private boolean isHelpArgument(String s) {
-        return s.equals("-h") || s.equals("--Help");
-    }
-    
-    private void setValue(String s, String n) {
-        positionalArgs.get(s).setValue(n);
-    }
     
     public <T> T getValue(String s) {
         if (isItAPositional(s)) {
             if (positionalArgs.get(s).getDataType() == Datatype.STRING) {
-                return (T) positionalArgs.get(s).getValue();
+                return (T) positionalArgs.get(s).getValue(0);
             } 
             else if (positionalArgs.get(s).getDataType() == Datatype.INT) {
-                return (T) new Integer(Integer.parseInt(positionalArgs.get(s).getValue()));
+                return (T) new Integer(Integer.parseInt(positionalArgs.get(s).getValue(0)));
             } 
             else if (positionalArgs.get(s).getDataType() == Datatype.FLOAT) {
-                return (T) new Float(Float.parseFloat(positionalArgs.get(s).getValue()));
+                return (T) new Float(Float.parseFloat(positionalArgs.get(s).getValue(0)));
             } 
             else if (positionalArgs.get(s).getDataType() == Datatype.BOOLEAN) {
-                return (T) new Boolean(Boolean.parseBoolean(positionalArgs.get(s).getValue()));
+                return (T) new Boolean(Boolean.parseBoolean(positionalArgs.get(s).getValue(0)));
+            }
+        } 
+        else if (isItAnNamed(s)) {
+            return (T) namedArgs.get(s).getValue();
+        }
+        else if (isItAFlag(s)) {
+            return (T) flagArgs.get(s);
+        }
+        throw new NoArgCalledException("\n " + s + " is not a valid argument.");
+    }
+    
+    public <T> T getValue(String s, int i) {
+        if (isItAPositional(s)) {
+            if (positionalArgs.get(s).getDataType() == Datatype.STRING) {
+                return (T) positionalArgs.get(s).getValue(i);
+            } 
+            else if (positionalArgs.get(s).getDataType() == Datatype.INT) {
+                return (T) new Integer(Integer.parseInt(positionalArgs.get(s).getValue(i)));
+            } 
+            else if (positionalArgs.get(s).getDataType() == Datatype.FLOAT) {
+                return (T) new Float(Float.parseFloat(positionalArgs.get(s).getValue(i)));
+            } 
+            else if (positionalArgs.get(s).getDataType() == Datatype.BOOLEAN) {
+                return (T) new Boolean(Boolean.parseBoolean(positionalArgs.get(s).getValue(i)));
             }
         } 
         else if (isItAnNamed(s)) {
@@ -258,10 +273,6 @@ public class ArgumentParser {
     
     private boolean isItANickname(String userInput) {
         return nicknames.containsKey(userInput);
-    }
-     
-    private boolean isItAFlag(String userInput) {
-        return flagArgs.containsKey(userInput);
     }
 	    
     public void addNamedArgument(String name, boolean required) {
@@ -344,6 +355,11 @@ public class ArgumentParser {
     public void addArguments(String name, Datatype dataType, String description) {
         addArguments(name, dataType);
         positionalArgs.get(name).setDescription(description);
+    }
+    
+    public void addArguments(String name, Datatype dataType, String description, int numValues) {
+        addArguments(name, dataType, description);
+        positionalArgs.get(name).setNumberOfValues(numValues);
     }
     
     public void setProgramDescription(String s) {

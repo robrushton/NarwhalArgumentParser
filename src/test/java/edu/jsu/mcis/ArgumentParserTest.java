@@ -501,6 +501,16 @@ public class ArgumentParserTest {
         assertEquals("sphere", ap.getValue("Type"));
     }
     
+    @Test
+    public void testMultipleValuesForOnePositional() {
+        String[] inp = {"5", "6", "7"};
+        ap.addArguments("Dimensions", ArgumentParser.Datatype.INT, "Cube size", 3);
+        ap.parse(inp);
+        assertEquals(5, ap.getValue("Dimensions", 0));
+        assertEquals(6, ap.getValue("Dimensions", 1));
+        assertEquals(7, ap.getValue("Dimensions", 2));
+    }
+    
     
     @Test(expected = InvalidDataTypeException.class)
     public void testEnterFloatWhenShouldBeInt() {

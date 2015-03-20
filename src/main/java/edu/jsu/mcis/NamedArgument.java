@@ -11,12 +11,23 @@ public class NamedArgument extends Argument{
     private boolean required;
     private boolean wasEntered;
     private int group;
+    private String value;
     public NamedArgument() {
         nickname = "";
         required = false;
         wasEntered = false;
         dataType = Datatype.STRING;
         group = 0;
+        defaultValue = "";
+        
+    }
+    
+    public void setValue(String v) {
+        value = v;
+    }
+    
+    public String getValue() {
+        return value;
     }
     
     public void setDefaultValue(String d) {
