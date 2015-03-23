@@ -72,7 +72,8 @@ public class ArgumentParser {
                             } else {
                                 throw new RestrictedValueException(value + " is not in set of restrictions");
                             }
-                        } else {
+                        } else if (value == null) {}
+                        else {
                             throw new InvalidDataTypeException("\n " + value + ". Value is invalid data type.");
                         }
                         if (i < numberPosValues) {
@@ -84,12 +85,27 @@ public class ArgumentParser {
                 }
             }
         }
-        if (!positionalArgQueue.isEmpty()) {
+        if (!allPositionalArgsUsed(positionalArgQueue)) {
             throw new PositionalArgumentException("\n Not enough positional arguments.");
         }
         if (!checkIfAllRequiredNamedArgumentsGiven()) {
             throw new RequiredNamedArgumentNotGivenException("\n required Named Argument not given");
         }
+    }
+    
+    private boolean allPositionalArgsUsed(Queue<PositionalArgument> positionalArgQueue) {
+        if (!positionalArgQueue.isEmpty()) {
+            return false;
+        } else {
+            PositionalArgument posArg;
+            for (Map.Entry<String, PositionalArgument> p : positionalArgs.entrySet()){
+                posArg = p.getValue();
+                if (posArg.getValueListAsString().size() != posArg.getNumberOfValues()) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
     
     private void parseNamedArguments(NamedArgument namedArg, String nextValue, Queue<String> userInputQueue, String value) {
