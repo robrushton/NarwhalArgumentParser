@@ -30,8 +30,32 @@ public class PositionalArgument extends Argument{
         numberOfValues = n;
     }
     
-    public List<String> getValueList() {
+    public List<String> getValueListAsString() {
         return value;
+    }
+    
+    public <T> List<T> getValueList() {
+        if (dataType == ArgumentParser.Datatype.STRING) {
+            return (List<T>) value;
+        } else if (dataType == ArgumentParser.Datatype.INT) {
+            List<Integer> returnList = new ArrayList<>();
+            for (String s : value) {
+                returnList.add(new Integer(s));
+            }
+            return (List<T>) returnList;
+        } else if (dataType == ArgumentParser.Datatype.FLOAT) {
+            List<Float> returnList = new ArrayList<>();
+            for (String s : value) {
+                returnList.add(new Float(s));
+            }
+            return (List<T>) returnList;
+        } else {
+            List<Boolean> returnList = new ArrayList<>();
+            for (String s : value) {
+                returnList.add(Boolean.valueOf(s));
+            }
+            return (List<T>) returnList;
+        }
     }
     
     public String getValue(int n) {

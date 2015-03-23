@@ -443,6 +443,62 @@ public class ArgumentParserTest {
         assertEquals("sphere", ap.getValue("Type"));
     }
     
+    @Test
+    public void testCreateThreeGroupsWithFiveNamedArguments() {
+        String[] inp = {"--Color", "red", "--Type", "sphere"};
+        ap.addNamedArgument("Color", false);
+        ap.addNamedArgument("Type", false);
+        ap.addNamedArgument("Size", false);
+        ap.addNamedArgument("Shape", false);
+        ap.addNamedArgument("Weight", false);
+        ap.addNamedArgument("Smell", false);
+        List<String> namedArgs1 = new ArrayList<>();
+        List<String> namedArgs2 = new ArrayList<>();
+        List<String> namedArgs3 = new ArrayList<>();
+        namedArgs1.add("Color");
+        namedArgs1.add("Type");
+        namedArgs2.add("Size");
+        namedArgs2.add("Shape");
+        namedArgs3.add("Weight");
+        namedArgs3.add("Smell");
+        List<List<String>> listOfNamed= new ArrayList<>();
+        listOfNamed.add(namedArgs1);
+        listOfNamed.add(namedArgs2);
+        listOfNamed.add(namedArgs3);
+        ap.addNamedGroups(listOfNamed);
+        ap.parse(inp);
+        assertEquals("red", ap.getValue("Color"));
+        assertEquals("sphere", ap.getValue("Type"));
+    }
+    
+    @Test (expected = mutualExclusionException.class)
+    public void testCreateThreeGroupsWithFiveNamedArgumentsThrowException() {
+        String[] inp = {"--Color", "red", "--Type", "sphere", "--Smell", "roses"};
+        ap.addNamedArgument("Color", false);
+        ap.addNamedArgument("Type", false);
+        ap.addNamedArgument("Size", false);
+        ap.addNamedArgument("Shape", false);
+        ap.addNamedArgument("Weight", false);
+        ap.addNamedArgument("Smell", false);
+        List<String> namedArgs1 = new ArrayList<>();
+        List<String> namedArgs2 = new ArrayList<>();
+        List<String> namedArgs3 = new ArrayList<>();
+        namedArgs1.add("Color");
+        namedArgs1.add("Type");
+        namedArgs2.add("Size");
+        namedArgs2.add("Shape");
+        namedArgs3.add("Weight");
+        namedArgs3.add("Smell");
+        List<List<String>> listOfNamed= new ArrayList<>();
+        listOfNamed.add(namedArgs1);
+        listOfNamed.add(namedArgs2);
+        listOfNamed.add(namedArgs3);
+        ap.addNamedGroups(listOfNamed);
+        ap.parse(inp);
+        assertEquals("red", ap.getValue("Color"));
+        assertEquals("sphere", ap.getValue("Type"));
+    }
+    
     @Test (expected = mutualExclusionException.class)
     public void testCreateTwoGroupsWithTwoNamedArgumentsThrowException() {
         String[] inp = {"--Color", "red", "--Size", "sphere"};
@@ -466,9 +522,11 @@ public class ArgumentParserTest {
         String[] inp = {"5", "6", "7"};
         ap.addArguments("Dimensions", ArgumentParser.Datatype.INT, "Cube size", 3);
         ap.parse(inp);
-        assertEquals(5, ap.getValue("Dimensions", 0));
-        assertEquals(6, ap.getValue("Dimensions", 1));
-        assertEquals(7, ap.getValue("Dimensions", 2));
+        List<Integer> values;
+        values = ap.getValue("Dimensions");
+        assertEquals(new Integer(5), values.get(0));
+        assertEquals(new Integer(6), values.get(1));
+        assertEquals(new Integer(7), values.get(2));
     }
     
     @Test(expected = InvalidDataTypeException.class)

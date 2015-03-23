@@ -200,41 +200,24 @@ public class ArgumentParser {
     
     public <T> T getValue(String s) {
         if (isItAPositional(s)) {
-            if (positionalArgs.get(s).getDataType() == Datatype.STRING) {
-                return (T) positionalArgs.get(s).getValue(0);
-            } 
-            else if (positionalArgs.get(s).getDataType() == Datatype.INT) {
-                return (T) new Integer(Integer.parseInt(positionalArgs.get(s).getValue(0)));
-            } 
-            else if (positionalArgs.get(s).getDataType() == Datatype.FLOAT) {
-                return (T) new Float(Float.parseFloat(positionalArgs.get(s).getValue(0)));
-            } 
-            else if (positionalArgs.get(s).getDataType() == Datatype.BOOLEAN) {
-                return (T) new Boolean(Boolean.parseBoolean(positionalArgs.get(s).getValue(0)));
+            if (positionalArgs.get(s).getValueListAsString().size() == 1) {
+                if (positionalArgs.get(s).getDataType() == Datatype.STRING) {
+                    return (T) positionalArgs.get(s).getValue(0);
+                } 
+                else if (positionalArgs.get(s).getDataType() == Datatype.INT) {
+                    return (T) new Integer(Integer.parseInt(positionalArgs.get(s).getValue(0)));
+                } 
+                else if (positionalArgs.get(s).getDataType() == Datatype.FLOAT) {
+                    return (T) new Float(Float.parseFloat(positionalArgs.get(s).getValue(0)));
+                } 
+                else if (positionalArgs.get(s).getDataType() == Datatype.BOOLEAN) {
+                    return (T) new Boolean(Boolean.parseBoolean(positionalArgs.get(s).getValue(0)));
+                }
             }
-        } 
-        else if (isItAnNamed(s)) {
-            return (T) namedArgs.get(s).getValue();
-        }
-        else if (isItAFlag(s)) {
-            return (T) flagArgs.get(s);
-        }
-        throw new NoArgCalledException("\n " + s + " is not a valid argument.");
-    }
-    
-    public <T> T getValue(String s, int i) {
-        if (isItAPositional(s)) {
-            if (positionalArgs.get(s).getDataType() == Datatype.STRING) {
-                return (T) positionalArgs.get(s).getValue(i);
-            } 
-            else if (positionalArgs.get(s).getDataType() == Datatype.INT) {
-                return (T) new Integer(Integer.parseInt(positionalArgs.get(s).getValue(i)));
-            } 
-            else if (positionalArgs.get(s).getDataType() == Datatype.FLOAT) {
-                return (T) new Float(Float.parseFloat(positionalArgs.get(s).getValue(i)));
-            } 
-            else if (positionalArgs.get(s).getDataType() == Datatype.BOOLEAN) {
-                return (T) new Boolean(Boolean.parseBoolean(positionalArgs.get(s).getValue(i)));
+            else {
+                List<T> output;
+                output = positionalArgs.get(s).getValueList();
+                return (T) output;
             }
         } 
         else if (isItAnNamed(s)) {
