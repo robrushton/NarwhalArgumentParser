@@ -46,19 +46,7 @@ public class ArgumentParser {
                 value = value.substring(2);
                 if (namedArgs.containsKey(value)) {
                     NamedArgument namedArg = namedArgs.get(value);
-                    if (currentGroup == 0 || currentGroup == namedArg.getGroup()) {
-                        if (valueInRestrictions(namedArg, nextValue)) {
-                            namedArg.setValue(userInputQueue.poll());
-                            namedArg.setWasEntered(true);
-                            if (namedArg.getGroup() != 0) {
-                                currentGroup = namedArg.getGroup();
-                            }
-                        } else {
-                            throw new RestrictedValueException(value + " is not in set of restrictions");
-                        }
-                    } else {
-                        throw new mutualExclusionException("illegal use of mutually exlusive groups");
-                    }
+                    parseNamedArguments(namedArg, nextValue, userInputQueue, value);
                 } else {
                     throw new InvalidNamedArgumentException("\n " + value + " '--' value not defined.");
                 }
@@ -67,19 +55,7 @@ public class ArgumentParser {
                 if (nicknames.containsKey(value)) {
                     String name = nicknames.get(value);
                     NamedArgument namedArg = namedArgs.get(name);
-                    if (currentGroup == 0 || currentGroup == namedArg.getGroup()) {
-                        if (valueInRestrictions(namedArg, nextValue)) {
-                            namedArg.setValue(userInputQueue.poll());
-                            namedArg.setWasEntered(true);
-                            if (namedArg.getGroup() != 0) {
-                                currentGroup = namedArg.getGroup();
-                            }
-                        } else {
-                            throw new RestrictedValueException(value + " is not in set of restrictions");
-                        }
-                    } else {
-                        throw new mutualExclusionException("illegal use of mutually exlusive groups");
-                    }
+                    parseNamedArguments(namedArg, nextValue, userInputQueue, value);
                 } else if (isItAFlag(value)) {
                     flipFlag(value);
                 } else {
@@ -113,6 +89,22 @@ public class ArgumentParser {
         }
         if (!checkIfAllRequiredNamedArgumentsGiven()) {
             throw new RequiredNamedArgumentNotGivenException("\n required Named Argument not given");
+        }
+    }
+    
+    private void parseNamedArguments(NamedArgument namedArg, String nextValue, Queue<String> userInputQueue, String value) {
+        if (currentGroup == 0 || currentGroup == namedArg.getGroup()) {
+            if (valueInRestrictions(namedArg, nextValue)) {
+                namedArg.setValue(userInputQueue.poll());
+                namedArg.setWasEntered(true);
+                if (namedArg.getGroup() != 0) {
+                    currentGroup = namedArg.getGroup();
+                }
+            } else {
+                throw new RestrictedValueException(value + " is not in set of restrictions");
+            }
+        } else {
+            throw new mutualExclusionException("illegal use of mutually exlusive groups");
         }
     }
     
