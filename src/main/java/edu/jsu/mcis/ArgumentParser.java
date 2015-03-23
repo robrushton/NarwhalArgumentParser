@@ -338,14 +338,6 @@ public class ArgumentParser {
         flagArgs.put(s, Boolean.FALSE);
     }
     
-    protected boolean isItEmpty(List<String> input) {
-        if (input.isEmpty() || (input.size() == 1 && input.get(0).equals(""))) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    
     protected Datatype StringToDatatype(String data) {
         if (data.equals("String")) {
             return Datatype.STRING;

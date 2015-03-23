@@ -639,7 +639,6 @@ public class ArgumentParserTest {
         String[] inp = {"1", "-c", "yellow"};
         ap.parse(inp);
     }
-
 }
  
   

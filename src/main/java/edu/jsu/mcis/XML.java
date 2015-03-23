@@ -12,7 +12,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.DOMException;
 import org.xml.sax.SAXException;
 
-public class XML extends ArgumentParser {
+public class XML {
     
     
     public static ArgumentParser loadXML(String fileName) {
@@ -39,7 +39,7 @@ public class XML extends ArgumentParser {
                             restrictList.add(restrict.item(k).getTextContent());
                         }
                         ap.addArguments(eName, ap.StringToDatatype(eDatatype), eDescription, new Integer(eNumberOfValues));
-                        if (!ap.isItEmpty(restrictList)) {
+                        if (!isItEmpty(restrictList)) {
                             ap.setRestrictions(eName, restrictList);
                         }
                     }
@@ -55,7 +55,7 @@ public class XML extends ArgumentParser {
                             restrictList.add(restrict.item(k).getTextContent());
                         }
                         ap.addNamedArgument(eName, eDefault, ap.StringToDatatype(eDatatype), eNickname, Boolean.parseBoolean(eRequired));
-                        if (!ap.isItEmpty(restrictList)) {
+                        if (!isItEmpty(restrictList)) {
                             ap.setRestrictions(eName, restrictList);
                         }
                     }
@@ -91,7 +91,7 @@ public class XML extends ArgumentParser {
                 printer.println("\t\t<datatype>" + ap.datatypeToString(ap.positionalArgs.get(key).getDataType()) + "</datatype>");
                 printer.println("\t\t<description>" + ap.positionalArgs.get(key).getDescription() + "</description>");
                 printer.println("\t\t<multiple>" + ap.positionalArgs.get(key).getNumberOfValues() + "</multiple>");
-                if (!ap.isItEmpty(ap.positionalArgs.get(key).getRestrictions())) {
+                if (!isItEmpty(ap.positionalArgs.get(key).getRestrictions())) {
                     printer.println("\t\t<restrictions>");
                     for (Iterator<String> i = ap.positionalArgs.get(key).getRestrictions().iterator(); i.hasNext();) {
                         printer.println("\t\t\t<restrict>" + i.next() + "</restrict>");
@@ -114,7 +114,7 @@ public class XML extends ArgumentParser {
                 printer.println("\t\t<datatype>" + ap.datatypeToString(ap.namedArgs.get(key).getDataType()) + "</datatype>" );
                 printer.println("\t\t<nickname>" + ap.namedArgs.get(key).getNickname() + "</nickname>" );
                 printer.println("\t\t<required>" + ap.namedArgs.get(key).getRequired() + "</required>" );
-                if (ap.isItEmpty(ap.namedArgs.get(key).getRestrictions())) {
+                if (isItEmpty(ap.namedArgs.get(key).getRestrictions())) {
                     printer.println("\t\t<restrictions></restrictions>");
                 }
                 else {
@@ -139,6 +139,14 @@ public class XML extends ArgumentParser {
         }
         catch(Exception e) {
             throw new FileErrorException("Something Went Wrong.");
+        }
+    }
+    
+    private static boolean isItEmpty(List<String> input) {
+        if (input.isEmpty() || (input.size() == 1 && input.get(0).equals(""))) {
+            return true;
+        } else {
+            return false;
         }
     }
 }
