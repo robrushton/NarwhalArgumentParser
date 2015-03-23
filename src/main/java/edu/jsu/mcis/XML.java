@@ -32,12 +32,13 @@ public class XML extends ArgumentParser {
                         String eName = e.getElementsByTagName("name").item(0).getTextContent();
                         String eDatatype = e.getElementsByTagName("datatype").item(0).getTextContent();
                         String eDescription = e.getElementsByTagName("description").item(0).getTextContent();
+                        String eNumberOfValues = e.getElementsByTagName("multiple").item(0).getTextContent();
                         ArrayList<String> restrictList = new ArrayList<>();
                         NodeList restrict = e.getElementsByTagName("restrict");
                         for (int k = 0; k < restrict.getLength(); k++) {
                             restrictList.add(restrict.item(k).getTextContent());
                         }
-                        ap.addArguments(eName, ap.StringToDatatype(eDatatype), eDescription);
+                        ap.addArguments(eName, ap.StringToDatatype(eDatatype), eDescription, new Integer(eNumberOfValues));
                         if (!ap.isItEmpty(restrictList)) {
                             ap.setRestrictions(eName, restrictList);
                         }

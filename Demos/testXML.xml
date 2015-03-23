@@ -9,6 +9,7 @@
             <restrict>cat</restrict>
             <restrict>pig</restrict>
         </restrictions>
+        <multiple>1</multiple>
     </argument>
     
     <argument type="positional">
@@ -16,6 +17,7 @@
         <datatype>int</datatype>
         <description>Some number</description>
         <restrictions></restrictions>
+        <multiple>1</multiple>
     </argument>
     
     <argument type="positional">
@@ -23,6 +25,7 @@
         <datatype>boolean</datatype>
         <description>Is it rainy</description>
         <restrictions></restrictions>
+        <multiple>1</multiple>
     </argument>
     
     <argument type="positional">
@@ -30,6 +33,7 @@
         <datatype>float</datatype>
         <description></description>
         <restrictions></restrictions>
+        <multiple>1</multiple>
     </argument>
     
     <argument type="positional">
@@ -37,6 +41,7 @@
         <datatype>int</datatype>
         <description>Length of the object</description>
         <restrictions></restrictions>
+        <multiple>1</multiple>
     </argument>
     
     <argument type="positional">
@@ -44,6 +49,7 @@
         <datatype>int</datatype>
         <description>Width of the object</description>
         <restrictions></restrictions>
+        <multiple>1</multiple>
     </argument>
     
     <argument type="positional">
@@ -51,6 +57,7 @@
         <datatype>int</datatype>
         <description>Height of the object</description>
         <restrictions></restrictions>
+        <multiple>1</multiple>
     </argument>
     
     <argument type="named">
