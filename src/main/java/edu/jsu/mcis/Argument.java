@@ -6,7 +6,6 @@ import edu.jsu.mcis.ArgumentParser.Datatype;
 
 public class Argument <T>{
     protected String name;
-    protected List<Argument> argument;
     protected Datatype dataType;
     protected List<String> restrictions = new ArrayList<String>();
     protected String defaultValue;
@@ -14,14 +13,6 @@ public class Argument <T>{
     public Argument(){
         name = "";
         defaultValue = "";
-    }
-    
-    public void setArgument(List<Argument> myArgs) {
-        this.argument = myArgs;
-    }
-    
-    public List<Argument> getArguments(){
-    	return argument;
     }
     
     public boolean checkRestrictions(String checkValue){
