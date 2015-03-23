@@ -540,6 +540,22 @@ public class ArgumentParserTest {
         assertEquals(new Integer(6), values.get(1));
     }
     
+    @Test (expected = PositionalArgumentException.class)
+    public void testMultipleValuesAtEndNotEnoughGivenException() {
+        String[] inp = {"Red", "5", "6"};
+        ap.addArguments("Color", ArgumentParser.Datatype.STRING);
+        ap.addArguments("Dimensions", ArgumentParser.Datatype.INT, "Cube size", 3);
+        ap.parse(inp);
+    }
+    
+    @Test (expected = PositionalArgumentException.class)
+    public void testMultipleValuesAtBeginNotEnoughGivenException() {
+        String[] inp = {"5", "6", "7"};
+        ap.addArguments("Dimensions", ArgumentParser.Datatype.INT, "Cube size", 3);
+        ap.addArguments("Cube Size", ArgumentParser.Datatype.INT);
+        ap.parse(inp);
+    }
+    
     @Test(expected = InvalidDataTypeException.class)
     public void testEnterFloatWhenShouldBeInt() {
         ap.addArguments("Arg 1", ArgumentParser.Datatype.INT);
