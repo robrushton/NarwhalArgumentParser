@@ -8,7 +8,9 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 import java.io.*;
-import javax.xml.bind.*;
+import javax.xml.parsers.ParserConfigurationException;
+import org.w3c.dom.DOMException;
+import org.xml.sax.SAXException;
 
 public class XML extends ArgumentParser {
     
@@ -30,7 +32,7 @@ public class XML extends ArgumentParser {
                         String eName = e.getElementsByTagName("name").item(0).getTextContent();
                         String eDatatype = e.getElementsByTagName("datatype").item(0).getTextContent();
                         String eDescription = e.getElementsByTagName("description").item(0).getTextContent();
-                        ArrayList<String> restrictList = new ArrayList<String>();
+                        ArrayList<String> restrictList = new ArrayList<>();
                         NodeList restrict = e.getElementsByTagName("restrict");
                         for (int k = 0; k < restrict.getLength(); k++) {
                             restrictList.add(restrict.item(k).getTextContent());
@@ -46,7 +48,7 @@ public class XML extends ArgumentParser {
                         String eDatatype = e.getElementsByTagName("datatype").item(0).getTextContent();
                         String eNickname = e.getElementsByTagName("nickname").item(0).getTextContent();
                         String eRequired = e.getElementsByTagName("required").item(0).getTextContent();
-                        ArrayList<String> restrictList = new ArrayList<String>();
+                        ArrayList<String> restrictList = new ArrayList<>();
                         NodeList restrict = e.getElementsByTagName("restrict");
                         for (int k = 0; k < restrict.getLength(); k++) {
                             restrictList.add(restrict.item(k).getTextContent());
@@ -65,7 +67,7 @@ public class XML extends ArgumentParser {
                     }
                 }
             }
-        }catch (Exception e) {
+        }catch (ParserConfigurationException | SAXException | IOException | DOMException | MissingUsableArgumentException e) {
             throw new FileErrorException("File Not Found.");
         }
         return ap;

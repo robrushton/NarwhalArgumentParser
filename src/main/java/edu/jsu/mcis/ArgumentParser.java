@@ -1,14 +1,6 @@
 package edu.jsu.mcis;
 import java.util.*;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.DocumentBuilder;
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Node;
-import org.w3c.dom.Element;
-import java.io.*;
 import java.util.Map.Entry;
-import javax.xml.bind.*;
 
 public class ArgumentParser { 
 	
@@ -22,6 +14,7 @@ public class ArgumentParser {
     private String programName;
     private int numPositionalArgs;
     private int currentGroup;
+    private List<NamedArgument> namedArgsEntered;
     
     public ArgumentParser() {
         this.programName = "";
@@ -31,6 +24,7 @@ public class ArgumentParser {
         this.namedArgs = new HashMap<>();
         this.positionalArgs = new LinkedHashMap<>();
         currentGroup = 0;
+        namedArgsEntered = new ArrayList<>();
         
     }
     
@@ -112,7 +106,7 @@ public class ArgumentParser {
         if (currentGroup == 0 || currentGroup == namedArg.getGroup()) {
             if (valueInRestrictions(namedArg, nextValue)) {
                 namedArg.setValue(userInputQueue.poll());
-                namedArg.setWasEntered(true);
+                namedArgsEntered.add(namedArg);
                 if (namedArg.getGroup() != 0) {
                     currentGroup = namedArg.getGroup();
                 }
@@ -125,7 +119,7 @@ public class ArgumentParser {
     }
     
     private boolean valueInRestrictions(Argument arg, String value) {
-        if (arg.restrictions.size() == 0) {
+        if (arg.restrictions.isEmpty()) {
             return true;
         }else if (arg.restrictions.contains(value)) {
             return true;
@@ -135,13 +129,13 @@ public class ArgumentParser {
     }
     
     private Queue<String> arrayToQueue(String[] array) {
-        Queue<String> output = new LinkedList<String>();
+        Queue<String> output = new LinkedList<>();
         output.addAll(Arrays.asList(array));
         return output;
     }
     
     private Queue<PositionalArgument> positionalArgsToQueue() {
-        Queue<PositionalArgument> output = new LinkedList<PositionalArgument>();
+        Queue<PositionalArgument> output = new LinkedList<>();
         for (Entry<String, PositionalArgument> entry : positionalArgs.entrySet()) {
             output.add(entry.getValue());
         }
@@ -166,11 +160,7 @@ public class ArgumentParser {
                 return false;
             }
         } else {
-            if (value.equals("True") || value.equals("true") || value.equals("False") || value.equals("false")) {
-                return true;
-            } else {
-                return false;
-            }
+            return value.equals("True") || value.equals("true") || value.equals("False") || value.equals("false");
         }
         return true;
     }
@@ -187,7 +177,7 @@ public class ArgumentParser {
     }
     
     private boolean isArgumentRequiredButNotGiven(String s) {
-        return namedArgs.get(s).getRequired() && !namedArgs.get(s).getWasEntered();
+        return namedArgs.get(s).getRequired() && !namedArgsEntered.contains(namedArgs.get(s));
     }
     
     private boolean isItAFlag(String userInput) {
@@ -213,13 +203,13 @@ public class ArgumentParser {
                     return (T) positionalArgs.get(s).getValue(0);
                 } 
                 else if (positionalArgs.get(s).getDataType() == Datatype.INT) {
-                    return (T) new Integer(Integer.parseInt(positionalArgs.get(s).getValue(0)));
+                    return (T) new Integer(positionalArgs.get(s).getValue(0));
                 } 
                 else if (positionalArgs.get(s).getDataType() == Datatype.FLOAT) {
-                    return (T) new Float(Float.parseFloat(positionalArgs.get(s).getValue(0)));
+                    return (T) new Float(positionalArgs.get(s).getValue(0));
                 } 
                 else if (positionalArgs.get(s).getDataType() == Datatype.BOOLEAN) {
-                    return (T) new Boolean(Boolean.parseBoolean(positionalArgs.get(s).getValue(0)));
+                    return (T) Boolean.valueOf(positionalArgs.get(s).getValue(0));
                 }
             }
             else {
@@ -349,7 +339,7 @@ public class ArgumentParser {
     }
     
     protected boolean isItEmpty(List<String> input) {
-        if (input.size() == 0 || (input.size() == 1 && input.get(0).equals(""))) {
+        if (input.isEmpty() || (input.size() == 1 && input.get(0).equals(""))) {
             return true;
         } else {
             return false;
@@ -395,7 +385,7 @@ public class ArgumentParser {
         String key;
         for (Map.Entry<String, PositionalArgument> p : positionalArgs.entrySet()){
             key = p.getKey();
-            if (key == name){
+            if (key.equals(name)){
                 for (T ob : o) {
                     String str = ob.toString();
                     positionalArgs.get(name).getRestrictions().add(str);

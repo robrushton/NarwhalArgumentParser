@@ -2,7 +2,6 @@ package edu.jsu.mcis;
 
 
 import java.util.*;
-import javax.xml.bind.annotation.*;
 import edu.jsu.mcis.ArgumentParser.Datatype;
 
 public class Argument <T>{
@@ -52,5 +51,13 @@ public class Argument <T>{
 
     public void setDataType(Datatype d) {
         dataType = d;
+    }
+    
+    public String getDefaultValue() {
+        return defaultValue;
+    }
+    
+    public void setDefaultValue(String s) {
+        defaultValue = s;
     }
 }

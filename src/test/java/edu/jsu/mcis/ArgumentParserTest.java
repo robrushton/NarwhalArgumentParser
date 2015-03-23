@@ -3,18 +3,6 @@ package edu.jsu.mcis;
 import org.junit.*;
 import static org.junit.Assert.*;
 import java.util.*;
-import java.io.*;
-
-import javax.xml.transform.stream.StreamSource;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.Text;
-
-import javax.xml.parsers.*;
-
-import org.custommonkey.xmlunit.*;
 
 public class ArgumentParserTest {
     private ArgumentParser ap;
