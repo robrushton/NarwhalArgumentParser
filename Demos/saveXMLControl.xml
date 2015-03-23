@@ -4,12 +4,14 @@
 		<name>month</name>
 		<datatype>int</datatype>
 		<description>Month of the year</description>
+		<multiple>1</multiple>
 		<restrictions></restrictions>
 	</argument>
 	<argument type="positional">
 		<name>year</name>
 		<datatype>float</datatype>
 		<description>The year</description>
+		<multiple>1</multiple>
 		<restrictions>
 			<restrict>2015</restrict>
 		</restrictions>

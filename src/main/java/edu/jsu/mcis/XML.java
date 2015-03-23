@@ -90,6 +90,7 @@ public class XML extends ArgumentParser {
                 printer.println("\t\t<name>" + ap.positionalArgs.get(key).getName() + "</name>");
                 printer.println("\t\t<datatype>" + ap.datatypeToString(ap.positionalArgs.get(key).getDataType()) + "</datatype>");
                 printer.println("\t\t<description>" + ap.positionalArgs.get(key).getDescription() + "</description>");
+                printer.println("\t\t<multiple>" + ap.positionalArgs.get(key).getNumberOfValues() + "</multiple>");
                 if (!ap.isItEmpty(ap.positionalArgs.get(key).getRestrictions())) {
                     printer.println("\t\t<restrictions>");
                     for (Iterator<String> i = ap.positionalArgs.get(key).getRestrictions().iterator(); i.hasNext();) {
