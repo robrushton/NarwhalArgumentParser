@@ -32,7 +32,7 @@ public class XML {
                         String eName = e.getElementsByTagName("name").item(0).getTextContent();
                         String eDatatype = e.getElementsByTagName("datatype").item(0).getTextContent();
                         String eDescription = e.getElementsByTagName("description").item(0).getTextContent();
-                        String eNumberOfValues = e.getElementsByTagName("multiple").item(0).getTextContent();
+                        String eNumberOfValues = e.getElementsByTagName("arity").item(0).getTextContent();
                         ArrayList<String> restrictList = new ArrayList<>();
                         NodeList restrict = e.getElementsByTagName("restrict");
                         for (int k = 0; k < restrict.getLength(); k++) {
@@ -90,7 +90,7 @@ public class XML {
                 printer.println("\t\t<name>" + ap.positionalArgs.get(key).getName() + "</name>");
                 printer.println("\t\t<datatype>" + ap.datatypeToString(ap.positionalArgs.get(key).getDataType()) + "</datatype>");
                 printer.println("\t\t<description>" + ap.positionalArgs.get(key).getDescription() + "</description>");
-                printer.println("\t\t<multiple>" + ap.positionalArgs.get(key).getNumberOfValues() + "</multiple>");
+                printer.println("\t\t<arity>" + ap.positionalArgs.get(key).getNumberOfValues() + "</arity>");
                 if (!isItEmpty(ap.positionalArgs.get(key).getRestrictions())) {
                     printer.println("\t\t<restrictions>");
                     for (Iterator<String> i = ap.positionalArgs.get(key).getRestrictions().iterator(); i.hasNext();) {
