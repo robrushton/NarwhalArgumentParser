@@ -77,7 +77,6 @@
     <argument type="flag">
         <flagname>w</flagname>
     </argument>
-    
     <groups>
         <group>
             <args>Gender</args>

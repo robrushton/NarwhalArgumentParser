@@ -157,6 +157,7 @@ public class XML {
                 printer.println("\t\t<flagname>" + key + "</flagname>");
                 printer.println("\t</argument>");
             }
+            
             printer.print("</parser>");
             printer.close();
         }
