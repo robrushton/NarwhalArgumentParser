@@ -68,6 +68,29 @@ public class XML {
                     }
                 }
             }
+            
+            nodeList = xmlDoc.getElementsByTagName("group");
+            List<List<String>> groupList = new ArrayList<>();
+            for (int i = 0; i < nodeList.getLength(); i++) {
+                Node node = nodeList.item(i);
+                if (node.getNodeType() == Node.ELEMENT_NODE) {
+                    Element e = (Element) node;
+                    NodeList args = e.getElementsByTagName("args");
+                    List<String> argList = new ArrayList<>();
+                    for (int j = 0; j < args.getLength(); j++) {
+                        argList.add(args.item(j).getTextContent());
+                    }
+                    groupList.add(argList);
+                }
+            }
+            ap.addNamedGroups(groupList);
+            for (List<String> g : groupList) {
+                for (String a : g) {
+                    System.out.println(a);
+                    
+                }
+                System.out.println("---");
+            }
         }catch (ParserConfigurationException | SAXException | IOException | DOMException | MissingUsableArgumentException e) {
             throw new FileErrorException("File Not Found.");
         }

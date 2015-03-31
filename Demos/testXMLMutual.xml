@@ -9,14 +9,7 @@
             <restrict>cat</restrict>
             <restrict>pig</restrict>
         </restrictions>
-        <arity>1</arity>
-    </argument>
-    
-    <argument type="positional">
-        <name>number</name>
-        <datatype>int</datatype>
-        <description>Some number</description>
-        <restrictions></restrictions>
+        <nickname></nickname>
         <arity>1</arity>
     </argument>
     
@@ -24,6 +17,7 @@
         <name>rainy</name>
         <datatype>boolean</datatype>
         <description>Is it rainy</description>
+        <nickname></nickname>
         <restrictions></restrictions>
         <arity>1</arity>
     </argument>
@@ -32,39 +26,25 @@
         <name>bathrooms</name>
         <datatype>float</datatype>
         <description></description>
-        <restrictions></restrictions>
-        <arity>1</arity>
-    </argument>
-    
-    <argument type="positional">
-        <name>Length</name>
-        <datatype>int</datatype>
-        <description>Length of the object</description>
-        <restrictions></restrictions>
-        <arity>1</arity>
-    </argument>
-    
-    <argument type="positional">
-        <name>Width</name>
-        <datatype>int</datatype>
-        <description>Width of the object</description>
-        <restrictions></restrictions>
-        <arity>1</arity>
-    </argument>
-    
-    <argument type="positional">
-        <name>Height</name>
-        <datatype>int</datatype>
-        <description>Height of the object</description>
+        <nickname></nickname>
         <restrictions></restrictions>
         <arity>1</arity>
     </argument>
     
     <argument type="named">
-        <name>Type</name>
+        <name>Gender</name>
         <default></default>
         <datatype>String</datatype>
-        <nickname>t</nickname>
+        <nickname></nickname>
+        <required></required>
+        <restrictions></restrictions>
+    </argument>
+    
+    <argument type="named">
+        <name>Height</name>
+        <default></default>
+        <datatype>int</datatype>
+        <nickname>h</nickname>
         <required></required>
         <restrictions></restrictions>
     </argument>
@@ -73,13 +53,21 @@
         <name>Color</name>
         <default></default>
         <datatype>String</datatype>
-        <nickname></nickname>
+        <nickname>c</nickname>
         <required></required>
         <restrictions>
             <restrict>red</restrict>
             <restrict>green</restrict>
             <restrict>blue</restrict>
         </restrictions>
+    </argument>
+    
+    <argument type="named">
+        <name>Shape</name>
+        <default></default>
+        <datatype>String</datatype>
+        <nickname>s</nickname>
+        <required></required>
     </argument>
     
     <argument type="flag">
@@ -89,4 +77,15 @@
     <argument type="flag">
         <flagname>w</flagname>
     </argument>
+    
+    <groups>
+        <group>
+            <args>Gender</args>
+            <args>Height</args>
+        </group>
+        <group>
+            <args>Color</args>
+            <args>Shape</args>
+        </group>
+    </groups>
 </parser>

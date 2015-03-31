@@ -74,6 +74,25 @@ public class XMLTest {
         assertEquals(true, ap.getValue("w"));
     }
     
+    @Test
+    public void testLoadXMLMutualGroups() {
+        ap = XML.loadXML(".\\Demos\\testXMLMutual.xml");
+        String[] inp = {"dog", "true", "3.5", "--Gender", "Male", "--Height", "6"};
+        ap.parse(inp);
+        assertEquals("dog", ap.getValue("pet"));
+        assertEquals(true, ap.getValue("rainy"));
+        assertEquals(3.5f, ap.getValue("bathrooms"));
+        assertEquals("Male", ap.getValue("Gender"));
+        assertEquals("6", ap.getValue("Height"));
+    }
+    
+    @Test (expected = mutualExclusionException.class)
+    public void testLoadXMLMutualExclusionException() {
+        ap = XML.loadXML(".\\Demos\\testXMLMutual.xml");
+        String[] inp = {"dog", "true", "3.5", "--Gender", "Male", "--Shape", "Square"};
+        ap.parse(inp);
+    }
+    
     @Test (expected = RestrictedValueException.class)
     public void testLoadXMLCheckPositionalRestrictions() {
         ap = XML.loadXML(".\\Demos\\testXML.xml");
