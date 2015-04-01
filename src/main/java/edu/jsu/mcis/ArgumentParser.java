@@ -370,14 +370,14 @@ public class ArgumentParser {
     }
     
     protected String datatypeToString(Datatype data) {
-        if (data == Datatype.INT) {
+        if (data == Datatype.FLOAT) {
+            return "float";
+        }
+        else if (data == Datatype.INT) {
             return "int";
         }
         else if (data == Datatype.BOOLEAN) {
             return "boolean";
-        }
-        else if (data == Datatype.FLOAT) {
-            return "float";
         }
         else {
             return "String";
