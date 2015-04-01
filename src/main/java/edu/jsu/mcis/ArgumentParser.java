@@ -291,18 +291,38 @@ public class ArgumentParser {
         System.out.println();
         System.out.println(programDescription);
         System.out.println();
-        System.out.println("Arguments: ");
+        System.out.println("Positional Arguments: ");
         printLoopCount = 0;
         for (String s : positionalArgs.keySet()) {
             if (printLoopCount < numPositionalArgs) {
+                System.out.print ("\n" + s + ": ");
                 if (!positionalArgs.get(s).getDescription().equals("")) {
-                    System.out.println(s + ": " + positionalArgs.get(s).getDescription() + "   Type: " + positionalArgs.get(s).getDataType());
+                    System.out.print(positionalArgs.get(s).getDescription());
                 }
                 else {
-                    System.out.println(s + ": No Description Given   Type: " + positionalArgs.get(s).getDataType());
+                    System.out.println("No Description Given");
+                }
+                System.out.print("    Datatype: " + positionalArgs.get(s).getDataType());
+                if (positionalArgs.get(s).getRestrictions().size() == 0 || positionalArgs.get(s).getRestrictions().size() == 1 && positionalArgs.get(s).getRestrictions().get(0).equals("")) {
+                    //
+                }
+                else {
+                    System.out.print("    Restrictions:");
+                    Iterator itr = positionalArgs.get(s).getRestrictions().iterator();
+                    while (itr.hasNext()) {
+                        System.out.print(" " + itr.next());
+                    }
                 }
             }
             printLoopCount++;
+        }
+        System.out.println();
+        System.out.println("Named Arguments");
+        for (String s : namedArgs.keySet()) {
+            System.out.print("\n" + s + ": " + "Required: " + namedArgs.get(s).getRequired());
+            if (!namedArgs.get(s).getNickname().equals("")) {
+                System.out.print("    Nickname: " + namedArgs.get(s).getNickname());
+            }
         }
         System.exit(0);
     }

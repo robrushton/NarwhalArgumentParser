@@ -1,9 +1,3 @@
 <?xml version="1.0"?>
 <parser>
-	<argument type="po">
-		<name>month</name>
-		<datatype>int</datatype>
-		<description>Month of the year</description>
-		<restrictions></restrictions>
-	</argument>
 </parser>
