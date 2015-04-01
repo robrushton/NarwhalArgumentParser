@@ -432,6 +432,18 @@ public class ArgumentParserTest {
     }
     
     @Test
+    public void testGettingListOfValuesAsFloat() {
+        String[] inp = {"6.3", "3.1", "5.2", "9.1"};
+        ap.addArguments("floats", ArgumentParser.Datatype.FLOAT, "Flaot Stuff", 4);
+        ap.parse(inp);
+        List<Float> floatList = ap.getValue("floats");
+        assertEquals(6.3f, floatList.get(0).floatValue(), 0.1);
+        assertEquals(3.1f, floatList.get(1).floatValue(), 0.1);
+        assertEquals(5.2f, floatList.get(2).floatValue(), 0.1);
+        assertEquals(9.1f, floatList.get(3).floatValue(), 0.1);
+    }
+    
+    @Test
     public void testCreateThreeGroupsWithFiveNamedArguments() {
         String[] inp = {"--Color", "red", "--Type", "sphere"};
         ap.addNamedArgument("Color", false);

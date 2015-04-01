@@ -234,10 +234,6 @@ public class ArgumentParser {
     private boolean isItAnNamed(String s) {
         return namedArgs.containsKey(s);
     }
-    
-    private boolean isItANickname(String userInput) {
-        return nicknames.containsKey(userInput);
-    }
 	    
     public void addNamedArgument(String name, boolean required) {
         NamedArgument oa = new NamedArgument();
@@ -359,10 +355,7 @@ public class ArgumentParser {
     }
     
     protected Datatype StringToDatatype(String data) {
-        if (data.equals("String")) {
-            return Datatype.STRING;
-        } 
-        else if (data.equals("float")) {
+        if (data.equals("float")) {
             return Datatype.FLOAT;
         } 
         else if (data.equals("int")) {
@@ -370,16 +363,14 @@ public class ArgumentParser {
         } 
         else if (data.equals("boolean")) {
             return Datatype.BOOLEAN;
-        }else {
-            throw new InvalidDataTypeException("\n " + data + ": is not an excepted data type.");
+        }
+        else {
+            return Datatype.STRING;
         }
     }
     
     protected String datatypeToString(Datatype data) {
-        if (data == Datatype.STRING) {
-            return "String";
-        }
-        else if (data == Datatype.INT) {
+        if (data == Datatype.INT) {
             return "int";
         }
         else if (data == Datatype.BOOLEAN) {
@@ -389,7 +380,7 @@ public class ArgumentParser {
             return "float";
         }
         else {
-            throw new InvalidDataTypeException("\n " + data + ": is not an excepted data type.");
+            return "String";
         }
     }
     
