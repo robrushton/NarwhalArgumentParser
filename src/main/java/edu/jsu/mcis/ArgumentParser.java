@@ -376,8 +376,8 @@ public class ArgumentParser {
     }
     
     protected String datatypeToString(Datatype data) {
-        if (data == Datatype.STRING) {
-            return "String";
+        if (data == Datatype.FLOAT) {
+            return "float";
         }
         else if (data == Datatype.INT) {
             return "int";
@@ -385,11 +385,8 @@ public class ArgumentParser {
         else if (data == Datatype.BOOLEAN) {
             return "boolean";
         }
-        else if (data == Datatype.FLOAT) {
-            return "float";
-        }
         else {
-            throw new InvalidDataTypeException("\n " + data + ": is not an excepted data type.");
+            return "String";
         }
     }
     
