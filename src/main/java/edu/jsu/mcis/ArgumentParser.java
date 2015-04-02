@@ -317,13 +317,15 @@ public class ArgumentParser {
             printLoopCount++;
         }
         System.out.println();
-        System.out.println("Named Arguments");
+        System.out.println();
+        System.out.println("Named Arguments:");
         for (String s : namedArgs.keySet()) {
             System.out.print("\n" + s + ": " + "Required: " + namedArgs.get(s).getRequired());
             if (!namedArgs.get(s).getNickname().equals("")) {
                 System.out.print("    Nickname: " + namedArgs.get(s).getNickname());
             }
         }
+        System.out.println();
         System.exit(0);
     }
     
