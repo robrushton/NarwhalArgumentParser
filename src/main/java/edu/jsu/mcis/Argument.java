@@ -16,15 +16,6 @@ public class Argument <T>{
         restrictions = new ArrayList<>();
     }
     
-    public boolean checkRestrictions(String checkValue){
-        for (String s : restrictions) {
-            if (s.equals(checkValue)) {
-                return true;
-            }
-        }
-        return false;	
-    }
-    
     public List<String> getRestrictions() {
         return restrictions;
     }

@@ -199,8 +199,8 @@ public class ArgumentParser {
     public <T> T getValue(String s) {
         if (isItAPositional(s)) {
             if (positionalArgs.get(s).getValueListAsString().size() == 1) {
-                if (positionalArgs.get(s).getDataType() == Datatype.STRING) {
-                    return (T) positionalArgs.get(s).getValue(0);
+                if (positionalArgs.get(s).getDataType() == Datatype.BOOLEAN) {
+                    return (T) Boolean.valueOf(positionalArgs.get(s).getValue(0));
                 } 
                 else if (positionalArgs.get(s).getDataType() == Datatype.INT) {
                     return (T) new Integer(positionalArgs.get(s).getValue(0));
@@ -208,8 +208,8 @@ public class ArgumentParser {
                 else if (positionalArgs.get(s).getDataType() == Datatype.FLOAT) {
                     return (T) new Float(positionalArgs.get(s).getValue(0));
                 } 
-                else if (positionalArgs.get(s).getDataType() == Datatype.BOOLEAN) {
-                    return (T) Boolean.valueOf(positionalArgs.get(s).getValue(0));
+                else{
+                    return (T) positionalArgs.get(s).getValue(0);
                 }
             }
             else {

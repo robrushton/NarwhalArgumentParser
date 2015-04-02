@@ -529,6 +529,28 @@ public class ArgumentParserTest {
         assertEquals(new Integer(7), values.get(2));
     }
     
+    @Test
+    public void testMultipleValuesForOnePositionalBoolean() {
+        String[] inp = {"true", "false"};
+        ap.addArguments("Thing", ArgumentParser.Datatype.BOOLEAN, "stuff", 2);
+        ap.parse(inp);
+        List<Integer> values;
+        values = ap.getValue("Thing");
+        assertEquals(new Boolean(true), values.get(0));
+        assertEquals(new Boolean(false), values.get(1));
+    }
+    
+    @Test
+    public void testMultipleValuesForOnePositionalString() {
+        String[] inp = {"dog", "cat"};
+        ap.addArguments("Pets", ArgumentParser.Datatype.STRING, "pets owned", 2);
+        ap.parse(inp);
+        List<Integer> values;
+        values = ap.getValue("Pets");
+        assertEquals(new String("dog"), values.get(0));
+        assertEquals(new String("cat"), values.get(1));
+    }
+    
     @Test (expected = PositionalArgumentException.class)
     public void testMultipleValuesNotEnoughGivenException() {
         String[] inp = {"5", "6"};
