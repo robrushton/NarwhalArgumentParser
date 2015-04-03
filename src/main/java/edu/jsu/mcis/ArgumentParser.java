@@ -14,6 +14,7 @@ public class ArgumentParser {
     private String programName;
     private int numPositionalArgs;
     private int currentGroup;
+    private int numGroups;
     private List<NamedArgument> namedArgsEntered;
     
     public ArgumentParser() {
@@ -24,6 +25,7 @@ public class ArgumentParser {
         this.namedArgs = new HashMap<>();
         this.positionalArgs = new LinkedHashMap<>();
         currentGroup = 0;
+        numGroups = 0;
         namedArgsEntered = new ArrayList<>();
         
     }
@@ -326,6 +328,20 @@ public class ArgumentParser {
             }
         }
         System.out.println();
+        if (numGroups > 0) {
+            System.out.println();
+            System.out.println("Mutually Exclusive Groups:");
+            System.out.println();
+            for (int i = 1; i < numGroups + 1; i++) {
+                System.out.print("Group " + i + ":");
+                for (String s : namedArgs.keySet()) {
+                    if (namedArgs.get(s).getGroup() == i) {
+                        System.out.print(" " + s);
+                    }
+                }
+                System.out.println();
+            }
+        }
         System.exit(0);
     }
     
@@ -423,6 +439,7 @@ public class ArgumentParser {
             for (String named : namedLists) {
                 namedArgs.get(named).setGroup(count);
             }
+            numGroups = count;
             count++;
         }
     }
