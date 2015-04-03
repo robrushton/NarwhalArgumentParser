@@ -121,6 +121,12 @@ public class XMLTest {
         assertEquals(3, ap.getValue("Height"));
     }
     
+    @Test (expected = FileErrorException.class)
+    public void testInvalidXMLArgument() {
+        ap = XML.loadXML(".\\Demos\\brokenXML.xml");
+        
+    }
+    
      public void setUp() throws Exception {
         XMLUnit.setControlParser(
             "org.xmlache.xerces.jaxp.DocumentBuilderFactoryImpl");

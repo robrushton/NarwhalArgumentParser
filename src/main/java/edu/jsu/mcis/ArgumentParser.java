@@ -201,8 +201,8 @@ public class ArgumentParser {
     public <T> T getValue(String s) {
         if (isItAPositional(s)) {
             if (positionalArgs.get(s).getValueListAsString().size() == 1) {
-                if (positionalArgs.get(s).getDataType() == Datatype.STRING) {
-                    return (T) positionalArgs.get(s).getValue(0);
+                if (positionalArgs.get(s).getDataType() == Datatype.BOOLEAN) {
+                    return (T) Boolean.valueOf(positionalArgs.get(s).getValue(0));
                 } 
                 else if (positionalArgs.get(s).getDataType() == Datatype.INT) {
                     return (T) new Integer(positionalArgs.get(s).getValue(0));
@@ -210,8 +210,8 @@ public class ArgumentParser {
                 else if (positionalArgs.get(s).getDataType() == Datatype.FLOAT) {
                     return (T) new Float(positionalArgs.get(s).getValue(0));
                 } 
-                else if (positionalArgs.get(s).getDataType() == Datatype.BOOLEAN) {
-                    return (T) Boolean.valueOf(positionalArgs.get(s).getValue(0));
+                else{
+                    return (T) positionalArgs.get(s).getValue(0);
                 }
             }
             else {
@@ -235,10 +235,6 @@ public class ArgumentParser {
     
     private boolean isItAnNamed(String s) {
         return namedArgs.containsKey(s);
-    }
-    
-    private boolean isItANickname(String userInput) {
-        return nicknames.containsKey(userInput);
     }
 	    
     public void addNamedArgument(String name, boolean required) {
@@ -377,10 +373,7 @@ public class ArgumentParser {
     }
     
     protected Datatype StringToDatatype(String data) {
-        if (data.equals("String")) {
-            return Datatype.STRING;
-        } 
-        else if (data.equals("float")) {
+        if (data.equals("float")) {
             return Datatype.FLOAT;
         } 
         else if (data.equals("int")) {
@@ -388,14 +381,15 @@ public class ArgumentParser {
         } 
         else if (data.equals("boolean")) {
             return Datatype.BOOLEAN;
-        }else {
-            throw new InvalidDataTypeException("\n " + data + ": is not an excepted data type.");
+        }
+        else {
+            return Datatype.STRING;
         }
     }
     
     protected String datatypeToString(Datatype data) {
-        if (data == Datatype.STRING) {
-            return "String";
+        if (data == Datatype.FLOAT) {
+            return "float";
         }
         else if (data == Datatype.INT) {
             return "int";
@@ -403,11 +397,8 @@ public class ArgumentParser {
         else if (data == Datatype.BOOLEAN) {
             return "boolean";
         }
-        else if (data == Datatype.FLOAT) {
-            return "float";
-        }
         else {
-            throw new InvalidDataTypeException("\n " + data + ": is not an excepted data type.");
+            return "String";
         }
     }
     

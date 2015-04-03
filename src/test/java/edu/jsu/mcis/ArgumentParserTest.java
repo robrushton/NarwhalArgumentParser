@@ -432,6 +432,18 @@ public class ArgumentParserTest {
     }
     
     @Test
+    public void testGettingListOfValuesAsFloat() {
+        String[] inp = {"6.3", "3.1", "5.2", "9.1"};
+        ap.addArguments("floats", ArgumentParser.Datatype.FLOAT, "Flaot Stuff", 4);
+        ap.parse(inp);
+        List<Float> floatList = ap.getValue("floats");
+        assertEquals(6.3f, floatList.get(0).floatValue(), 0.1);
+        assertEquals(3.1f, floatList.get(1).floatValue(), 0.1);
+        assertEquals(5.2f, floatList.get(2).floatValue(), 0.1);
+        assertEquals(9.1f, floatList.get(3).floatValue(), 0.1);
+    }
+    
+    @Test
     public void testCreateThreeGroupsWithFiveNamedArguments() {
         String[] inp = {"--Color", "red", "--Type", "sphere"};
         ap.addNamedArgument("Color", false);
@@ -515,6 +527,28 @@ public class ArgumentParserTest {
         assertEquals(new Integer(5), values.get(0));
         assertEquals(new Integer(6), values.get(1));
         assertEquals(new Integer(7), values.get(2));
+    }
+    
+    @Test
+    public void testMultipleValuesForOnePositionalBoolean() {
+        String[] inp = {"true", "false"};
+        ap.addArguments("Thing", ArgumentParser.Datatype.BOOLEAN, "stuff", 2);
+        ap.parse(inp);
+        List<Integer> values;
+        values = ap.getValue("Thing");
+        assertEquals(new Boolean(true), values.get(0));
+        assertEquals(new Boolean(false), values.get(1));
+    }
+    
+    @Test
+    public void testMultipleValuesForOnePositionalString() {
+        String[] inp = {"dog", "cat"};
+        ap.addArguments("Pets", ArgumentParser.Datatype.STRING, "pets owned", 2);
+        ap.parse(inp);
+        List<Integer> values;
+        values = ap.getValue("Pets");
+        assertEquals(new String("dog"), values.get(0));
+        assertEquals(new String("cat"), values.get(1));
     }
     
     @Test (expected = PositionalArgumentException.class)

@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<parser>
+    <argument type="invalid">
+        <name>pet</name>
+        <datatype>String</datatype>
+        <description>Its a pet</description>
+        <restrictions>
+            <restrict>dog</restrict>
+            <restrict>cat</restrict>
+            <restrict>pig</restrict>
+        </restrictions>
+        <arity>1</arity>
+    </argument>
+    
+    <argument type="positional">
+        <name>number</name>
+        <datatype>int</datatype>
+        <description>Some number</description>
+        <restrictions></restrictions>
+        <arity>1</arity>
+    </argument>
+    
+    <argument type="positional">
+        <name>rainy</name>
+        <datatype>boolean</datatype>
+        <description>Is it rainy</description>
+        <restrictions></restrictions>
+        <arity>1</arity>
+    </argument>
+    
+    <argument type="positional">
+        <name>bathrooms</name>
+        <datatype>float</datatype>
+        <description></description>
+        <restrictions></restrictions>
+        <arity>1</arity>
+    </argument>
+    
+    <argument type="positional">
+        <name>Length</name>
+        <datatype>int</datatype>
+        <description>Length of the object</description>
+        <restrictions></restrictions>
+        <arity>1</arity>
+    </argument>
+    
+    <argument type="positional">
+        <name>Width</name>
+        <datatype>int</datatype>
+        <description>Width of the object</description>
+        <restrictions></restrictions>
+        <arity>1</arity>
+    </argument>
+    
+    <argument type="positional">
+        <name>Height</name>
+        <datatype>int</datatype>
+        <description>Height of the object</description>
+        <restrictions></restrictions>
+        <arity>1</arity>
+    </argument>
+    
+    <argument type="named">
+        <name>Type</name>
+        <default></default>
+        <datatype>String</datatype>
+        <nickname>t</nickname>
+        <required></required>
+        <restrictions></restrictions>
+    </argument>
+    
+    <argument type="named">
+        <name>Color</name>
+        <default></default>
+        <datatype>String</datatype>
+        <nickname></nickname>
+        <required></required>
+        <restrictions>
+            <restrict>red</restrict>
+            <restrict>green</restrict>
+            <restrict>blue</restrict>
+        </restrictions>
+    </argument>
+    
+    <argument type="flag">
+        <flagname>x</flagname>
+    </argument>
+    
+    <argument type="flag">
+        <flagname>w</flagname>
+    </argument>
+</parser>
