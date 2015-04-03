@@ -278,6 +278,11 @@ public class ArgumentParser {
     }
     
     private void printHelpInfo() {
+        getHelpInfo();
+        System.exit(0);
+    }
+    
+	public void getHelpInfo(){
         int printLoopCount = 0;
         System.out.print("\nUsage Information: java " + programName + " ");
         for (String k : positionalArgs.keySet()) {
@@ -338,10 +343,8 @@ public class ArgumentParser {
                 System.out.println();
             }
         }
-        System.exit(0);
     }
     
-	
     public void addArguments(String name, Datatype dataType) {
         PositionalArgument ao = new PositionalArgument();
         positionalArgs.put(name, ao);
