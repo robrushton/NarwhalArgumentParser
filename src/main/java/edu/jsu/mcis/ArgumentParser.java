@@ -14,7 +14,7 @@ public class ArgumentParser {
     private String programName;
     private int numPositionalArgs;
     private int currentGroup;
-    private int numGroups;
+    int numGroups;
     private List<NamedArgument> namedArgsEntered;
     
     public ArgumentParser() {

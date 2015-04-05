@@ -158,6 +158,24 @@ public class XML {
                 printer.println("\t</argument>");
             }
             
+            if (ap.numGroups > 0) {
+                printer.println("\t<groups>");
+                for (int i = 1; i < ap.numGroups + 1; i ++) {
+                    printer.println("\t\t<group>");
+                    for (Map.Entry<String, NamedArgument> entry : ap.namedArgs.entrySet()) {
+                        String key = entry.getKey();
+                        if (ap.namedArgs.get(key).getGroup() == i) {
+                            printer.println("\t\t\t<args>" + key + "</args>");
+                        }
+                    }
+                    printer.println("\t\t</groups>");
+                }
+                printer.println("\t</groups>");
+            }
+            else {
+                printer.println("\t<groups></groups>");
+            }
+            
             printer.print("</parser>");
             printer.close();
         }
