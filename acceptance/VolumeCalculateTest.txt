@@ -21,3 +21,25 @@ Second Test With 7 5 2
    Should Be Equal    5   ${width}
    ${height}=         Get Heights
    Should Be Equal    2   ${height}
+
+Third Test With true 6 cat 8 5
+   Initialize Third Test
+   ${boolean}=        Get Boolean
+   Should Be Equal    true   ${boolean}
+   ${length}=         Get Length
+   Should Be Equal    6   ${length}
+   ${animal}=         Get Animal
+   Should Be Equal    cat   ${animal}
+   ${width}=          Get Width
+   Should Be Equal    8   ${width}
+   ${heigth}=         Get Heigth
+   Should Be Equal    5   ${heigth}
+
+Four Test With life blue round
+   Initialize Four Test
+   ${world}=          Get world
+   Should Be Equal    life   ${world}
+   ${color}=          Get color
+   Should Be Equal    blue   ${color}
+   ${ball}=           Get ball
+   Should Be Equal    round   ${ball}

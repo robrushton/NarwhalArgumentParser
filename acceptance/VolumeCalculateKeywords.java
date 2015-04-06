@@ -24,6 +24,24 @@ public class VolumeCalculateKeywords{
         ap.addArguments("height", ArgumentParser.Datatype.INT, "Height of the object");
         ap.parse(args);
     }
+
+    public void initializeThirdTest(){
+        String[] args = {"true","6","cat","8","5"};
+        ap.addArguments("boolean", ArgumentParser.Datatype.BOOLEAN, "This is true");
+        ap.addArguments("length", ArgumentParser.Datatype.INT, "This is the length");
+        ap.addArguments("animal", ArgumentParser.Datatype.STRING, "This is a animal");
+        ap.addArguments("width", ArgumentParser.Datatype.INT, "This is the width");
+        ap.addArguments("heigth", ArgumentParser.Datatype.INT,"This is the heigth");
+        ap.parse(args);
+    }
+
+    public void initializeFourTest(){
+        String[] args = {"life","blue","round"};
+        ap.addArguments("world", ArgumentParser.Datatype.STRING, "This is what the world is");
+        ap.addArguments("color", ArgumentParser.Datatype.STRING, "What color");
+        ap.addArguments("ball", ArgumentParser.Datatype.STRING, "What is ball");
+        ap.parse(args);
+    }
     
     public String getLengths(){
         return Integer.toString((int) ap.getValue("length"));
@@ -53,4 +71,35 @@ public class VolumeCalculateKeywords{
         return Float.toString((float) ap.getValue("bathrooms"));
     }
 
+    public String getBoolean(){
+        return Boolean.toString((boolean) ap.getValue("boolean"));
+    }
+
+    public String getLength(){
+        return Integer.toString((int) ap.getValue("length"));
+    }
+
+    public String getAnimal(){
+        return ap.getValue("animal");
+    }
+
+    public String getWidth(){
+        return Integer.toString((int) ap.getValue("width"));
+    }
+
+    public String getHeigth(){
+        return Integer.toString((int) ap.getValue("heigth"));
+    }
+
+    public String getWorld(){
+        return ap.getValue("world");
+    }
+
+    public String getColor(){
+        return ap.getValue("color");
+    }
+
+    public String getBall(){
+        return ap.getValue("ball");
+    }
 }
