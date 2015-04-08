@@ -3,13 +3,13 @@ import java.util.*;
 import java.util.Map.Entry;
 
 public class ArgumentParser { 
-	
+    
+    public enum Datatype {STRING, FLOAT, INT, BOOLEAN};
+    
     protected Map<String, PositionalArgument> positionalArgs;
     protected Map<String, NamedArgument> namedArgs;
     protected Map<String, Boolean> flagArgs;
     private Map<String, String> nicknames;
-    public static List<Argument> myArgs;
-    public enum Datatype {STRING, FLOAT, INT, BOOLEAN};
     private String programDescription;
     private String programName;
     private int numPositionalArgs;
@@ -68,8 +68,7 @@ public class ArgumentParser {
                             } else {
                                 throw new RestrictedValueException(value + " is not in set of restrictions");
                             }
-                        } else if (value == null) {}
-                        else {
+                        } else if (value != null) {
                             throw new InvalidDataTypeException("\n " + value + ". Value is invalid data type.");
                         }
                         if (i < numberPosValues) {
@@ -220,7 +219,7 @@ public class ArgumentParser {
                 return (T) output;
             }
         } 
-        else if (isItAnNamed(s)) {
+        else if (isItANamed(s)) {
             return (T) namedArgs.get(s).getValue();
         }
         else if (isItAFlag(s)) {
@@ -233,7 +232,7 @@ public class ArgumentParser {
         return positionalArgs.containsKey(s);
     }
     
-    private boolean isItAnNamed(String s) {
+    private boolean isItANamed(String s) {
         return namedArgs.containsKey(s);
     }
 	    
