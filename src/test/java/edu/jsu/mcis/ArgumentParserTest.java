@@ -28,6 +28,30 @@ public class ArgumentParserTest {
     }
     
     @Test
+    public void testBooleanNamedArgument() {
+        ap.addNamedArgument("nf1", "false", ArgumentParser.Datatype.BOOLEAN, "n", false);
+        String[] inp = {"--nf1"};
+        ap.parse(inp);
+        assertEquals(true, ap.getValue("nf1"));
+    }
+    
+    @Test
+    public void testBooleanNamedArgumentRequired() {
+        ap.addNamedArgument("nf1", "false", ArgumentParser.Datatype.BOOLEAN, "n", true);
+        String[] inp = {"--nf1"};
+        ap.parse(inp);
+        assertEquals(true, ap.getValue("nf1"));
+    }
+    
+    @Test
+    public void testBooleanNamedArgumentUsingNickname() {
+        ap.addNamedArgument("nf1", "false", ArgumentParser.Datatype.BOOLEAN, "n", false);
+        String[] inp = {"-n"};
+        ap.parse(inp);
+        assertEquals(true, ap.getValue("nf1"));
+    }
+    
+    @Test
     public void testAddArgumentsWithDescription() {
         String one = "Test Name 1";
         String two = "Test Name 2";
@@ -200,127 +224,53 @@ public class ArgumentParserTest {
     @Test
     public void testFlagTrueBeginning() {
         ap.addArguments("Arg 1", ArgumentParser.Datatype.BOOLEAN, "This should be true");
-        ap.addFlag("t");
-        String[] inp = {"-t", "false"};
+        ap.addFlag("flaggy");
+        String[] inp = {"--flaggy", "true"};
         ap.parse(inp);
-        assertEquals(true, ap.getValue("t"));
+        assertEquals(true, ap.getValue("flaggy"));
     }
     
     @Test
     public void testFlagFalseBeginning() {
-        ap.addFlag("t");
+        ap.addFlag("flaggy");
         ap.addArguments("Arg 1", ArgumentParser.Datatype.BOOLEAN, "This should be true");
         String[] inp = {"true"};
         ap.parse(inp);
-        assertEquals(false, ap.getValue("t"));
+        assertEquals(false, ap.getValue("flaggy"));
     }
     
     @Test
     public void testFlagTrueMiddle() {
         ap.addArguments("Arg 1", ArgumentParser.Datatype.BOOLEAN, "Test argument as well");
         ap.addArguments("Arg 2", ArgumentParser.Datatype.BOOLEAN, "Test argument");
-        ap.addFlag("t");
-        String[] inp = {"true","-t","false"};
+        ap.addFlag("flaggy");
+        String[] inp = {"true","--flaggy","false"};
         ap.parse(inp);
-        assertEquals(true, ap.getValue("t"));
+        assertEquals(true, ap.getValue("flaggy"));
     }
     
     @Test
     public void testMultipleFlagsSeperatedBothTrue() {
         ap.addArguments("Arg 1", ArgumentParser.Datatype.BOOLEAN, "Test argument as well");
         ap.addArguments("Arg 2", ArgumentParser.Datatype.BOOLEAN, "Test argument");
-        ap.addFlag("t");
-        ap.addFlag("r");
-        String[] inp = {"true","-t","false", "-r"};
+        ap.addFlag("flaggy1");
+        ap.addFlag("flaggy2");
+        String[] inp = {"true","--flaggy1","false", "--flaggy2"};
         ap.parse(inp);
-        assertEquals(true, ap.getValue("t"));
-        assertEquals(true, ap.getValue("r"));
+        assertEquals(true, ap.getValue("flaggy1"));
+        assertEquals(true, ap.getValue("flaggy2"));
     }
     
     @Test
     public void testMultipleFlagsSeperatedOneTrueOtherFalse() {
         ap.addArguments("Arg 1", ArgumentParser.Datatype.BOOLEAN, "Test argument as well");
         ap.addArguments("Arg 2", ArgumentParser.Datatype.BOOLEAN, "Test argument");
-        ap.addFlag("t");
-        ap.addFlag("r");
-        String[] inp = {"true","-t","false"};
-        ap.parse(inp);        
-        assertEquals(true, ap.getValue("t"));
-        assertEquals(false, ap.getValue("r"));
-    }
-    
-    @Test
-    public void testTwoFlagsTogetherInMiddleBothTrue() {
-        ap.addArguments("Arg 1", ArgumentParser.Datatype.BOOLEAN, "Test argument as well");
-        ap.addArguments("Arg 2", ArgumentParser.Datatype.BOOLEAN, "Test argument");
-        ap.addFlag("t");
-        ap.addFlag("r");
-        String[] inp = {"true","-tr","false"};
+        ap.addFlag("flaggy1");
+        ap.addFlag("flaggy2");
+        String[] inp = {"true","--flaggy1","false"};
         ap.parse(inp);
-        assertEquals(true, ap.getValue("t"));
-        assertEquals(true, ap.getValue("r"));
-    }
-    
-    @Test
-    public void testFourFlagsTwoTogetherTwoSeperateAllTrue() {
-        ap.addArguments("Arg 1", ArgumentParser.Datatype.BOOLEAN, "Test argument as well");
-        ap.addArguments("Arg 2", ArgumentParser.Datatype.BOOLEAN, "Test argument");
-        ap.addFlag("k");
-        ap.addFlag("a");
-        ap.addFlag("n");
-        ap.addFlag("e");
-        String[] inp = {"true","-ke","false","-na"};
-        ap.parse(inp);
-        assertEquals(true, ap.getValue("k"));
-        assertEquals(true, ap.getValue("a"));
-        assertEquals(true, ap.getValue("n"));
-        assertEquals(true, ap.getValue("e"));
-    }
-    
-    @Test
-    public void testFourFlagsTwoTogetherOneSeperateThreeTrue() {
-        ap.addArguments("Arg 1", ArgumentParser.Datatype.BOOLEAN, "Test argument as well");
-        ap.addArguments("Arg 2", ArgumentParser.Datatype.BOOLEAN, "Test argument");
-        ap.addFlag("k");
-        ap.addFlag("a");
-        ap.addFlag("n");
-        ap.addFlag("e");
-        String[] inp = {"true","-ke","false","-a"};
-        ap.parse(inp);
-        assertEquals(true, ap.getValue("k"));
-        assertEquals(true, ap.getValue("a"));
-        assertEquals(false, ap.getValue("n"));
-        assertEquals(true, ap.getValue("e"));
-    }
-    
-    @Test
-    public void testFourFlagsAllTogetherAllTrue() {
-        ap.addArguments("Arg 1", ArgumentParser.Datatype.BOOLEAN, "Test argument as well");
-        ap.addArguments("Arg 2", ArgumentParser.Datatype.BOOLEAN, "Test argument");
-        ap.addFlag("k");
-        ap.addFlag("a");
-        ap.addFlag("n");
-        ap.addFlag("e");
-        String[] inp = {"true","-kane","false"};
-        ap.parse(inp);
-        assertEquals(true, ap.getValue("k"));
-        assertEquals(true, ap.getValue("a"));
-        assertEquals(true, ap.getValue("n"));
-        assertEquals(true, ap.getValue("e"));
-    }
-    
-    @Test
-    public void testThreeFlagsTogetherOneFlaggedTwiceAllTrue() {
-        ap.addArguments("Arg 1", ArgumentParser.Datatype.BOOLEAN, "Test argument as well");
-        ap.addArguments("Arg 2", ArgumentParser.Datatype.BOOLEAN, "Test argument");
-        ap.addFlag("k");
-        ap.addFlag("a");
-        ap.addFlag("n");
-        String[] inp = {"true","-ka","false", "-an"};
-        ap.parse(inp);
-        assertEquals(true, ap.getValue("k"));
-        assertEquals(true, ap.getValue("a"));
-        assertEquals(true, ap.getValue("n"));
+        assertEquals(true, ap.getValue("flaggy1"));
+        assertEquals(false, ap.getValue("flaggy2"));
     }
     
     @Test

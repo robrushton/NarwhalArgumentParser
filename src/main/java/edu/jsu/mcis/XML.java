@@ -1,5 +1,6 @@
 package edu.jsu.mcis;
 
+import edu.jsu.mcis.ArgumentParser.Datatype;
 import java.util.*;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
@@ -129,33 +130,37 @@ public class XML {
             }
             
             for (Map.Entry<String, NamedArgument> entry : ap.namedArgs.entrySet()) {
-                String key = entry.getKey();
+                if (entry.getValue().getDataType() != Datatype.BOOLEAN) {
+                    String key = entry.getKey();
                 
-                printer.println("\t<argument type=\"named\">");
-                printer.println("\t\t<name>" + ap.namedArgs.get(key).getName() + "</name>" );
-                printer.println("\t\t<default>" + ap.namedArgs.get(key).getDefaultValue() + "</default>" );
-                printer.println("\t\t<datatype>" + ap.datatypeToString(ap.namedArgs.get(key).getDataType()) + "</datatype>" );
-                printer.println("\t\t<nickname>" + ap.namedArgs.get(key).getNickname() + "</nickname>" );
-                printer.println("\t\t<required>" + ap.namedArgs.get(key).getRequired() + "</required>" );
-                if (isItEmpty(ap.namedArgs.get(key).getRestrictions())) {
-                    printer.println("\t\t<restrictions></restrictions>");
-                }
-                else {
-                    printer.println("\t\t<restrictions>");
-                    for (Iterator<String> i = ap.namedArgs.get(key).getRestrictions().iterator(); i.hasNext();) {
-                        printer.println("\t\t\t<restrict>" + i.next() + "</restrict>");
+                    printer.println("\t<argument type=\"named\">");
+                    printer.println("\t\t<name>" + ap.namedArgs.get(key).getName() + "</name>" );
+                    printer.println("\t\t<default>" + ap.namedArgs.get(key).getDefaultValue() + "</default>" );
+                    printer.println("\t\t<datatype>" + ap.datatypeToString(ap.namedArgs.get(key).getDataType()) + "</datatype>" );
+                    printer.println("\t\t<nickname>" + ap.namedArgs.get(key).getNickname() + "</nickname>" );
+                    printer.println("\t\t<required>" + ap.namedArgs.get(key).getRequired() + "</required>" );
+                    if (isItEmpty(ap.namedArgs.get(key).getRestrictions())) {
+                        printer.println("\t\t<restrictions></restrictions>");
                     }
-                    printer.println("\t\t</restrictions>");
+                    else {
+                        printer.println("\t\t<restrictions>");
+                        for (Iterator<String> i = ap.namedArgs.get(key).getRestrictions().iterator(); i.hasNext();) {
+                            printer.println("\t\t\t<restrict>" + i.next() + "</restrict>");
+                        }
+                        printer.println("\t\t</restrictions>");
+                    }
+                    printer.println("\t</argument>");
                 }
-                printer.println("\t</argument>");
             }
             
-            for (Map.Entry<String, Boolean> entry : ap.flagArgs.entrySet()) {
-                String key = entry.getKey();
+            for (Map.Entry<String, NamedArgument> entry : ap.namedArgs.entrySet()) {
+                if (entry.getValue().getDataType() == Datatype.BOOLEAN) {
+                    String key = entry.getKey();
                 
-                printer.println("\t<argument type=\"flag\">");
-                printer.println("\t\t<flagname>" + key + "</flagname>");
-                printer.println("\t</argument>");
+                    printer.println("\t<argument type=\"flag\">");
+                    printer.println("\t\t<flagname>" + key + "</flagname>");
+                    printer.println("\t</argument>");
+                }
             }
             
             if (ap.numGroups > 0) {
