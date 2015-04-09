@@ -59,7 +59,7 @@ public class XMLTest {
     @Test
     public void testLoadXMLGetFlagValue() {
         ap = XML.loadXML(".\\Demos\\testXML.xml");
-        String[] inp = {"dog", "8", "true", "3.4", "-x", "2", "1", "3"};
+        String[] inp = {"dog", "8", "true", "3.4", "--x", "2", "1", "3"};
         ap.parse(inp);
         assertEquals(true, ap.getValue("x"));
         assertEquals(false, ap.getValue("w"));
@@ -68,7 +68,7 @@ public class XMLTest {
     @Test
     public void testLoadXMLGetTwoFlagValue() {
         ap = XML.loadXML(".\\Demos\\testXML.xml");
-        String[] inp = {"dog", "8", "true", "3.4", "-x", "-w", "2", "1", "3"};
+        String[] inp = {"dog", "8", "true", "3.4", "--x", "--w", "2", "1", "3"};
         ap.parse(inp);
         assertEquals(true, ap.getValue("x"));
         assertEquals(true, ap.getValue("w"));
@@ -83,7 +83,7 @@ public class XMLTest {
         assertEquals(true, ap.getValue("rainy"));
         assertEquals(3.5f, ap.getValue("bathrooms"));
         assertEquals("Male", ap.getValue("Gender"));
-        assertEquals("6", ap.getValue("Height"));
+        assertEquals(6, ap.getValue("Height"));
     }
     
     @Test (expected = mutualExclusionException.class)

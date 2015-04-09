@@ -8,11 +8,9 @@ public class ArgumentParser {
     
     protected Map<String, PositionalArgument> positionalArgs;
     protected Map<String, NamedArgument> namedArgs;
-    protected Map<String, Boolean> flagArgs;
     private Map<String, String> nicknames;
     private String programDescription;
     private String programName;
-    private int numPositionalArgs;
     private int currentGroup;
     int numGroups;
     private List<NamedArgument> namedArgsEntered;
@@ -21,7 +19,6 @@ public class ArgumentParser {
         this.programName = "";
         this.programDescription = "";
         this.nicknames = new HashMap<>();
-        this.flagArgs = new HashMap<>();
         this.namedArgs = new HashMap<>();
         this.positionalArgs = new LinkedHashMap<>();
         currentGroup = 0;
@@ -42,7 +39,7 @@ public class ArgumentParser {
                 value = value.substring(2);
                 if (namedArgs.containsKey(value)) {
                     NamedArgument namedArg = namedArgs.get(value);
-                    parseNamedArguments(namedArg, nextValue, userInputQueue, value);
+                    parseNamedArguments(namedArg, userInputQueue, value);
                 } else {
                     throw new InvalidNamedArgumentException("\n " + value + " '--' value not defined.");
                 }
@@ -51,7 +48,7 @@ public class ArgumentParser {
                 if (nicknames.containsKey(value)) {
                     String name = nicknames.get(value);
                     NamedArgument namedArg = namedArgs.get(name);
-                    parseNamedArguments(namedArg, nextValue, userInputQueue, value);
+                    parseNamedArguments(namedArg, userInputQueue, value);
                 } else if (isItAFlag(value)) {
                     flipFlag(value);
                 } else {
@@ -103,15 +100,21 @@ public class ArgumentParser {
         return true;
     }
     
-    private void parseNamedArguments(NamedArgument namedArg, String nextValue, Queue<String> userInputQueue, String value) {
+    private void parseNamedArguments(NamedArgument namedArg, Queue<String> userInputQueue, String value) {
         if (currentGroup == 0 || currentGroup == namedArg.getGroup()) {
-            if (valueInRestrictions(namedArg, nextValue)) {
+            String nextValue = userInputQueue.peek();
+            if (namedArg.getDataType() == Datatype.BOOLEAN) {
+                namedArg.setValue("true");
+                namedArgsEntered.add(namedArg);
+            }
+            else if (valueInRestrictions(namedArg, nextValue)) {
                 namedArg.setValue(userInputQueue.poll());
                 namedArgsEntered.add(namedArg);
                 if (namedArg.getGroup() != 0) {
                     currentGroup = namedArg.getGroup();
                 }
-            } else {
+            }
+            else {
                 throw new RestrictedValueException(value + " is not in set of restrictions");
             }
         } else {
@@ -181,20 +184,14 @@ public class ArgumentParser {
         return namedArgs.get(s).getRequired() && !namedArgsEntered.contains(namedArgs.get(s));
     }
     
-    private boolean isItAFlag(String userInput) {
-        for (int i = 0; i < userInput.length(); i++){
-            String singleFlag = userInput.substring(i, i+1);
-            if (!flagArgs.containsKey(singleFlag)) {
-                return false;
-            }
-        }
-        return true;
+    private boolean isItAFlag(String singleCharInput) {
+        return namedArgs.containsKey(nicknames.get(singleCharInput));
     }
     
-    private void flipFlag(String userInput) {
-        for (int i = 0; i < userInput.length(); i++) {
-            flagArgs.put(userInput.substring(i, i+1), Boolean.TRUE);
-        }
+    private void flipFlag(String singleCharInput) {
+        NamedArgument flag = namedArgs.get(nicknames.get(singleCharInput));
+        flag.setValue("true");
+        namedArgsEntered.add(flag);
     }
     
     public <T> T getValue(String s) {
@@ -220,10 +217,21 @@ public class ArgumentParser {
             }
         } 
         else if (isItANamed(s)) {
-            return (T) namedArgs.get(s).getValue();
+            if (namedArgs.get(s).getDataType() == Datatype.BOOLEAN) {
+                    return (T) Boolean.valueOf(namedArgs.get(s).getValue());
+                } 
+                else if (namedArgs.get(s).getDataType() == Datatype.INT) {
+                    return (T) new Integer(namedArgs.get(s).getValue());
+                } 
+                else if (namedArgs.get(s).getDataType() == Datatype.FLOAT) {
+                    return (T) new Float(namedArgs.get(s).getValue());
+                } 
+                else{
+                    return (T) namedArgs.get(s).getValue();
+                }
         }
         else if (isItAFlag(s)) {
-            return (T) flagArgs.get(s);
+            return (T) Boolean.valueOf(namedArgs.get(s).getValue());
         }
         throw new NoArgCalledException("\n " + s + " is not a valid argument.");
     }
@@ -285,7 +293,7 @@ public class ArgumentParser {
         int printLoopCount = 0;
         System.out.print("\nUsage Information: java " + programName + " ");
         for (String k : positionalArgs.keySet()) {
-            if (printLoopCount < numPositionalArgs) {
+            if (printLoopCount < positionalArgs.size()) {
                 System.out.print(k + " ");
             }
             printLoopCount++;
@@ -296,7 +304,7 @@ public class ArgumentParser {
         System.out.println("Positional Arguments: ");
         printLoopCount = 0;
         for (String s : positionalArgs.keySet()) {
-            if (printLoopCount < numPositionalArgs) {
+            if (printLoopCount < positionalArgs.size()) {
                 System.out.print ("\n" + s + ": ");
                 if (!positionalArgs.get(s).getDescription().equals("")) {
                     System.out.print(positionalArgs.get(s).getDescription());
@@ -349,7 +357,6 @@ public class ArgumentParser {
         positionalArgs.put(name, ao);
         ao.setName(name);
         ao.setDataType(dataType);
-        numPositionalArgs++;
     }
     
     public void addArguments(String name, Datatype dataType, String description) {
@@ -371,7 +378,11 @@ public class ArgumentParser {
     }
     
     public void addFlag(String s) {
-        flagArgs.put(s, Boolean.FALSE);
+        addNamedArgument(s, "false", Datatype.BOOLEAN, false);
+    }
+    
+    public void addFlag(String s, String nickname) {
+        addNamedArgument(s, "false", Datatype.BOOLEAN, nickname, false);
     }
     
     protected Datatype StringToDatatype(String data) {
