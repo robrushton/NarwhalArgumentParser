@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<parser>
+	<argument type="positional">
+		<name>month</name>
+		<datatype>int</datatype>
+		<description>Month of the year</description>
+		<arity>1</arity>
+		<restrictions></restrictions>
+	</argument>
+	<argument type="positional">
+		<name>year</name>
+		<datatype>float</datatype>
+		<description>The year</description>
+		<arity>1</arity>
+		<restrictions>
+			<restrict>2015</restrict>
+		</restrictions>
+	</argument>
+	<argument type="named">
+		<name>Type</name>
+		<default></default>
+		<datatype>String</datatype>
+		<nickname>t</nickname>
+		<required>true</required>
+		<restrictions>
+			<restrict>sphere</restrict>
+			<restrict>box</restrict>
+			<restrict>other</restrict>
+		</restrictions>
+	</argument>
+	<argument type="named">
+		<name>Size</name>
+		<default></default>
+		<datatype>boolean</datatype>
+		<nickname>s</nickname>
+		<required>true</required>
+		<restrictions></restrictions>
+	</argument>
+	<argument type="flag">
+		<flagname>x</flagname>
+	</argument>
+	<groups>
+		<group>
+			<args>Type</args>
+		</group>
+	</groups>
+</parser>

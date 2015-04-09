@@ -161,6 +161,33 @@ public class XMLTest {
         XMLAssert.assertXMLEqual(control, test);
     }
     
+    @Test
+    public void testCreatingNewXMLwithgroups() throws Exception{
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder docBuilder = dbFactory.newDocumentBuilder();
+        ap.addArguments("month", ArgumentParser.Datatype.INT, "Month of the year");
+        ap.addArguments("year", ArgumentParser.Datatype.FLOAT, "The year");
+        List<String> restrictYear = Arrays.asList("2015");
+        ap.setRestrictions("year", restrictYear);
+        ap.addNamedArgument("Type", "", ArgumentParser.Datatype.STRING, "t", true);
+        List<String> restrictType = Arrays.asList("sphere", "box", "other");
+        ap.setRestrictions("Type", restrictType);
+        ap.addNamedArgument("Size", "", ArgumentParser.Datatype.BOOLEAN, "s", true);
+        ap.addFlag("x");
+        List<String> names1 = new ArrayList<String>();
+        names1.add("Type"); 
+        List<List<String>> groups = new ArrayList<List<String>>();
+        groups.add(names1);
+        ap.addNamedGroups(groups);
+        String testfile = new String(".\\Demos\\saveXMLControlGroups.xml");
+        String newfile = new String(".\\Demos\\saveXMLTestGroups.xml");
+        XML.saveXML(newfile, ap);
+        Document control = docBuilder.parse(testfile);
+        Document test = docBuilder.parse(newfile);
+        
+        XMLAssert.assertXMLEqual(control, test);
+    }
+    
     @Test (expected =  FileErrorException.class)
     public void testFileNotFoundXML(){
         XML.loadXML(".\\Demos\\fakeXML.xml");
