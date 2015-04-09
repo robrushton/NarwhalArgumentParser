@@ -28,13 +28,8 @@
 			<restrict>other</restrict>
 		</restrictions>
 	</argument>
-	<argument type="named">
-		<name>Size</name>
-		<default></default>
-		<datatype>boolean</datatype>
-		<nickname>s</nickname>
-		<required>true</required>
-		<restrictions></restrictions>
+	<argument type="flag">
+		<flagname>Size</flagname>
 	</argument>
 	<argument type="flag">
 		<flagname>x</flagname>
