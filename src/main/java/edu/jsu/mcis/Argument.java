@@ -6,8 +6,7 @@ import edu.jsu.mcis.ArgumentParser.Datatype;
 
 /**
  *
- * @author Kane
- * @param <T>
+ * @author Narwhalians
  */
 public class Argument <T>{
     protected String name;
@@ -23,7 +22,7 @@ public class Argument <T>{
     
     /**
      *
-     * @return
+     * @return  A list of Strings containing the restrictions
      */
     public List<String> getRestrictions() {
         return restrictions;
@@ -31,15 +30,15 @@ public class Argument <T>{
     
     /**
      *
-     * @param n
+     * @param name the name of the Argument
      */
-    public void setName(String n) {
-        name = n;
+    public void setName(String name) {
+        this.name = name;
     }
     
     /**
      *
-     * @return
+     * @return the name of the Argument
      */
     public String getName() {
         return name;
@@ -47,7 +46,7 @@ public class Argument <T>{
     
     /**
      *
-     * @return
+     * @return the data type
      */
     public Datatype getDataType() {
         return dataType;
@@ -55,7 +54,7 @@ public class Argument <T>{
 
     /**
      *
-     * @param d
+     * @param d the data type of the Argument
      */
     public void setDataType(Datatype d) {
         dataType = d;
@@ -63,7 +62,7 @@ public class Argument <T>{
     
     /**
      *
-     * @return
+     * @return the default value
      */
     public String getDefaultValue() {
         return defaultValue;
@@ -71,7 +70,7 @@ public class Argument <T>{
     
     /**
      *
-     * @param s
+     * @param s the default value of the Argument
      */
     public void setDefaultValue(String s) {
         defaultValue = s;

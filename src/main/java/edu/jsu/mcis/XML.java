@@ -15,7 +15,7 @@ import org.xml.sax.SAXException;
 
 /**
  *
- * @author Kane
+ * @author Narwhalians
  */
 public class XML {
     
@@ -39,8 +39,14 @@ public class XML {
                     Element e = (Element) node;
                     if (e.getAttribute("type").equals("positional")) {
                         String eName = e.getElementsByTagName("name").item(0).getTextContent();
-                        String eDatatype = e.getElementsByTagName("datatype").item(0).getTextContent();
-                        String eDescription = e.getElementsByTagName("description").item(0).getTextContent();
+                        String eDatatype  = e.getElementsByTagName("datatype").item(0).getTextContent();
+                        try {
+                            eDatatype = e.getElementsByTagName("datatype").item(0).getTextContent();
+                        } catch (NullPointerException ex) {}
+                        String eDescription = "";
+                        try {
+                            eDescription = e.getElementsByTagName("description").item(0).getTextContent();
+                        } catch (NullPointerException ex) {}
                         String eNumberOfValues = e.getElementsByTagName("arity").item(0).getTextContent();
                         ArrayList<String> restrictList = new ArrayList<>();
                         NodeList restrict = e.getElementsByTagName("restrict");
@@ -54,9 +60,15 @@ public class XML {
                     }
                     else if (e.getAttribute("type").equals("named")) {
                         String eName = e.getElementsByTagName("name").item(0).getTextContent();
-                        String eDefault = e.getElementsByTagName("default").item(0).getTextContent();
+                        String eDefault = "";
+                        try {
+                            eDefault = e.getElementsByTagName("default").item(0).getTextContent();
+                        } catch (NullPointerException ex) {}
                         String eDatatype = e.getElementsByTagName("datatype").item(0).getTextContent();
-                        String eNickname = e.getElementsByTagName("nickname").item(0).getTextContent();
+                        String eNickname = "";
+                        try {
+                            eNickname = e.getElementsByTagName("nickname").item(0).getTextContent();
+                        } catch (NullPointerException ex) {}
                         String eRequired = e.getElementsByTagName("required").item(0).getTextContent();
                         ArrayList<String> restrictList = new ArrayList<>();
                         NodeList restrict = e.getElementsByTagName("restrict");

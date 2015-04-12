@@ -4,7 +4,7 @@ import java.util.Map.Entry;
 
 /**
  *
- * @author Kane
+ * @author Narwhalians
  */
 public class ArgumentParser { 
     
@@ -33,7 +33,7 @@ public class ArgumentParser {
     
     /**
      *
-     * @param args
+     * @param args Array of strings given as program input
      */
     public void parse(String[] args) {
         Queue<String> userInputQueue = arrayToQueue(args);
@@ -204,9 +204,8 @@ public class ArgumentParser {
     
     /**
      *
-     * @param <T>
-     * @param s
-     * @return
+     * @param s Name of the Argument
+     * @return  Value of the Argument given
      */
     public <T> T getValue(String s) {
         if (isItAPositional(s)) {
@@ -494,7 +493,6 @@ public class ArgumentParser {
     
     /**
      *
-     * @param <T>
      * @param name
      * @param o
      */

@@ -5,7 +5,7 @@ import edu.jsu.mcis.ArgumentParser.Datatype;
 
 /**
  *
- * @author Kane
+ * @author Narwhalians
  */
 public class NamedArgument extends Argument{
     private String nickname;
@@ -21,7 +21,7 @@ public class NamedArgument extends Argument{
     
     /**
      *
-     * @param v
+     * @param v the value of the Named Argument
      */
     public void setValue(String v) {
         value = v;
@@ -29,7 +29,7 @@ public class NamedArgument extends Argument{
     
     /**
      *
-     * @return
+     * @return the value of the Named Argument
      */
     public String getValue() {
         return value;
@@ -37,7 +37,7 @@ public class NamedArgument extends Argument{
     
     /**
      *
-     * @param n
+     * @param n the nickname of the Named Argument
      */
     public void setNickname(String n) {
         nickname = n;
@@ -45,7 +45,7 @@ public class NamedArgument extends Argument{
     
     /**
      *
-     * @return
+     * @return the nickname of the Named Argument
      */
     public String getNickname() {
         return nickname;
@@ -53,7 +53,7 @@ public class NamedArgument extends Argument{
 
     /**
      *
-     * @return
+     * @return whether the Named Argument is required
      */
     public boolean getRequired() {
         return required;
@@ -61,7 +61,7 @@ public class NamedArgument extends Argument{
 
     /**
      *
-     * @param r
+     * @param r set whether the Named Argument is required
      */
     public void setRequired(boolean r) {
         required = r;
@@ -69,7 +69,7 @@ public class NamedArgument extends Argument{
     
     /**
      *
-     * @param n
+     * @param n set the mutually exclusive group number of the Named Argument
      */
     public void setGroup(int n) {
         group = n;
@@ -77,7 +77,7 @@ public class NamedArgument extends Argument{
     
     /**
      *
-     * @return
+     * @return The mutually exclusive group number of the Named Argument
      */
     public int getGroup() {
         return group;

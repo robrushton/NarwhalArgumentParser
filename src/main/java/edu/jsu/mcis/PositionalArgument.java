@@ -5,7 +5,7 @@ import java.util.*;
 
 /**
  *
- * @author Kane
+ * @author Narwhalians
  */
 public class PositionalArgument extends Argument{
     private String description;
