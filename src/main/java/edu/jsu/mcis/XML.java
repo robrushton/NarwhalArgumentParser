@@ -13,9 +13,17 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.DOMException;
 import org.xml.sax.SAXException;
 
+/**
+ *
+ * @author Kane
+ */
 public class XML {
     
-    
+    /**
+     *
+     * @param fileName
+     * @return
+     */
     public static ArgumentParser loadXML(String fileName) {
         ArgumentParser ap = new ArgumentParser();
         try {
@@ -98,6 +106,11 @@ public class XML {
         return ap;
     }
     
+    /**
+     *
+     * @param fileName
+     * @param a
+     */
     public static void saveXML(String fileName, ArgumentParser a) {
         ArgumentParser ap = a;
         File newXML = new File(fileName);

@@ -2,6 +2,10 @@ package edu.jsu.mcis;
 import java.util.*;
 import java.util.Map.Entry;
 
+/**
+ *
+ * @author Kane
+ */
 public class ArgumentParser { 
     
     public enum Datatype {STRING, FLOAT, INT, BOOLEAN};
@@ -27,6 +31,10 @@ public class ArgumentParser {
         
     }
     
+    /**
+     *
+     * @param args
+     */
     public void parse(String[] args) {
         Queue<String> userInputQueue = arrayToQueue(args);
         Queue<PositionalArgument> positionalArgQueue = positionalArgsToQueue();
@@ -194,6 +202,12 @@ public class ArgumentParser {
         namedArgsEntered.add(flag);
     }
     
+    /**
+     *
+     * @param <T>
+     * @param s
+     * @return
+     */
     public <T> T getValue(String s) {
         if (isItAPositional(s)) {
             if (positionalArgs.get(s).getValueListAsString().size() == 1) {
@@ -244,6 +258,11 @@ public class ArgumentParser {
         return namedArgs.containsKey(s);
     }
 	    
+    /**
+     *
+     * @param name
+     * @param required
+     */
     public void addNamedArgument(String name, boolean required) {
         NamedArgument oa = new NamedArgument();
         namedArgs.put(name, oa);
@@ -251,7 +270,12 @@ public class ArgumentParser {
         setRequired(name, required);
     }
     
-    
+    /**
+     *
+     * @param name
+     * @param defaultValue
+     * @param required
+     */
     public void addNamedArgument(String name, String defaultValue, boolean required) {
         addNamedArgument(name, required);
         NamedArgument oa = getNamedArgument(name);
@@ -259,12 +283,27 @@ public class ArgumentParser {
         oa.setDefaultValue(defaultValue);
     }
     
+    /**
+     *
+     * @param name
+     * @param defaultValue
+     * @param datatype
+     * @param required
+     */
     public void addNamedArgument(String name, String defaultValue, Datatype datatype, boolean required) {
         addNamedArgument(name, defaultValue, required);
         NamedArgument oa = getNamedArgument(name);
         oa.setDataType(datatype);
     }
     
+    /**
+     *
+     * @param name
+     * @param defaultValue
+     * @param datatype
+     * @param nickname
+     * @param required
+     */
     public void addNamedArgument(String name, String defaultValue, Datatype datatype, String nickname, boolean required) {
         addNamedArgument(name, defaultValue, datatype, required);
         nicknames.put(nickname, name);
@@ -289,7 +328,10 @@ public class ArgumentParser {
         System.exit(0);
     }
     
-	public void getHelpInfo(){
+    /**
+     *
+     */
+    public void getHelpInfo(){
         int printLoopCount = 0;
         System.out.print("\nUsage Information: java " + programName + " ");
         for (String k : positionalArgs.keySet()) {
@@ -352,6 +394,11 @@ public class ArgumentParser {
         }
     }
     
+    /**
+     *
+     * @param name
+     * @param dataType
+     */
     public void addArguments(String name, Datatype dataType) {
         PositionalArgument ao = new PositionalArgument();
         positionalArgs.put(name, ao);
@@ -359,28 +406,58 @@ public class ArgumentParser {
         ao.setDataType(dataType);
     }
     
+    /**
+     *
+     * @param name
+     * @param dataType
+     * @param description
+     */
     public void addArguments(String name, Datatype dataType, String description) {
         addArguments(name, dataType);
         positionalArgs.get(name).setDescription(description);
     }
     
+    /**
+     *
+     * @param name
+     * @param dataType
+     * @param description
+     * @param numValues
+     */
     public void addArguments(String name, Datatype dataType, String description, int numValues) {
         addArguments(name, dataType, description);
         positionalArgs.get(name).setNumberOfValues(numValues);
     }
     
+    /**
+     *
+     * @param s
+     */
     public void setProgramDescription(String s) {
         programDescription = s;
     }
     
+    /**
+     *
+     * @param s
+     */
     public void setProgramName(String s) {
         programName = s;
     }
     
+    /**
+     *
+     * @param s
+     */
     public void addFlag(String s) {
         addNamedArgument(s, "false", Datatype.BOOLEAN, false);
     }
     
+    /**
+     *
+     * @param s
+     * @param nickname
+     */
     public void addFlag(String s, String nickname) {
         addNamedArgument(s, "false", Datatype.BOOLEAN, nickname, false);
     }
@@ -415,6 +492,12 @@ public class ArgumentParser {
         }
     }
     
+    /**
+     *
+     * @param <T>
+     * @param name
+     * @param o
+     */
     public <T> void setRestrictions(String name, List<T> o){
         String key;
         for (Map.Entry<String, PositionalArgument> p : positionalArgs.entrySet()){
@@ -437,6 +520,10 @@ public class ArgumentParser {
         }
     }
     
+    /**
+     *
+     * @param list
+     */
     public void addNamedGroups(List<List<String>> list) {
         int count = 1;
         for (List<String> namedLists : list) {

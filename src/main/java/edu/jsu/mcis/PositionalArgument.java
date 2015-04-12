@@ -3,7 +3,10 @@ package edu.jsu.mcis;
 
 import java.util.*;
 
-
+/**
+ *
+ * @author Kane
+ */
 public class PositionalArgument extends Argument{
     private String description;
     private int numberOfValues;
@@ -15,24 +18,51 @@ public class PositionalArgument extends Argument{
         value = new ArrayList<>();
     }
     
+    /**
+     *
+     * @return
+     */
     public String getDescription() {
         return description;
     }
+
+    /**
+     *
+     * @param d
+     */
     public void setDescription(String d) {
         description = d;
     }
     
+    /**
+     *
+     * @return
+     */
     public int getNumberOfValues() {
         return numberOfValues;
     }
+
+    /**
+     *
+     * @param n
+     */
     public void setNumberOfValues(int n) {
         numberOfValues = n;
     }
     
+    /**
+     *
+     * @return
+     */
     public List<String> getValueListAsString() {
         return value;
     }
     
+    /**
+     *
+     * @param <T>
+     * @return
+     */
     public <T> List<T> getValueList() {
         if (dataType == ArgumentParser.Datatype.STRING) {
             return (List<T>) value;
@@ -57,10 +87,19 @@ public class PositionalArgument extends Argument{
         }
     }
     
+    /**
+     *
+     * @param n
+     * @return
+     */
     public String getValue(int n) {
         return value.get(n);
     }
 
+    /**
+     *
+     * @param v
+     */
     public void setValue(String v) {
         value.add(v);
     }
