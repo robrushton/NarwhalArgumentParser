@@ -20,7 +20,7 @@ public class Argument <T>{
         restrictions = new ArrayList<>();
     }
     
-    /**
+    /**  Returns a list of all restrictions the Argument object contains
      *
      * @return  A list of Strings containing the restrictions
      */
@@ -28,7 +28,7 @@ public class Argument <T>{
         return restrictions;
     }
     
-    /**
+    /** Sets the name of the Argument object
      *
      * @param name the name of the Argument
      */
@@ -36,7 +36,7 @@ public class Argument <T>{
         this.name = name;
     }
     
-    /**
+    /** Gets the name of the Argument object
      *
      * @return the name of the Argument
      */
@@ -44,7 +44,7 @@ public class Argument <T>{
         return name;
     }
     
-    /**
+    /** Gets the data type of the Argument object
      *
      * @return the data type
      */
@@ -52,7 +52,7 @@ public class Argument <T>{
         return dataType;
     }
 
-    /**
+    /** sets the data type of the Argument object
      *
      * @param d the data type of the Argument
      */
@@ -60,7 +60,7 @@ public class Argument <T>{
         dataType = d;
     }
     
-    /**
+    /** gets the default value of the Argument object
      *
      * @return the default value
      */
@@ -68,7 +68,7 @@ public class Argument <T>{
         return defaultValue;
     }
     
-    /**
+    /**  sets the default value of the Argument object
      *
      * @param s the default value of the Argument
      */

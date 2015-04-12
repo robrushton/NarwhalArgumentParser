@@ -13,16 +13,18 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.DOMException;
 import org.xml.sax.SAXException;
 
-/**
+/** The XML class adds XML functionality to the Argument Parser class
  *
  * @author Narwhalians
  */
 public class XML {
     
-    /**
+    /**  loads data from an XML file into an Argument Parser object
      *
-     * @param fileName
-     * @return
+     * @param fileName file name of XML to be used
+     * @return An Argument Parser object with data from XML file given
+     * @throws MissingUsableArgumentException when type is invalid
+     * @throws FileErrorException when file path is invalid
      */
     public static ArgumentParser loadXML(String fileName) {
         ArgumentParser ap = new ArgumentParser();
@@ -118,10 +120,11 @@ public class XML {
         return ap;
     }
     
-    /**
+    /**  Saves data from an Argument Parser object into an XML file
      *
-     * @param fileName
-     * @param a
+     * @param fileName file name of XML to be saved to
+     * @param a Argument Parser object to turn into XML
+     * @throws FileErrorException when file to be saved to is read only
      */
     public static void saveXML(String fileName, ArgumentParser a) {
         ArgumentParser ap = a;

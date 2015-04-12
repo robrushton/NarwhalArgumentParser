@@ -18,50 +18,50 @@ public class PositionalArgument extends Argument{
         value = new ArrayList<>();
     }
     
-    /**
+    /** Get the description of the Positional Argument
      *
-     * @return
+     * @return Positional Argument description
      */
     public String getDescription() {
         return description;
     }
 
-    /**
+    /** Set the description of the Named Argument
      *
-     * @param d
+     * @param d Positional Argument description
      */
     public void setDescription(String d) {
         description = d;
     }
     
-    /**
+    /** Get the arity of the Positional Argument
      *
-     * @return
+     * @return the arity
      */
     public int getNumberOfValues() {
         return numberOfValues;
     }
 
-    /**
+    /** Set the arity of the Positional Argument
      *
-     * @param n
+     * @param n number of values
      */
     public void setNumberOfValues(int n) {
         numberOfValues = n;
     }
     
-    /**
+    /** Get the value of the Positional Argument as a list of strings 
      *
-     * @return
+     * @return the value as a list of strings
      */
     public List<String> getValueListAsString() {
         return value;
     }
     
-    /**
+    /** Get the value of the Positional Argument as a list of the proper data type.
+     *  If the list of values size is equal to 1 then returns it as a single value of the proper data type.
      *
-     * @param <T>
-     * @return
+     * @return value as a list or single value of proper data type
      */
     public <T> List<T> getValueList() {
         if (dataType == ArgumentParser.Datatype.STRING) {
@@ -87,18 +87,18 @@ public class PositionalArgument extends Argument{
         }
     }
     
-    /**
+    /** returns a specific value at a particular index
      *
-     * @param n
-     * @return
+     * @param n index of value
+     * @return value at index
      */
     public String getValue(int n) {
         return value.get(n);
     }
 
-    /**
+    /** add a value to the list of values in Positional Argument
      *
-     * @param v
+     * @param v value to add
      */
     public void setValue(String v) {
         value.add(v);

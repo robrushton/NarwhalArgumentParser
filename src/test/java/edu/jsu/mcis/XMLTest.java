@@ -86,7 +86,7 @@ public class XMLTest {
         assertEquals(6, ap.getValue("Height"));
     }
     
-    @Test (expected = mutualExclusionException.class)
+    @Test (expected = MutualExclusionException.class)
     public void testLoadXMLMutualExclusionException() {
         ap = XML.loadXML(".\\Demos\\testXMLMutual.xml");
         String[] inp = {"dog", "true", "3.5", "--Gender", "Male", "--Shape", "Square"};

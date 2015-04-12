@@ -31,9 +31,15 @@ public class ArgumentParser {
         
     }
     
-    /**
+    /** Parse the user input to be added to the Argument Parser object
      *
      * @param args Array of strings given as program input
+     * @throws InvalidNamedArgumentException when invalid named argument is given
+     * @throws RestrictedValueException when input value is not in Argument restrictions
+     * @throws InvalidDataTypeException  when input value is not the proper data type
+     * @throws PositionalArgumentException when too many Positional values given
+     * @throws RequiredNamedArgumentNotGivenException when Named Argument which is required is not given
+     * @throws MutualExclusionException when a Named Argument from two different mutually exclusive groups is used
      */
     public void parse(String[] args) {
         Queue<String> userInputQueue = arrayToQueue(args);
@@ -126,7 +132,7 @@ public class ArgumentParser {
                 throw new RestrictedValueException(value + " is not in set of restrictions");
             }
         } else {
-            throw new mutualExclusionException("illegal use of mutually exlusive groups");
+            throw new MutualExclusionException("illegal use of mutually exlusive groups");
         }
     }
     
@@ -202,7 +208,7 @@ public class ArgumentParser {
         namedArgsEntered.add(flag);
     }
     
-    /**
+    /** Get the value of a Argument in the proper data type
      *
      * @param s Name of the Argument
      * @return  Value of the Argument given
@@ -257,10 +263,10 @@ public class ArgumentParser {
         return namedArgs.containsKey(s);
     }
 	    
-    /**
+    /** Add a Named Argument
      *
-     * @param name
-     * @param required
+     * @param name name of the Named Argument
+     * @param required whether the Named Argument is required
      */
     public void addNamedArgument(String name, boolean required) {
         NamedArgument oa = new NamedArgument();
@@ -269,11 +275,11 @@ public class ArgumentParser {
         setRequired(name, required);
     }
     
-    /**
+    /** Add a Named Argument
      *
-     * @param name
-     * @param defaultValue
-     * @param required
+     * @param name name of the Named Argument
+     * @param defaultValue default value of the Named Argument
+     * @param required whether the Named Argument is required
      */
     public void addNamedArgument(String name, String defaultValue, boolean required) {
         addNamedArgument(name, required);
@@ -282,12 +288,12 @@ public class ArgumentParser {
         oa.setDefaultValue(defaultValue);
     }
     
-    /**
+    /** Add a Named Argument
      *
-     * @param name
-     * @param defaultValue
-     * @param datatype
-     * @param required
+     * @param name name of the Named Argument
+     * @param defaultValue default value of the Named Argument
+     * @param datatype the data type of the Named Argument
+     * @param required whether the Named Argument is required
      */
     public void addNamedArgument(String name, String defaultValue, Datatype datatype, boolean required) {
         addNamedArgument(name, defaultValue, required);
@@ -295,13 +301,13 @@ public class ArgumentParser {
         oa.setDataType(datatype);
     }
     
-    /**
+    /** Add a Named Argument
      *
-     * @param name
-     * @param defaultValue
-     * @param datatype
-     * @param nickname
-     * @param required
+     * @param name name of the Named Argument
+     * @param defaultValue default value of the Named Argument
+     * @param datatype the data type of the Named Argument
+     * @param nickname the nickname of the Named Argument
+     * @param required whether the Named Argument is required
      */
     public void addNamedArgument(String name, String defaultValue, Datatype datatype, String nickname, boolean required) {
         addNamedArgument(name, defaultValue, datatype, required);
@@ -327,7 +333,7 @@ public class ArgumentParser {
         System.exit(0);
     }
     
-    /**
+    /** prints the Help information of Argument Parser
      *
      */
     public void getHelpInfo(){
@@ -393,10 +399,10 @@ public class ArgumentParser {
         }
     }
     
-    /**
+    /** Adds a Positional Argument to Argument Parser object
      *
-     * @param name
-     * @param dataType
+     * @param name name of the Positional Argument
+     * @param dataType data type of the Positional Argument
      */
     public void addArguments(String name, Datatype dataType) {
         PositionalArgument ao = new PositionalArgument();
@@ -405,60 +411,60 @@ public class ArgumentParser {
         ao.setDataType(dataType);
     }
     
-    /**
+    /** Adds a Positional Argument to Argument Parser object
      *
-     * @param name
-     * @param dataType
-     * @param description
+     * @param name name of the Positional Argument
+     * @param dataType data type of the Positional Argument
+     * @param description description of the Positional Argument
      */
     public void addArguments(String name, Datatype dataType, String description) {
         addArguments(name, dataType);
         positionalArgs.get(name).setDescription(description);
     }
     
-    /**
+    /** Adds a Positional Argument to Argument Parser object
      *
-     * @param name
-     * @param dataType
-     * @param description
-     * @param numValues
+     * @param name name of the Positional Argument
+     * @param dataType data type of the Positional Argument
+     * @param description description of the Positional Argument
+     * @param numValues arity of the Positional Argument
      */
     public void addArguments(String name, Datatype dataType, String description, int numValues) {
         addArguments(name, dataType, description);
         positionalArgs.get(name).setNumberOfValues(numValues);
     }
     
-    /**
+    /** Sets the Program Description
      *
-     * @param s
+     * @param s Program's description
      */
     public void setProgramDescription(String s) {
         programDescription = s;
     }
     
-    /**
+    /** Sets the name of the program
      *
-     * @param s
+     * @param s Program's name
      */
     public void setProgramName(String s) {
         programName = s;
     }
     
-    /**
+    /** Adds a flag
      *
-     * @param s
+     * @param name name of the flag
      */
-    public void addFlag(String s) {
-        addNamedArgument(s, "false", Datatype.BOOLEAN, false);
+    public void addFlag(String name) {
+        addNamedArgument(name, "false", Datatype.BOOLEAN, false);
     }
     
-    /**
+    /** Adds a flag
      *
-     * @param s
-     * @param nickname
+     * @param name name of the flag
+     * @param nickname nickname of the flag
      */
-    public void addFlag(String s, String nickname) {
-        addNamedArgument(s, "false", Datatype.BOOLEAN, nickname, false);
+    public void addFlag(String name, String nickname) {
+        addNamedArgument(name, "false", Datatype.BOOLEAN, nickname, false);
     }
     
     protected Datatype StringToDatatype(String data) {
@@ -491,10 +497,10 @@ public class ArgumentParser {
         }
     }
     
-    /**
+    /** Adds input value restrictions to an Argument object
      *
-     * @param name
-     * @param o
+     * @param name name of the Argument to set restrictions on
+     * @param o List of restrictions to be assigned
      */
     public <T> void setRestrictions(String name, List<T> o){
         String key;
@@ -518,9 +524,9 @@ public class ArgumentParser {
         }
     }
     
-    /**
+    /** Used to assign mutually exclusive groups
      *
-     * @param list
+     * @param list list of list of names of Named Arguments
      */
     public void addNamedGroups(List<List<String>> list) {
         int count = 1;

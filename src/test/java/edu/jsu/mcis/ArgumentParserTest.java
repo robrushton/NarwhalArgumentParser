@@ -421,7 +421,7 @@ public class ArgumentParserTest {
         assertEquals("sphere", ap.getValue("Type"));
     }
     
-    @Test (expected = mutualExclusionException.class)
+    @Test (expected = MutualExclusionException.class)
     public void testCreateThreeGroupsWithFiveNamedArgumentsThrowException() {
         String[] inp = {"--Color", "red", "--Type", "sphere", "--Smell", "roses"};
         ap.addNamedArgument("Color", false);
@@ -449,7 +449,7 @@ public class ArgumentParserTest {
         assertEquals("sphere", ap.getValue("Type"));
     }
     
-    @Test (expected = mutualExclusionException.class)
+    @Test (expected = MutualExclusionException.class)
     public void testCreateTwoGroupsWithTwoNamedArgumentsThrowException() {
         String[] inp = {"--Color", "red", "--Size", "sphere"};
         ap.addNamedArgument("Color", false);

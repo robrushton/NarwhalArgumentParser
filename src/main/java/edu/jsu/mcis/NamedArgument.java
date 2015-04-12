@@ -19,7 +19,7 @@ public class NamedArgument extends Argument{
         group = 0;
     }
     
-    /**
+    /** Sets the value of the Named Argument
      *
      * @param v the value of the Named Argument
      */
@@ -27,7 +27,7 @@ public class NamedArgument extends Argument{
         value = v;
     }
     
-    /**
+    /** Gets the value of the Named Argument
      *
      * @return the value of the Named Argument
      */
@@ -35,7 +35,7 @@ public class NamedArgument extends Argument{
         return value;
     }
     
-    /**
+    /** Sets the nickname of the Named Argument
      *
      * @param n the nickname of the Named Argument
      */
@@ -43,7 +43,7 @@ public class NamedArgument extends Argument{
         nickname = n;
     }
     
-    /**
+    /** Gets the nickname of the Named Argument
      *
      * @return the nickname of the Named Argument
      */
@@ -51,7 +51,7 @@ public class NamedArgument extends Argument{
         return nickname;
     }
 
-    /**
+    /** Gets the whether the Named Argument is required or not
      *
      * @return whether the Named Argument is required
      */
@@ -59,7 +59,7 @@ public class NamedArgument extends Argument{
         return required;
     }
 
-    /**
+    /** Sets the whether the Named Argument is required or not
      *
      * @param r set whether the Named Argument is required
      */
@@ -67,7 +67,7 @@ public class NamedArgument extends Argument{
         required = r;
     }
     
-    /**
+    /** Set the group number of the Named Argument
      *
      * @param n set the mutually exclusive group number of the Named Argument
      */
@@ -75,7 +75,7 @@ public class NamedArgument extends Argument{
         group = n;
     }
     
-    /**
+    /** Get the group number of the Named Argument
      *
      * @return The mutually exclusive group number of the Named Argument
      */
