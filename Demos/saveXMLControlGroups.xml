@@ -34,5 +34,9 @@
 	<argument type="flag">
 		<flagname>x</flagname>
 	</argument>
-	<groups></groups>
+	<groups>
+		<group>
+			<args>Type</args>
+		</group>
+	</groups>
 </parser>

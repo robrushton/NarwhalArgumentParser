@@ -186,7 +186,7 @@ public class XML {
                             printer.println("\t\t\t<args>" + key + "</args>");
                         }
                     }
-                    printer.println("\t\t</groups>");
+                    printer.println("\t\t</group>");
                 }
                 printer.println("\t</groups>");
             }
