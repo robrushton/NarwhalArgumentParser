@@ -18,6 +18,7 @@ repositories {
 javadoc {
 	source = sourceSets.main.allJava
 	classpath = configurations.compile
+    options.links  'http://docs.oracle.com/javase/7/docs/api/'
 }
 
 dependencies {
