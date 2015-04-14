@@ -1,0 +1,138 @@
+<?xml version="1.0"?>
+<parser>
+	<argument type="positional">
+		<name>pet</name>
+		<datatype>String</datatype>
+		<description>Its a pet</description>
+		<arity>1</arity>
+		<restrictions>
+			<restrict>dog</restrict>
+			<restrict>cat</restrict>
+			<restrict>bird</restrict>
+		</restrictions>
+	</argument>
+	<argument type="positional">
+		<name>number</name>
+		<datatype>int</datatype>
+		<description>some number</description>
+		<arity>1</arity>
+		<restrictions></restrictions>
+	</argument>
+	<argument type="positional">
+		<name>rainy</name>
+		<datatype>boolean</datatype>
+		<description>is it rainy</description>
+		<arity>1</arity>
+		<restrictions></restrictions>
+	</argument>
+	<argument type="positional">
+		<name>bathrooms</name>
+		<datatype>float</datatype>
+		<description>Other thing</description>
+		<arity>1</arity>
+		<restrictions></restrictions>
+	</argument>
+	<argument type="positional">
+		<name>Length</name>
+		<datatype>int</datatype>
+		<description>Length of the object</description>
+		<arity>1</arity>
+		<restrictions></restrictions>
+	</argument>
+	<argument type="positional">
+		<name>Width</name>
+		<datatype>int</datatype>
+		<description>Width of the object</description>
+		<arity>1</arity>
+		<restrictions></restrictions>
+	</argument>
+	<argument type="positional">
+		<name>Height</name>
+		<datatype>int</datatype>
+		<description>Height of the object</description>
+		<arity>1</arity>
+		<restrictions></restrictions>
+	</argument>
+	<argument type="named">
+		<name>G1Test3</name>
+		<default></default>
+		<datatype>String</datatype>
+		<nickname></nickname>
+		<required>false</required>
+		<restrictions></restrictions>
+	</argument>
+	<argument type="named">
+		<name>G1Test2</name>
+		<default></default>
+		<datatype>String</datatype>
+		<nickname></nickname>
+		<required>false</required>
+		<restrictions></restrictions>
+	</argument>
+	<argument type="named">
+		<name>Type</name>
+		<default> </default>
+		<datatype>String</datatype>
+		<nickname>t</nickname>
+		<required>true</required>
+		<restrictions></restrictions>
+	</argument>
+	<argument type="named">
+		<name>Color</name>
+		<default></default>
+		<datatype>String</datatype>
+		<nickname></nickname>
+		<required>true</required>
+		<restrictions></restrictions>
+	</argument>
+	<argument type="named">
+		<name>G2Test2</name>
+		<default></default>
+		<datatype>String</datatype>
+		<nickname></nickname>
+		<required>false</required>
+		<restrictions></restrictions>
+	</argument>
+	<argument type="named">
+		<name>G2Test3</name>
+		<default></default>
+		<datatype>String</datatype>
+		<nickname></nickname>
+		<required>false</required>
+		<restrictions></restrictions>
+	</argument>
+	<argument type="named">
+		<name>G2Test</name>
+		<default></default>
+		<datatype>String</datatype>
+		<nickname></nickname>
+		<required>false</required>
+		<restrictions></restrictions>
+	</argument>
+	<argument type="named">
+		<name>G1Test</name>
+		<default></default>
+		<datatype>String</datatype>
+		<nickname></nickname>
+		<required>false</required>
+		<restrictions></restrictions>
+	</argument>
+	<argument type="flag">
+		<flagname>w</flagname>
+	</argument>
+	<argument type="flag">
+		<flagname>x</flagname>
+	</argument>
+	<groups>
+		<group>
+			<args>G1Test3</args>
+			<args>G1Test2</args>
+			<args>G1Test</args>
+		</group>
+		<group>
+			<args>G2Test2</args>
+			<args>G2Test3</args>
+			<args>G2Test</args>
+		</group>
+	</groups>
+</parser>

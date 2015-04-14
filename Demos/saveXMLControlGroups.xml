@@ -29,10 +29,10 @@
 		</restrictions>
 	</argument>
 	<argument type="flag">
-		<flagname>x</flagname>
+		<flagname>Size</flagname>
 	</argument>
 	<argument type="flag">
-		<flagname>Size</flagname>
+		<flagname>x</flagname>
 	</argument>
 	<groups>
 		<group>

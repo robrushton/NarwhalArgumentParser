@@ -3,7 +3,7 @@
 	<argument type="positional">
 		<name>sandwich</name>
 		<datatype>int</datatype>
-		<description>The sandwich's size and quantity</description>
+		<description>The sandwich's quantity and size</description>
 		<arity>2</arity>
 		<restrictions></restrictions>
 	</argument>
@@ -49,6 +49,12 @@
 	</argument>
 	<argument type="flag">
 		<flagname>tomato</flagname>
+	</argument>
+    <argument type="flag">
+		<flagname>toasted</flagname>
+	</argument>
+	<argument type="flag">
+		<flagname>pressed</flagname>
 	</argument>
 	<groups>
 		<group>
