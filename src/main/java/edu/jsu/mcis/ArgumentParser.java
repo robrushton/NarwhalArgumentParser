@@ -2,8 +2,82 @@ package edu.jsu.mcis;
 import java.util.*;
 import java.util.Map.Entry;
 
-/**
- *
+/** This class processes and holds user input data collected from the command line.
+ *  <p>
+ *  Argument Parser has three types of user input: Positional Arguments, Named Arguments, and Flags.
+ *  These allows a wide range a freedom when gathers user input data. Positional Arguments are always required, 
+ *  and the order they are created will be the order they are received.
+ *  </p>
+ * <p>
+ *  <pre>
+ * {@code
+ *  ArgumentParser ap = new ArgumentParser();
+ * ap.addArgument(name, Datatype.STRING, description);
+ * }
+ *  </pre>
+ * </p>
+ * <p>
+ *  Named Arguments are specified with a double dash(--) followed by their name when entered by the user. 
+ *  These Arguments can also be called upon using a single dash (-) followed by the nickname given.
+ * </p>
+ * <p>
+ * <pre>
+ * {@code
+ *  ArgumentParser ap = new ArgumentParser();
+ *  ap.addNamedArgument(name, defaultValue, Datatype.STRING, required);
+ * }
+ * </pre>
+ * </p>
+ * <p>
+ *  Flags are simular to Named Arguments, but they do not contain as much information.
+ *  Flags are boolean values that default to false, but when a user uses the flag it turns true.
+ *  A user specifies a flag with a double dash(--) followed by the name or with a single dash(-)
+ *  followed by the nickname.
+ *  </p>
+ * <p>
+ * <pre>
+ * {@code
+ *  ArgumentParser ap = new ArgumentParser();
+ *  ap.addFlag(name, nickname);
+ * }
+ * </pre>
+ * </p>
+ * <p>
+ *  After added all Arguments the parse() method should be called, and should be given an array of strings
+ *  that is the user input. Parse will store all user values so they can be retrieved later.
+ * </p>
+ * <p>
+ * <pre>
+ * {@code
+ *  ArgumentParser ap = new ArgumentParser();
+ *  ap.addArgument(name, Datatype.STRING, description);
+ *  ap.addNamedArgument(name, defaultValue, Datatype.STRING, required);
+ *  ap.addFlag(name, nickname);
+ *  ap.parse(stringArray);
+ * }
+ * </pre>
+ * </p>
+ * <p>
+ *  To retrieve the user input data the method getValue() should be called. This method takes in the name
+ *  of an Argument and returns an appropriate generic type value.
+ * </p>
+ * <p>
+ *  Here is an example to show the entire process working as intended.
+ * </p>
+ * <p>
+ * <pre>
+ * {@code
+ *  ArgumentParser ap = new ArgumentParser();
+ *  ap.addArgument("Animal", Datatype.STRING, "This is your favorite animal");
+ *  ap.addNamedArgument("drink", "soda", Datatype.STRING, false);
+ *  ap.addFlag("Pizza", "p");
+ *  String[] stringArray = {"Narwhal","--drink", "tea", "-p"};
+ *  ap.parse(stringArray);
+ *  String favoriteDrink = getValue("drink");
+ * }
+ * </pre>
+ * </p>
+ * 
  * @author Narwhalians
  */
 public class ArgumentParser { 
