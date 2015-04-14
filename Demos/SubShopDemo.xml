@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<parser>
+	<argument type="positional">
+		<name>sandwich</name>
+		<datatype>int</datatype>
+		<description>The sandwich's size and quantity</description>
+		<arity>2</arity>
+		<restrictions></restrictions>
+	</argument>
+    <argument type="positional">
+		<name>meat</name>
+		<datatype>String</datatype>
+		<description>Type of meat on the sandwich</description>
+		<arity>2</arity>
+		<restrictions>
+            <restrict>turkey</restrict>
+            <restrict>ham</restrict>
+            <restrict>pepperoni</restrict>
+            <restrict>salami</restrict>
+        </restrictions>
+	</argument>
+	<argument type="named">
+		<name>Cheese</name>
+		<default></default>
+		<datatype>String</datatype>
+		<nickname></nickname>
+		<required>false</required>
+		<restrictions>
+			<restrict>cheddar</restrict>
+			<restrict>swiss</restrict>
+			<restrict>provolone</restrict>
+            <restrict>american</restrict>
+		</restrictions>
+	</argument>
+    <argument type="named">
+		<name>condiment</name>
+		<default></default>
+		<datatype>String</datatype>
+		<nickname></nickname>
+		<required>false</required>
+		<restrictions>
+			<restrict>mayo</restrict>
+			<restrict>mustard</restrict>
+			<restrict>ketchup</restrict>
+		</restrictions>
+	</argument>
+	<argument type="flag">
+		<flagname>lettuce</flagname>
+	</argument>
+	<argument type="flag">
+		<flagname>tomato</flagname>
+	</argument>
+	<groups>
+		<group>
+			<args>toasted</args>
+		</group>
+        <group>
+			<args>pressed</args>
+		</group>
+	</groups>
+</parser>
