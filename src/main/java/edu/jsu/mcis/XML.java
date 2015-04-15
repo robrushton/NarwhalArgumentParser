@@ -107,13 +107,6 @@ public class XML {
                 }
             }
             ap.addNamedGroups(groupList);
-            for (List<String> g : groupList) {
-                for (String a : g) {
-                    System.out.println(a);
-                    
-                }
-                System.out.println("---");
-            }
         }catch (ParserConfigurationException | SAXException | IOException | DOMException | MissingUsableArgumentException e) {
             throw new FileErrorException("File Not Found.");
         }

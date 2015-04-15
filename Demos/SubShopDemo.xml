@@ -8,10 +8,22 @@
 		<restrictions></restrictions>
 	</argument>
     <argument type="positional">
+		<name>bread</name>
+		<datatype>String</datatype>
+		<description>Type of bread for the sandwich</description>
+		<arity>1</arity>
+		<restrictions>
+            <restrict>wheat</restrict>
+            <restrict>white</restrict>
+            <restrict>italian</restrict>
+            <restrict>flatbread</restrict>
+        </restrictions>
+	</argument>
+    <argument type="positional">
 		<name>meat</name>
 		<datatype>String</datatype>
 		<description>Type of meat on the sandwich</description>
-		<arity>2</arity>
+		<arity>1</arity>
 		<restrictions>
             <restrict>turkey</restrict>
             <restrict>ham</restrict>
@@ -20,8 +32,8 @@
         </restrictions>
 	</argument>
 	<argument type="named">
-		<name>Cheese</name>
-		<default></default>
+		<name>cheese</name>
+		<default>none</default>
 		<datatype>String</datatype>
 		<nickname></nickname>
 		<required>false</required>
@@ -34,7 +46,7 @@
 	</argument>
     <argument type="named">
 		<name>condiment</name>
-		<default></default>
+		<default>none</default>
 		<datatype>String</datatype>
 		<nickname></nickname>
 		<required>false</required>
