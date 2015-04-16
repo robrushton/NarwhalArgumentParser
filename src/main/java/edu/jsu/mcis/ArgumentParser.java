@@ -12,7 +12,7 @@ import java.util.Map.Entry;
  *  <pre>
  * {@code
  *  ArgumentParser ap = new ArgumentParser();
- * ap.addArgument(name, Datatype.STRING, description);
+ *  ap.addArgument(name, Datatype.STRING, description);
  * }
  *  </pre>
  * </p>
@@ -29,7 +29,7 @@ import java.util.Map.Entry;
  * </pre>
  * </p>
  * <p>
- *  Flags are simular to Named Arguments, but they do not contain as much information.
+ *  Flags are similar to Named Arguments, but they do not contain as much information.
  *  Flags are boolean values that default to false, but when a user uses the flag it turns true.
  *  A user specifies a flag with a double dash(--) followed by the name or with a single dash(-)
  *  followed by the nickname.
@@ -43,7 +43,7 @@ import java.util.Map.Entry;
  * </pre>
  * </p>
  * <p>
- *  After added all Arguments the parse() method should be called, and should be given an array of strings
+ *  After adding all Arguments the parse() method should be called, and should be given an array of strings
  *  that is the user input. Parse will store all user values so they can be retrieved later.
  * </p>
  * <p>
