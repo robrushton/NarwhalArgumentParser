@@ -1,6 +1,6 @@
 # Team Narwhal: Argument Parser
 
-### This was a semester long group project developed in Java using Scrum processes.
+### This was a semester long group project developed using Scrum processes.
 
 This was a semester long, group project for Software Engineering. It is implemented in Java and tested with JUnit (unit tests) and robot framework (acceptance tests).
 
