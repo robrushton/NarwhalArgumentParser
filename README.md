@@ -42,12 +42,5 @@ This is an example of code you could use to test the argument parser. This examp
 
 #####Ex: java ArgumentParser Narwhal --drink tea -p
 
-#Notes
-There is potential for three errors when trying to build the project.
-- A unit test can fail because a file is not classified as read-only.
- - Fix: In the Demos directory, edit the properties of the readOnlyXML.xml and make it read-only.
-- Two unit test can fail for not matching exactly (because of spaces or new line characters).
- - Fix: In the Demos directory, copy the contents of saveXMLTest.xml and saveXMLTestGroups.xml to saveXMLControl.xml and saveXMLControlGroups respectively
-
 #Acknowledgements
 This was a semester long group project for Software Engineering that was co-written with 5 other people.
